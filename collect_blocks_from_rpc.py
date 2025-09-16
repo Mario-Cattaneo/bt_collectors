@@ -3,7 +3,10 @@ import json
 import os
 import sqlite3
 import aiohttp
+from dotenv import load_dotenv
 from websockets import connect
+
+load_dotenv()
 
 INFURA_API_KEY = os.getenv("INFURA_API_KEY")
 ALCHEMY_API_KEY = os.getenv("ALCHEMY_API_KEY")
