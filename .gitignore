@@ -1,3 +1,4 @@
 # ignore environment files
 .env
 blocks.db
+markets.db
