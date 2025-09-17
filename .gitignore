@@ -2,3 +2,6 @@
 .env
 blocks.db
 markets.db
+tmp.py
+token_books/
+tokens.txt
