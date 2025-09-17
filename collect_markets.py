@@ -2,13 +2,7 @@ import asyncio
 import aiohttp
 import sqlite3
 import json
-from datetime import datetime, timezone
-from dateutil import parser
 import websockets
-import base64
-import os
-import signal
-import sys
 
 DB_FILE = "markets.db"
 API_URL = "https://gamma-api.polymarket.com/markets?limit=500&offset={offset}"
@@ -19,20 +13,9 @@ OFFSET = 85000
 ws_curr = None
 ws_next = None
 
-token_event_counts = {
-    asset_id: {
-        "price_change": 0,
-        "book": 0,
-        "last_trade_price": 0,
-        "tick_size_change": 0
-    }
-}
+token_map = {}  # Predefined tokens with counts
 
-token_event_counts = {}
-
-
-token_map = {}       # Already seen tokens
-conn = None          # Persistent DB connection
+conn = None
 cur = None
 
 
@@ -58,7 +41,8 @@ def close_db():
 
 
 def handle_market_data(data):
-    global conn, cur, token_map
+    """Insert markets into DB and add new tokens to token_map with all counts set to 0."""
+    global cur, conn, token_map
     for market in data:
         cur.execute("INSERT INTO markets (text) VALUES (?)", (json.dumps(market),))
         closed = market.get("closed", False)
@@ -68,10 +52,16 @@ def handle_market_data(data):
                 clob_ids = json.loads(clob_ids_str)
                 for token_id in clob_ids:
                     if token_id not in token_map:
-                        token_map[token_id] = 0
+                        # Initialize all counts to 0
+                        token_map[token_id] = {
+                            "price_change": 0,
+                            "book": 0,
+                            "last_trade_price": 0,
+                            "tick_size_change": 0
+                        }
             except json.JSONDecodeError:
                 print(f"Failed to parse clobTokenIds: {clob_ids_str}")
-    conn.commit()  # commit batched inserts at once
+    conn.commit()
 
 
 async def new_markets(session):
@@ -104,7 +94,7 @@ async def subscribe_tokens():
 
     payload = {
         "type": "market",
-        "initial_dump": true,
+        "initial_dump": True,
         "assets_ids": list(token_map.keys())
     }
 
@@ -122,27 +112,35 @@ async def handle_tokens():
         await subscribe_tokens()
 
 
+def dump_token_counts(filename="tokens.txt"):
+    """Append current token counts to a file, filtering for book > 0 and including summary."""
+    total_tokens = len(token_map)
+    tokens_with_book = [tid for tid, counts in token_map.items() if counts['book'] > 0]
+    count_with_book = len(tokens_with_book)
+
+    with open(filename, "a") as f:
+        f.write("==== Token Counts Dump ====\n")
+        f.write(f"Total tokens: {total_tokens}, Tokens with book>0: {count_with_book}\n\n")
+
+        for token_id in tokens_with_book:
+            counts = token_map[token_id]
+            line = f"{token_id} {counts['price_change']} {counts['book']} {counts['last_trade_price']} {counts['tick_size_change']}\n"
+            f.write(line)
+
+        f.write("\n\n")  # 2 new lines to separate dumps
+
+
 async def handle_markets(session):
     while True:
         print("handling markets")
+        #dump_token_counts()
         await new_markets(session)
         await handle_tokens()
-        await asyncio.sleep(30)
+        await asyncio.sleep(15)
 
-
-
-def ensure_token_event_entry(asset_id: str):
-    """Ensure an asset_id has an initialized counter entry."""
-    if asset_id not in token_event_counts:
-        token_event_counts[asset_id] = {
-            "price_change": 0,
-            "book": 0,
-            "last_trade_price": 0,
-            "tick_size_change": 0
-        }
 
 async def process_event(event: dict):
-    """Process a single event dict with an event_type and update counters."""
+    """Process a single WS event and increment counters in token_map if token exists."""
     event_type = event.get("event_type")
     if not event_type:
         print(f"⚠️ Missing event_type in {event}")
@@ -151,20 +149,17 @@ async def process_event(event: dict):
     affected_assets = []
 
     if event_type == "price_change":
-        # price_changes is always a list
         for pc in event.get("price_changes", []):
             asset_id = pc.get("asset_id")
             if asset_id:
                 affected_assets.append(asset_id)
 
     elif event_type == "book":
-        # book events come with top-level asset_id
         asset_id = event.get("asset_id")
         if asset_id:
             affected_assets.append(asset_id)
-    
+
     elif event_type == "last_trade_price":
-        # guessing format: either single object or list with asset_id keys
         ltp = event.get("last_trade_price")
         if isinstance(ltp, dict):
             asset_id = ltp.get("asset_id")
@@ -177,7 +172,6 @@ async def process_event(event: dict):
                     affected_assets.append(asset_id)
 
     elif event_type == "tick_size_change":
-        # guessing similar structure
         tsc = event.get("tick_size_change")
         if isinstance(tsc, dict):
             asset_id = tsc.get("asset_id")
@@ -189,13 +183,14 @@ async def process_event(event: dict):
                 if asset_id:
                     affected_assets.append(asset_id)
 
-    # Increment counters
     for asset_id in affected_assets:
-        ensure_token_event_entry(asset_id)
-        token_event_counts[asset_id][event_type] += 1
+        if asset_id in token_map:
+            token_map[asset_id][event_type] += 1
+        else:
+            print(f"⚠️ Event for unknown token: {asset_id}, type: {event_type}")
 
-    if affected_assets:
-        print(f"📊 {event_type}: incremented counts for {len(affected_assets)} assets")
+    #if affected_assets:
+        #print(f"📊 {event_type}: processed {len(affected_assets)} assets")
 
 
 async def handle_curr_ws_responses(ws):
@@ -209,7 +204,6 @@ async def handle_curr_ws_responses(ws):
             print(f"❌ Failed to decode JSON: {message}")
             continue
 
-        # Some responses (like "book") may arrive as a list
         if isinstance(data, list):
             for entry in data:
                 await process_event(entry)
@@ -228,7 +222,7 @@ async def main():
 
         ws_curr = await websockets.connect(WS_URL)
         ws_next = await websockets.connect(WS_URL)
-        
+
         await new_markets(session)
         await handle_tokens()
 
