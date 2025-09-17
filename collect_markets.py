@@ -4,6 +4,7 @@ import sqlite3
 import json
 import websockets
 import os
+import time
 import numpy as np
 
 DB_FILE = "markets.db"
@@ -11,7 +12,7 @@ MARKET_HTTP_URL = "https://gamma-api.polymarket.com/markets?limit=500&offset={of
 MARKETS_WS_URL = "wss://ws-subscriptions-clob.polymarket.com/ws/market"
 SUBSCRIBED_TOKEN_COUNT = 0
 TOKEN_BOOK_DIR = "token_books"
-OFFSET = 0
+OFFSET = 95000
 
 markets_ws_cli = None
 markets_http_cli = None
@@ -24,6 +25,8 @@ event_printed = {
     "last_trade_price": 0,
     "tick_size_change": 0
 }
+
+latency_bucket = []
 
 conn = None
 cur = None
@@ -84,6 +87,24 @@ def scrape_db_stats():
         print(f"    Octiles (1/8th ... 7/8th): {octiles.tolist()}")
         print("-" * 60)
 
+
+        if latency_bucket:
+            arr = np.array(latency_bucket)
+            mean = arr.mean()
+            second_moment = np.mean((arr - mean)**2)
+            third_moment = np.mean((arr - mean)**3)
+            min_val = arr.min()
+            max_val = arr.max()
+            octiles = np.percentile(arr, [12.5, 25, 37.5, 50, 62.5, 75, 87.5])
+
+            print(f"⏱ Latency stats (all websocket events):")
+            print(f"    Mean: {mean:.2f} ms, Var: {second_moment:.2f}, 3rd Moment: {third_moment:.2f}")
+            print(f"    Min: {min_val} ms, Max: {max_val} ms")
+            print(f"    Octiles: {octiles.tolist()}")
+            print("-" * 60)
+        else:
+            print("⏱ Latency: No data yet")
+
     return stats
 
 
@@ -95,7 +116,8 @@ def init_db():
     cur.execute("""
         CREATE TABLE markets (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            text TEXT NOT NULL
+            text TEXT NOT NULL,
+            cli_timestamp INTEGER NOT NULL -- stored in UNIX seconds
         )
     """)
     conn.commit()
@@ -107,6 +129,25 @@ def close_db():
         conn.commit()
         conn.close()
 
+def init_token_db(token_id, market_id):
+    db_name = os.path.join(TOKEN_BOOK_DIR, f"{token_id} {market_id}.db")
+    if os.path.exists(db_name):
+        conn_token = sqlite3.connect(db_name, check_same_thread=False)
+    else:
+        conn_token = sqlite3.connect(db_name, check_same_thread=False)
+        cur_token = conn_token.cursor()
+        for table in ["price_change", "book", "last_trade_price", "tick_size_change"]:
+            cur_token.execute(f"DROP TABLE IF EXISTS {table}")
+            cur_token.execute(f"""
+                CREATE TABLE {table} (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    data TEXT NOT NULL,
+                    cli_timestamp INTEGER NOT NULL -- stored in UNIX ms
+                )
+            """)
+        conn_token.commit()
+    token_dbs[token_id] = conn_token
+    return conn_token
 
 def init_token_books_dir():
     """Ensure token_books directory exists and clear all existing files."""
@@ -122,33 +163,16 @@ def init_token_books_dir():
             except Exception as e:
                 print(f"⚠️ Failed to remove {file_path}: {e}")
         print(f"🗑 Cleared existing files in {TOKEN_BOOK_DIR}")
-
-
-def init_token_db(token_id, market_id):
-    """Initialize a sqlite DB for a token with 4 tables."""
-    db_name = os.path.join(TOKEN_BOOK_DIR, f"{token_id} {market_id}.db")
-    if os.path.exists(db_name):
-        conn_token = sqlite3.connect(db_name, check_same_thread=False)
-    else:
-        conn_token = sqlite3.connect(db_name, check_same_thread=False)
-        cur_token = conn_token.cursor()
-        for table in ["price_change", "book", "last_trade_price", "tick_size_change"]:
-            cur_token.execute(f"DROP TABLE IF EXISTS {table}")
-            cur_token.execute(f"""
-                CREATE TABLE {table} (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    data TEXT NOT NULL
-                )
-            """)
-        conn_token.commit()
-    token_dbs[token_id] = conn_token
-    return conn_token
-
+ 
 
 def handle_market_data(data):
     global cur, conn
+    cli_ts = int(time.time())  # UNIX seconds
     for market in data:
-        cur.execute("INSERT INTO markets (text) VALUES (?)", (json.dumps(market),))
+        cur.execute(
+            "INSERT INTO markets (text, cli_timestamp) VALUES (?, ?)",
+            (json.dumps(market), cli_ts)
+        )
         closed = market.get("closed", False)
         clob_ids_str = market.get("clobTokenIds")
         market_id = market.get("id")
@@ -161,7 +185,6 @@ def handle_market_data(data):
             except json.JSONDecodeError:
                 print(f"Failed to parse clobTokenIds: {clob_ids_str}")
     conn.commit()
-
 
 async def new_markets():
     global OFFSET, markets_http_cli
@@ -206,41 +229,46 @@ async def handle_tokens():
 
 
 async def process_event(event: dict):
-    global event_printed
+    global event_printed, latency_bucket
+    import time
+    cli_ts = int(time.time()*1000)  # UNIX ms for ws events
+
     event_type = event.get("event_type")
     if not event_type:
         print(f"⚠️ Missing event_type in {event}")
         return
 
-    affected_assets = []
+    # Track latency if timestamp exists
+    msg_ts = event.get("timestamp")
+    if msg_ts is not None:
+        try:
+            latency = cli_ts - int(msg_ts)
+            latency_bucket.append(latency)
+        except Exception:
+            pass
 
+    affected_assets = []
     if event_type == "price_change":
-        # Price change events can have multiple entries
         for pc in event.get("price_changes", []):
             asset_id = pc.get("asset_id")
             if asset_id:
                 affected_assets.append(asset_id)
-
     elif event_type in ["book", "last_trade_price", "tick_size_change"]:
-        # Print at most once for debugging
         if event_printed.get(event_type, 0) == 0:
             print(f"📝 First debug for event_type '{event_type}': {event}")
             event_printed[event_type] += 1
-
-        # Use top-level asset_id directly
         asset_id = event.get("asset_id")
         if asset_id:
             affected_assets.append(asset_id)
 
-    # Insert event into the corresponding table for each asset
     for asset_id in affected_assets:
         db_conn = token_dbs.get(asset_id)
         if db_conn:
             cur_token = db_conn.cursor()
             try:
                 cur_token.execute(
-                    f"INSERT INTO {event_type} (data) VALUES (?)",
-                    (json.dumps(event),)
+                    f"INSERT INTO {event_type} (data, cli_timestamp) VALUES (?, ?)",
+                    (json.dumps(event), cli_ts)
                 )
                 db_conn.commit()
             except sqlite3.Error as e:
@@ -261,6 +289,8 @@ async def handle_curr_ws_responses():
             continue
 
         if isinstance(data, list):
+            if len(data) > 1:
+                print(f": Received list of {len(data)} events")
             for entry in data:
                 await process_event(entry)
         elif isinstance(data, dict):
