@@ -4,6 +4,7 @@ import sqlite3
 import json
 import websockets
 import os
+import matplotlib.pyplot as plt
 
 DB_FILE = "markets.db"
 MARKET_HTTP_URL = "https://gamma-api.polymarket.com/markets?limit=500&offset={offset}"
@@ -20,6 +21,43 @@ token_dbs = {}
 
 conn = None
 cur = None
+
+def scrape_db():
+    """Count rows in each table for each token DB and plot with matplotlib."""
+    if not token_dbs:
+        print("⚠️ No token databases to scrape.")
+        return
+
+    token_table_counts = {}
+
+    for token_id, db_conn in token_dbs.items():
+        cur_token = db_conn.cursor()
+        table_counts = {}
+        for table in ["price_change", "book", "last_trade_price", "tick_size_change"]:
+            try:
+                cur_token.execute(f"SELECT COUNT(*) FROM {table}")
+                count = cur_token.fetchone()[0]
+                table_counts[table] = count
+            except sqlite3.Error as e:
+                print(f"⚠️ Error counting table {table} for token {token_id}: {e}")
+                table_counts[table] = 0
+        token_table_counts[token_id] = table_counts
+
+    # Plotting
+    tokens = list(token_table_counts.keys())
+    tables = ["price_change", "book", "last_trade_price", "tick_size_change"]
+    
+    for table in tables:
+        counts = [token_table_counts[token][table] for token in tokens]
+        plt.figure(figsize=(12, 6))
+        plt.bar(tokens, counts)
+        plt.xticks(rotation=45, ha="right")
+        plt.xlabel("Token ID")
+        plt.ylabel("Row count")
+        plt.title(f"Row counts for table '{table}' across tokens")
+        plt.tight_layout()
+        plt.show()
+
 
 
 def init_db():
@@ -199,6 +237,7 @@ async def handle_markets():
         print("handling markets")
         await new_markets()
         await handle_tokens()
+        scrape_db()
         await asyncio.sleep(15)
 
 
