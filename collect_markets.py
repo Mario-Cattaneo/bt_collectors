@@ -4,14 +4,14 @@ import sqlite3
 import json
 import websockets
 import os
-import matplotlib.pyplot as plt
+import numpy as np
 
 DB_FILE = "markets.db"
 MARKET_HTTP_URL = "https://gamma-api.polymarket.com/markets?limit=500&offset={offset}"
 MARKETS_WS_URL = "wss://ws-subscriptions-clob.polymarket.com/ws/market"
 SUBSCRIBED_TOKEN_COUNT = 0
 TOKEN_BOOK_DIR = "token_books"
-OFFSET = 85000
+OFFSET = 0
 
 markets_ws_cli = None
 markets_http_cli = None
@@ -19,45 +19,72 @@ markets_http_cli = None
 # Map token_id -> sqlite connection
 token_dbs = {}
 
+event_printed = {
+    "book": 0,
+    "last_trade_price": 0,
+    "tick_size_change": 0
+}
+
 conn = None
 cur = None
 
-def scrape_db():
-    """Count rows in each table for each token DB and plot with matplotlib."""
+def scrape_db_stats():
+    """
+    Scrape all token DBs, count rows per table, compute statistics, and print inline.
+    Statistics: mean, 2nd & 3rd moments, min, max, and 8-tiles (1/8th, ..., 7/8th).
+    """
     if not token_dbs:
         print("⚠️ No token databases to scrape.")
-        return
+        return {}
 
-    token_table_counts = {}
+    tables = ["price_change", "book", "last_trade_price", "tick_size_change"]
+    table_counts_all_tokens = {table: [] for table in tables}
 
+    # Count rows per table for each token
     for token_id, db_conn in token_dbs.items():
         cur_token = db_conn.cursor()
-        table_counts = {}
-        for table in ["price_change", "book", "last_trade_price", "tick_size_change"]:
+        for table in tables:
             try:
                 cur_token.execute(f"SELECT COUNT(*) FROM {table}")
                 count = cur_token.fetchone()[0]
-                table_counts[table] = count
             except sqlite3.Error as e:
                 print(f"⚠️ Error counting table {table} for token {token_id}: {e}")
-                table_counts[table] = 0
-        token_table_counts[token_id] = table_counts
+                count = 0
+            table_counts_all_tokens[table].append(count)
 
-    # Plotting
-    tokens = list(token_table_counts.keys())
-    tables = ["price_change", "book", "last_trade_price", "tick_size_change"]
-    
-    for table in tables:
-        counts = [token_table_counts[token][table] for token in tokens]
-        plt.figure(figsize=(12, 6))
-        plt.bar(tokens, counts)
-        plt.xticks(rotation=45, ha="right")
-        plt.xlabel("Token ID")
-        plt.ylabel("Row count")
-        plt.title(f"Row counts for table '{table}' across tokens")
-        plt.tight_layout()
-        plt.show()
+    # Compute and print statistics per table
+    stats = {}
+    for table, counts in table_counts_all_tokens.items():
+        if not counts:
+            stats[table] = None
+            print(f"📊 {table}: No data")
+            continue
 
+        counts_array = np.array(counts)
+        mean = counts_array.mean()
+        second_moment = np.mean((counts_array - mean)**2)  # variance
+        third_moment = np.mean((counts_array - mean)**3)
+        min_val = counts_array.min()
+        max_val = counts_array.max()
+        octiles = np.percentile(counts_array, [12.5, 25, 37.5, 50, 62.5, 75, 87.5])
+
+        stats[table] = {
+            "mean": mean,
+            "2nd_moment": second_moment,
+            "3rd_moment": third_moment,
+            "min": min_val,
+            "max": max_val,
+            "octiles": octiles.tolist()
+        }
+
+        # Print inline for each table
+        print(f"📊 Stats for table '{table}':")
+        print(f"    Mean: {mean:.2f}, 2nd Moment (Var): {second_moment:.2f}, 3rd Moment: {third_moment:.2f}")
+        print(f"    Min: {min_val}, Max: {max_val}")
+        print(f"    Octiles (1/8th ... 7/8th): {octiles.tolist()}")
+        print("-" * 60)
+
+    return stats
 
 
 def init_db():
@@ -146,11 +173,11 @@ async def new_markets():
                 print(f"Request failed with status {resp.status}")
                 break
             data = await resp.json()
-            if not data:
+            if len(data) == 0:
                 print(f"No more data at OFFSET={OFFSET}")
                 break
             handle_market_data(data)
-        OFFSET += 500
+        OFFSET += len(data)
 
 
 async def subscribe_tokens():
@@ -179,6 +206,7 @@ async def handle_tokens():
 
 
 async def process_event(event: dict):
+    global event_printed
     event_type = event.get("event_type")
     if not event_type:
         print(f"⚠️ Missing event_type in {event}")
@@ -187,31 +215,38 @@ async def process_event(event: dict):
     affected_assets = []
 
     if event_type == "price_change":
+        # Price change events can have multiple entries
         for pc in event.get("price_changes", []):
             asset_id = pc.get("asset_id")
             if asset_id:
                 affected_assets.append(asset_id)
-    elif event_type in ["book", "last_trade_price", "tick_size_change"]:
-        data = event.get(event_type)
-        if isinstance(data, dict):
-            asset_id = data.get("asset_id")
-            if asset_id:
-                affected_assets.append(asset_id)
-        elif isinstance(data, list):
-            for entry in data:
-                asset_id = entry.get("asset_id")
-                if asset_id:
-                    affected_assets.append(asset_id)
 
+    elif event_type in ["book", "last_trade_price", "tick_size_change"]:
+        # Print at most once for debugging
+        if event_printed.get(event_type, 0) == 0:
+            print(f"📝 First debug for event_type '{event_type}': {event}")
+            event_printed[event_type] += 1
+
+        # Use top-level asset_id directly
+        asset_id = event.get("asset_id")
+        if asset_id:
+            affected_assets.append(asset_id)
+
+    # Insert event into the corresponding table for each asset
     for asset_id in affected_assets:
         db_conn = token_dbs.get(asset_id)
         if db_conn:
             cur_token = db_conn.cursor()
-            cur_token.execute(f"INSERT INTO {event_type} (data) VALUES (?)", (json.dumps(event),))
-            db_conn.commit()
+            try:
+                cur_token.execute(
+                    f"INSERT INTO {event_type} (data) VALUES (?)",
+                    (json.dumps(event),)
+                )
+                db_conn.commit()
+            except sqlite3.Error as e:
+                print(f"⚠️ Failed to insert event for token {asset_id}, type {event_type}: {e}")
         else:
             print(f"⚠️ Event for unknown token: {asset_id}, type: {event_type}")
-
 
 async def handle_curr_ws_responses():
     global markets_ws_cli
@@ -237,7 +272,7 @@ async def handle_markets():
         print("handling markets")
         await new_markets()
         await handle_tokens()
-        scrape_db()
+        scrape_db_stats()
         await asyncio.sleep(15)
 
 
