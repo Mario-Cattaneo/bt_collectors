@@ -3,21 +3,42 @@ import aiohttp
 import sqlite3
 import json
 from datetime import datetime, timezone
+from dateutil import parser
 import websockets
 import base64
 import os
+import signal
+import sys
 
 DB_FILE = "markets.db"
 API_URL = "https://gamma-api.polymarket.com/markets?limit=500&offset={offset}"
 WS_URL = "wss://ws-subscriptions-clob.polymarket.com/ws/market"
+SUBSCRIBED_TOKEN_COUNT = 0
+OFFSET = 85000
+
+ws_curr = None
+ws_next = None
+
+token_event_counts = {
+    asset_id: {
+        "price_change": 0,
+        "book": 0,
+        "last_trade_price": 0,
+        "tick_size_change": 0
+    }
+}
+
+token_event_counts = {}
 
 
 token_map = {}       # Already seen tokens
-new_tokens = asyncio.Queue()  # Tokens waiting for subscription
+conn = None          # Persistent DB connection
+cur = None
 
 
 def init_db():
-    conn = sqlite3.connect(DB_FILE)
+    global conn, cur
+    conn = sqlite3.connect(DB_FILE, check_same_thread=False)
     cur = conn.cursor()
     cur.execute("DROP TABLE IF EXISTS markets")
     cur.execute("""
@@ -27,11 +48,34 @@ def init_db():
         )
     """)
     conn.commit()
-    conn.close()
 
 
-async def get_markets(session):
-    OFFSET = 0
+def close_db():
+    global conn
+    if conn:
+        conn.commit()
+        conn.close()
+
+
+def handle_market_data(data):
+    global conn, cur, token_map
+    for market in data:
+        cur.execute("INSERT INTO markets (text) VALUES (?)", (json.dumps(market),))
+        closed = market.get("closed", False)
+        clob_ids_str = market.get("clobTokenIds")
+        if not closed and clob_ids_str:
+            try:
+                clob_ids = json.loads(clob_ids_str)
+                for token_id in clob_ids:
+                    if token_id not in token_map:
+                        token_map[token_id] = 0
+            except json.JSONDecodeError:
+                print(f"Failed to parse clobTokenIds: {clob_ids_str}")
+    conn.commit()  # commit batched inserts at once
+
+
+async def new_markets(session):
+    global OFFSET
     while True:
         print(f"Fetching markets with OFFSET={OFFSET}")
         url = API_URL.format(offset=OFFSET)
@@ -41,65 +85,161 @@ async def get_markets(session):
                 break
             data = await resp.json()
             if not data:
-                #waiting for next scrape
                 print(f"No more data at OFFSET={OFFSET}")
-                await asyncio.sleep(15)
-                continue
-            conn = sqlite3.connect(DB_FILE)
-            cur = conn.cursor()
-            for market in data:
-                cur.execute("INSERT INTO markets (text) VALUES (?)", (json.dumps(market),))
-                end_date_str = market.get("endDate")
-                clob_ids_str = market.get("clobTokenIds")
-                if end_date_str and clob_ids_str:
-                    end_date = datetime.fromisoformat(end_date_str.replace("Z", "+00:00"))
-                    now = datetime.now(timezone.utc)
-                    if end_date > now:
-                        try:
-                            clob_ids = json.loads(clob_ids_str)
-                            for token_id in clob_ids:
-                                if token_id not in token_map:
-                                    token_map[token_id] = 1
-                                    await new_tokens.put(token_id)  # enqueue new token
-                                    #print(f"New token queued for subscription: {token_id}")
-                        except json.JSONDecodeError:
-                            print(f"Failed to parse clobTokenIds: {clob_ids_str}")
-            conn.commit()
-            conn.close()
+                break
+            handle_market_data(data)
         OFFSET += 500
-        await asyncio.sleep(0)  # yield control
 
-async def send_new_tokens(ws):
-    """Send a fixed subscription payload (or could later send queued tokens)."""
+
+async def subscribe_tokens():
+    global ws_curr, ws_next, SUBSCRIBED_TOKEN_COUNT
+
+    print("🔄 Resubscribing to tokens...")
+
+    if ws_curr is not None:
+        await ws_curr.close()
+
+    ws_curr = ws_next
+    ws_next = await websockets.connect(WS_URL)
+
     payload = {
         "type": "market",
-        "assets_ids": [
-            "7988364699307342268260495915445731509602502693363579435248273813409237524599",
-            "27120152309306977992209464424197509161348402683341807871062277866907268946377"
-        ]
+        "initial_dump": true,
+        "assets_ids": list(token_map.keys())
     }
-    await ws.send(json.dumps(payload))
-    print(f"📤 Sent subscription payload: {json.dumps(payload)}")
+
+    await ws_curr.send(json.dumps(payload))
+    SUBSCRIBED_TOKEN_COUNT = len(token_map)
+    print(f"✅ Subscribed to {SUBSCRIBED_TOKEN_COUNT} tokens.")
 
 
-async def receive_messages(ws):
-    """Continuously print all received messages as strings."""
+async def handle_tokens():
+    global SUBSCRIBED_TOKEN_COUNT
+
+    print(f"📊 handle_tokens(): SUBSCRIBED_TOKEN_COUNT={SUBSCRIBED_TOKEN_COUNT}, token_map size={len(token_map)}")
+
+    if len(token_map) > SUBSCRIBED_TOKEN_COUNT:
+        await subscribe_tokens()
+
+
+async def handle_markets(session):
+    while True:
+        print("handling markets")
+        await new_markets(session)
+        await handle_tokens()
+        await asyncio.sleep(30)
+
+
+
+def ensure_token_event_entry(asset_id: str):
+    """Ensure an asset_id has an initialized counter entry."""
+    if asset_id not in token_event_counts:
+        token_event_counts[asset_id] = {
+            "price_change": 0,
+            "book": 0,
+            "last_trade_price": 0,
+            "tick_size_change": 0
+        }
+
+async def process_event(event: dict):
+    """Process a single event dict with an event_type and update counters."""
+    event_type = event.get("event_type")
+    if not event_type:
+        print(f"⚠️ Missing event_type in {event}")
+        return
+
+    affected_assets = []
+
+    if event_type == "price_change":
+        # price_changes is always a list
+        for pc in event.get("price_changes", []):
+            asset_id = pc.get("asset_id")
+            if asset_id:
+                affected_assets.append(asset_id)
+
+    elif event_type == "book":
+        # book events come with top-level asset_id
+        asset_id = event.get("asset_id")
+        if asset_id:
+            affected_assets.append(asset_id)
+    
+    elif event_type == "last_trade_price":
+        # guessing format: either single object or list with asset_id keys
+        ltp = event.get("last_trade_price")
+        if isinstance(ltp, dict):
+            asset_id = ltp.get("asset_id")
+            if asset_id:
+                affected_assets.append(asset_id)
+        elif isinstance(ltp, list):
+            for entry in ltp:
+                asset_id = entry.get("asset_id")
+                if asset_id:
+                    affected_assets.append(asset_id)
+
+    elif event_type == "tick_size_change":
+        # guessing similar structure
+        tsc = event.get("tick_size_change")
+        if isinstance(tsc, dict):
+            asset_id = tsc.get("asset_id")
+            if asset_id:
+                affected_assets.append(asset_id)
+        elif isinstance(tsc, list):
+            for entry in tsc:
+                asset_id = entry.get("asset_id")
+                if asset_id:
+                    affected_assets.append(asset_id)
+
+    # Increment counters
+    for asset_id in affected_assets:
+        ensure_token_event_entry(asset_id)
+        token_event_counts[asset_id][event_type] += 1
+
+    if affected_assets:
+        print(f"📊 {event_type}: incremented counts for {len(affected_assets)} assets")
+
+
+async def handle_curr_ws_responses(ws):
     async for message in ws:
-        # Ignore ping/pong
         if isinstance(message, str) and message.upper() in ("PING", "PONG"):
             continue
-        print(f"📥 Received message: {message}")
+
+        try:
+            data = json.loads(message)
+        except json.JSONDecodeError:
+            print(f"❌ Failed to decode JSON: {message}")
+            continue
+
+        # Some responses (like "book") may arrive as a list
+        if isinstance(data, list):
+            for entry in data:
+                await process_event(entry)
+        elif isinstance(data, dict):
+            await process_event(data)
+        else:
+            print(f"⚠️ Unexpected WS message format: {data}")
 
 
 async def main():
+    global ws_curr, ws_next
+
     init_db()
-    ws = await websockets.connect(WS_URL)
     async with aiohttp.ClientSession() as session:
+        await new_markets(session)
+
+        ws_curr = await websockets.connect(WS_URL)
+        ws_next = await websockets.connect(WS_URL)
+        
+        await new_markets(session)
+        await handle_tokens()
+
         await asyncio.gather(
-            get_markets(session),
-            send_new_tokens(ws),
-            receive_messages(ws)
+            handle_markets(session),
+            handle_curr_ws_responses(ws_curr)
         )
 
+
 if __name__ == "__main__":
-    asyncio.run(main())
+    try:
+        asyncio.run(main())
+    finally:
+        close_db()

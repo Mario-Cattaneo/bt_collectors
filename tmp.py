@@ -10,8 +10,7 @@ URL = "wss://ws-subscriptions-clob.polymarket.com/ws/market"
 SUBSCRIBE_PAYLOAD = {
     "type": "market",
     "assets_ids": [
-        "7988364699307342268260495915445731509602502693363579435248273813409237524599",
-        "27120152309306977992209464424197509161348402683341807871062277866907268946377"
+        "56678887488658711042665014393296062331022428641924974006054058569968887051344",
     ]
 }
 
@@ -41,8 +40,31 @@ async def connect():
         print(f"Connection established to {URL}")
 
         # Send the subscription payload to the server
-        print(f"Sending subscription payload: {json.dumps(SUBSCRIBE_PAYLOAD)}")
-        await websocket.send(json.dumps(SUBSCRIBE_PAYLOAD))
+        await websocket.send(json.dumps({
+            "type": "market",
+            "assets_ids": [
+                "23920013258819752881197525832650639378445397094039587501841819155943480602942",
+                "60487116984468020978247225474488676749601001829886755968952521846780452448915"
+            ]
+        }))
+        
+        try:
+            message = await websocket.recv()
+            print("Received message:", message)
+        except Exception as e:
+            print(f"Error receiving message: {e}")
+        
+        
+        print("Sending another subscription payload")
+        
+        await websocket.send(json.dumps({
+            "type": "market",
+            "assets_ids": [
+                "60487116984468020978247225474488676749601001829886755968952521846780452448915"
+            ]
+        }))
+        
+        
 
         # Continuously receive messages from the WebSocket
         while True:
