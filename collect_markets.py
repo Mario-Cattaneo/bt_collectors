@@ -7,6 +7,9 @@ import os
 import time
 import numpy as np
 
+LOG_INTERVAL = 300 # seconds between analytics logging
+log_counter = 0    # counts 15s cycles
+
 DB_FILE = "markets.db"
 MARKET_HTTP_URL = "https://gamma-api.polymarket.com/markets?limit=500&offset={offset}"
 MARKETS_WS_URL = "wss://ws-subscriptions-clob.polymarket.com/ws/market"
@@ -15,6 +18,8 @@ TOKEN_BOOK_DIR = "token_books"
 OFFSET = 95000
 
 markets_ws_cli = None
+reserve_ws_cli = None
+consumer_task = None
 markets_http_cli = None
 
 # Map token_id -> sqlite connection
@@ -31,11 +36,9 @@ latency_bucket = []
 conn = None
 cur = None
 
+
 def scrape_db_stats():
-    """
-    Scrape all token DBs, count rows per table, compute statistics, and print inline.
-    Statistics: mean, 2nd & 3rd moments, min, max, and 8-tiles (1/8th, ..., 7/8th).
-    """
+    print("\n")
     if not token_dbs:
         print("⚠️ No token databases to scrape.")
         return {}
@@ -43,7 +46,6 @@ def scrape_db_stats():
     tables = ["price_change", "book", "last_trade_price", "tick_size_change"]
     table_counts_all_tokens = {table: [] for table in tables}
 
-    # Count rows per table for each token
     for token_id, db_conn in token_dbs.items():
         cur_token = db_conn.cursor()
         for table in tables:
@@ -55,7 +57,6 @@ def scrape_db_stats():
                 count = 0
             table_counts_all_tokens[table].append(count)
 
-    # Compute and print statistics per table
     stats = {}
     for table, counts in table_counts_all_tokens.items():
         if not counts:
@@ -65,7 +66,7 @@ def scrape_db_stats():
 
         counts_array = np.array(counts)
         mean = counts_array.mean()
-        second_moment = np.mean((counts_array - mean)**2)  # variance
+        second_moment = np.mean((counts_array - mean)**2)
         third_moment = np.mean((counts_array - mean)**3)
         min_val = counts_array.min()
         max_val = counts_array.max()
@@ -80,30 +81,28 @@ def scrape_db_stats():
             "octiles": octiles.tolist()
         }
 
-        # Print inline for each table
         print(f"📊 Stats for table '{table}':")
         print(f"    Mean: {mean:.2f}, 2nd Moment (Var): {second_moment:.2f}, 3rd Moment: {third_moment:.2f}")
         print(f"    Min: {min_val}, Max: {max_val}")
         print(f"    Octiles (1/8th ... 7/8th): {octiles.tolist()}")
         print("-" * 60)
+    # Latency stats
+    if latency_bucket:
+        arr = np.array(latency_bucket)
+        mean = arr.mean()
+        second_moment = np.mean((arr - mean)**2)
+        third_moment = np.mean((arr - mean)**3)
+        min_val = arr.min()
+        max_val = arr.max()
+        octiles = np.percentile(arr, [12.5, 25, 37.5, 50, 62.5, 75, 87.5])
 
-
-        if latency_bucket:
-            arr = np.array(latency_bucket)
-            mean = arr.mean()
-            second_moment = np.mean((arr - mean)**2)
-            third_moment = np.mean((arr - mean)**3)
-            min_val = arr.min()
-            max_val = arr.max()
-            octiles = np.percentile(arr, [12.5, 25, 37.5, 50, 62.5, 75, 87.5])
-
-            print(f"⏱ Latency stats (all websocket events):")
-            print(f"    Mean: {mean:.2f} ms, Var: {second_moment:.2f}, 3rd Moment: {third_moment:.2f}")
-            print(f"    Min: {min_val} ms, Max: {max_val} ms")
-            print(f"    Octiles: {octiles.tolist()}")
-            print("-" * 60)
-        else:
-            print("⏱ Latency: No data yet")
+        print(f"⏱ Latency stats (all websocket events):")
+        print(f"    Mean: {mean:.2f} ms, Var: {second_moment:.2f}, 3rd Moment: {third_moment:.2f}")
+        print(f"    Min: {min_val} ms, Max: {max_val} ms")
+        print(f"    Octiles: {octiles.tolist()}")
+        print("-" * 60 + "\n") 
+    else:
+        print("⏱ Latency: No data yet" + "\n")
 
     return stats
 
@@ -117,17 +116,30 @@ def init_db():
         CREATE TABLE markets (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             text TEXT NOT NULL,
-            cli_timestamp INTEGER NOT NULL -- stored in UNIX seconds
+            cli_timestamp INTEGER NOT NULL
         )
     """)
     conn.commit()
-
 
 def close_db():
     global conn
     if conn:
         conn.commit()
         conn.close()
+
+def init_token_books_dir():
+    if not os.path.exists(TOKEN_BOOK_DIR):
+        os.makedirs(TOKEN_BOOK_DIR)
+        print(f"📂 Created directory {TOKEN_BOOK_DIR}")
+    else:
+        for filename in os.listdir(TOKEN_BOOK_DIR):
+            file_path = os.path.join(TOKEN_BOOK_DIR, filename)
+            try:
+                if os.path.isfile(file_path):
+                    os.remove(file_path)
+            except Exception as e:
+                print(f"⚠️ Failed to remove {file_path}: {e}")
+        print(f"🗑 Cleared existing files in {TOKEN_BOOK_DIR}")
 
 def init_token_db(token_id, market_id):
     db_name = os.path.join(TOKEN_BOOK_DIR, f"{token_id} {market_id}.db")
@@ -142,28 +154,13 @@ def init_token_db(token_id, market_id):
                 CREATE TABLE {table} (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     data TEXT NOT NULL,
-                    cli_timestamp INTEGER NOT NULL -- stored in UNIX ms
+                    cli_timestamp INTEGER NOT NULL
                 )
             """)
         conn_token.commit()
     token_dbs[token_id] = conn_token
     return conn_token
 
-def init_token_books_dir():
-    """Ensure token_books directory exists and clear all existing files."""
-    if not os.path.exists(TOKEN_BOOK_DIR):
-        os.makedirs(TOKEN_BOOK_DIR)
-        print(f"📂 Created directory {TOKEN_BOOK_DIR}")
-    else:
-        for filename in os.listdir(TOKEN_BOOK_DIR):
-            file_path = os.path.join(TOKEN_BOOK_DIR, filename)
-            try:
-                if os.path.isfile(file_path):
-                    os.remove(file_path)
-            except Exception as e:
-                print(f"⚠️ Failed to remove {file_path}: {e}")
-        print(f"🗑 Cleared existing files in {TOKEN_BOOK_DIR}")
- 
 
 def handle_market_data(data):
     global cur, conn
@@ -189,7 +186,7 @@ def handle_market_data(data):
 async def new_markets():
     global OFFSET, markets_http_cli
     while True:
-        print(f"Fetching markets with OFFSET={OFFSET}")
+        #print(f"Fetching markets with OFFSET={OFFSET}")
         url = MARKET_HTTP_URL.format(offset=OFFSET)
         async with markets_http_cli.get(url) as resp:
             if resp.status != 200:
@@ -197,42 +194,78 @@ async def new_markets():
                 break
             data = await resp.json()
             if len(data) == 0:
-                print(f"No more data at OFFSET={OFFSET}")
+                #print(f"No more data at OFFSET={OFFSET}")
                 break
             handle_market_data(data)
         OFFSET += len(data)
 
 
-async def subscribe_tokens():
-    global markets_ws_cli, SUBSCRIBED_TOKEN_COUNT
+async def subscribe_tokens(use_reserve=False):
+    global markets_ws_cli, reserve_ws_cli, SUBSCRIBED_TOKEN_COUNT, consumer_task
 
-    print("🔄 Resubscribing to tokens...")
+    ws_name = "reserve_ws_cli" if use_reserve else "markets_ws_cli"
+    print(f"\n🔄 Subscribing using {ws_name}...")
 
-    if markets_ws_cli is not None:
-        await markets_ws_cli.close()
-
-    markets_ws_cli = await websockets.connect(MARKETS_WS_URL)
+    ws = await websockets.connect(MARKETS_WS_URL)
     payload = {
         "type": "market",
         "initial_dump": True,
         "assets_ids": list(token_dbs.keys())
     }
-    await markets_ws_cli.send(json.dumps(payload))
-    SUBSCRIBED_TOKEN_COUNT = len(token_dbs)
-    print(f"✅ Subscribed to {SUBSCRIBED_TOKEN_COUNT} tokens.")
+    await ws.send(json.dumps(payload))
 
+    if use_reserve:
+        reserve_ws_cli = ws
+    else:
+        markets_ws_cli = ws
+        # start the consumer for active socket
+        if consumer_task is None or consumer_task.done():
+            consumer_task = asyncio.create_task(handle_ws_responses(markets_ws_cli))
+
+    SUBSCRIBED_TOKEN_COUNT = len(token_dbs)
+    print(f"✅ Subscribed to {SUBSCRIBED_TOKEN_COUNT} tokens using {ws_name}.")
 
 async def handle_tokens():
-    global SUBSCRIBED_TOKEN_COUNT
-    if len(token_dbs) > SUBSCRIBED_TOKEN_COUNT:
-        await subscribe_tokens()
+    global SUBSCRIBED_TOKEN_COUNT, markets_ws_cli, reserve_ws_cli, consumer_task
 
+    if len(token_dbs) > SUBSCRIBED_TOKEN_COUNT:
+        print("🔄 New token(s) detected, preparing to subscribe...")
+        # Create reserve WS
+        reserve_ws_cli = await websockets.connect(MARKETS_WS_URL)
+        payload = {
+            "type": "market",
+            "initial_dump": True,
+            "assets_ids": list(token_dbs.keys())
+        }
+        await reserve_ws_cli.send(json.dumps(payload))
+        print("✅ Reserve websocket subscribed.\n")
+
+        # Swap connections
+        old_ws = markets_ws_cli
+        markets_ws_cli = reserve_ws_cli
+        reserve_ws_cli = None
+
+        # Cancel old consumer task if running
+        if consumer_task is not None and not consumer_task.done():
+            consumer_task.cancel()
+            try:
+                await consumer_task
+            except asyncio.CancelledError:
+                pass
+
+        # Start consumer on the new active websocket
+        consumer_task = asyncio.create_task(handle_ws_responses(markets_ws_cli))
+
+        # Close old websocket after switching
+        if old_ws is not None:
+            await old_ws.close()
+            print("🛑 Closed old websocket after switching.")
+
+        SUBSCRIBED_TOKEN_COUNT = len(token_dbs)
 
 async def process_event(event: dict):
     global event_printed, latency_bucket
-    import time
-    cli_ts = int(time.time()*1000)  # UNIX ms for ws events
-
+    cli_ts = int(time.time()*1000)  # UNIX ms for WS events
     event_type = event.get("event_type")
     if not event_type:
         print(f"⚠️ Missing event_type in {event}")
@@ -255,7 +288,7 @@ async def process_event(event: dict):
                 affected_assets.append(asset_id)
     elif event_type in ["book", "last_trade_price", "tick_size_change"]:
         if event_printed.get(event_type, 0) == 0:
-            print(f"📝 First debug for event_type '{event_type}': {event}")
+            #print(f"📝 First debug for event_type '{event_type}': {event}")
             event_printed[event_type] += 1
         asset_id = event.get("asset_id")
         if asset_id:
@@ -276,12 +309,10 @@ async def process_event(event: dict):
         else:
             print(f"⚠️ Event for unknown token: {asset_id}, type: {event_type}")
 
-async def handle_curr_ws_responses():
-    global markets_ws_cli
-    async for message in markets_ws_cli:
+async def handle_ws_responses(ws):
+    async for message in ws:
         if isinstance(message, str) and message.upper() in ("PING", "PONG"):
             continue
-
         try:
             data = json.loads(message)
         except json.JSONDecodeError:
@@ -289,8 +320,6 @@ async def handle_curr_ws_responses():
             continue
 
         if isinstance(data, list):
-            if len(data) > 1:
-                print(f": Received list of {len(data)} events")
             for entry in data:
                 await process_event(entry)
         elif isinstance(data, dict):
@@ -298,13 +327,16 @@ async def handle_curr_ws_responses():
 
 
 async def handle_markets():
+    global log_counter
     while True:
-        print("handling markets")
+        #print("\nhandling markets")
         await new_markets()
         await handle_tokens()
-        scrape_db_stats()
+        if log_counter * 15 >= LOG_INTERVAL:
+            scrape_db_stats()
+            log_counter = 0
         await asyncio.sleep(15)
-
+        log_counter += 1
 
 async def main():
     global markets_ws_cli, markets_http_cli
@@ -315,15 +347,11 @@ async def main():
     markets_http_cli = aiohttp.ClientSession()
     await new_markets()
 
-    markets_ws_cli = await websockets.connect(MARKETS_WS_URL)
-    await new_markets()
-    await handle_tokens()
-
+    await subscribe_tokens()  # active websocket
     await asyncio.gather(
         handle_markets(),
-        handle_curr_ws_responses()
+        # the websocket consumer runs as consumer_task
     )
-
 
 if __name__ == "__main__":
     try:
