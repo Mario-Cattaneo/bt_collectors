@@ -1,113 +1,225 @@
-#!/usr/bin/env python3
 import asyncio
 import json
-import types
+import importlib
+import sys
 import traceback
-from typing import Any, Dict
+import websockets
+import os
 
+SOCKET_PATH = "/tmp/collection_manager.sock"
 
-class DynamicManager:
+class CollectionManager:
     def __init__(self):
-        self.classes: Dict[str, type] = {}        # class_name -> class
-        self.instances: Dict[str, Any] = {}       # instance_name -> instance
+        self.classes = {}         # class_name -> class object
+        self.class_sources = {}   # class_name -> code
+        self.instances = {}       # instance_name -> instance object
+        self.running = set()      # running instance names
 
-    def add_class(self, class_name: str, code: str):
-        """Define a new class from code string"""
+    async def handle_message(self, websocket, message):
+        try:
+            print(f"[Server] Received message: {message}")
+            data = json.loads(message)
+            msg_type = data.get("type")
+
+            if msg_type == "add_class":
+                await self._handle_add_class(websocket, data)
+            elif msg_type == "remove_class":
+                await self._handle_remove_class(websocket, data)
+            elif msg_type == "create_instance":
+                await self._handle_create_instance(websocket, data)
+            elif msg_type == "destroy_instance":
+                await self._handle_destroy_instance(websocket, data)
+            elif msg_type == "start_instance":
+                await self._handle_start_instance(websocket, data)
+            elif msg_type == "stop_instance":
+                await self._handle_stop_instance(websocket, data)
+            else:
+                await websocket.send(json.dumps({
+                    "status": "failure",
+                    "error": f"Unknown message type: {msg_type}"
+                }))
+                print(f"[Server] Unknown message type: {msg_type}")
+
+        except Exception as e:
+            await websocket.send(json.dumps({
+                "status": "failure",
+                "error": f"Exception in message handler: {e}",
+                "traceback": traceback.format_exc()
+            }))
+
+    async def _handle_add_class(self, websocket, data):
+        class_name = data.get("class_name")
+        code = data.get("code")
+        dependencies = data.get("dependencies", [])
+
+        print(f"[Server] Handling add_class for: {class_name}")
+        print(f"[Server] Dependencies: {dependencies}")
+
         if class_name in self.classes:
-            raise ValueError(f"Class {class_name} already exists")
-        namespace = {}
-        exec(code, namespace)
-        if class_name not in namespace:
-            raise ValueError(f"Class {class_name} not found in code")
-        cls = namespace[class_name]
+            await websocket.send(json.dumps({
+                "status": "failure",
+                "error": f"Class {class_name} already exists"
+            }))
+            return
+
+        # Load dependencies
+        try:
+            for dep in dependencies:
+                if dep not in sys.modules:
+                    print(f"[Server] Importing dependency: {dep}")
+                    importlib.import_module(dep)
+        except ImportError as e:
+            await websocket.send(json.dumps({
+                "status": "failure",
+                "error": f"Missing dependency: {e}"
+            }))
+            return
+
+        # Execute class code
+        try:
+            namespace = {}
+            exec(code, namespace)
+            cls = next(obj for obj in namespace.values() if isinstance(obj, type))
+        except Exception as e:
+            await websocket.send(json.dumps({
+                "status": "failure",
+                "error": f"Failed to exec class: {e}",
+                "traceback": traceback.format_exc()
+            }))
+            return
+
         self.classes[class_name] = cls
-        return {"status": "ok"}
+        self.class_sources[class_name] = code
+        print(f"[Server] Class {class_name} added successfully")
 
-    def remove_class(self, class_name: str):
+        await websocket.send(json.dumps({
+            "status": "success",
+            "message": f"Class {class_name} added successfully"
+        }))
+
+    async def _handle_remove_class(self, websocket, data):
+        class_name = data.get("class_name")
+        print(f"[Server] Handling remove_class for: {class_name}")
+
         if class_name not in self.classes:
-            raise ValueError(f"No such class {class_name}")
-        # Remove instances of this class
-        for inst_name in list(self.instances.keys()):
-            if type(self.instances[inst_name]).__name__ == class_name:
-                del self.instances[inst_name]
+            await websocket.send(json.dumps({"status": "failure", "error": f"Class {class_name} does not exist"}))
+            return
+
+        # Only remove class if no instances exist
+        if any(isinstance(inst, self.classes[class_name]) for inst in self.instances.values()):
+            await websocket.send(json.dumps({"status": "failure", "error": f"Cannot remove class {class_name}, instances exist"}))
+            return
+
         del self.classes[class_name]
-        return {"status": "ok"}
+        del self.class_sources[class_name]
+        await websocket.send(json.dumps({"status": "success", "message": f"Class {class_name} removed"}))
+        print(f"[Server] Class {class_name} removed")
 
-    def instantiate(self, class_name: str, inst_name: str, args: dict):
-        if inst_name in self.instances:
-            raise ValueError(f"Instance {inst_name} already exists")
+    async def _handle_create_instance(self, websocket, data):
+        class_name = data.get("class_name")
+        instance_name = data.get("instance_name")
+        args = data.get("args", {})
+
+        print(f"[Server] Handling create_instance: {instance_name} of class {class_name}")
+
         if class_name not in self.classes:
-            raise ValueError(f"No such class {class_name}")
+            await websocket.send(json.dumps({"status": "failure", "error": f"Class {class_name} does not exist"}))
+            return
+
+        if instance_name in self.instances:
+            await websocket.send(json.dumps({"status": "failure", "error": f"Instance {instance_name} already exists"}))
+            return
+
         cls = self.classes[class_name]
-        instance = cls(**args)
-        self.instances[inst_name] = instance
-        return {"status": "ok"}
+        try:
+            instance = cls(**args)
+        except TypeError as e:
+            await websocket.send(json.dumps({"status": "failure", "error": f"Invalid constructor args: {e}"}))
+            return
 
-    def remove_instance(self, inst_name: str):
-        if inst_name not in self.instances:
-            raise ValueError(f"No such instance {inst_name}")
-        del self.instances[inst_name]
-        return {"status": "ok"}
+        self.instances[instance_name] = instance
+        await websocket.send(json.dumps({"status": "success", "message": f"Instance {instance_name} created"}))
+        print(f"[Server] Instance {instance_name} created")
 
-    async def dispatch(self, inst_name: str, func: str, args: dict):
-        if inst_name not in self.instances:
-            raise ValueError(f"No such instance {inst_name}")
-        instance = self.instances[inst_name]
-        if not hasattr(instance, func):
-            raise ValueError(f"{inst_name} has no method {func}")
-        method = getattr(instance, func)
-        if asyncio.iscoroutinefunction(method):
-            result = await method(**args)
-        else:
-            result = method(**args)
-        return {"status": "ok", "result": result}
+    async def _handle_destroy_instance(self, websocket, data):
+        instance_name = data.get("instance_name")
+        print(f"[Server] Handling destroy_instance: {instance_name}")
 
+        if instance_name not in self.instances:
+            await websocket.send(json.dumps({"status": "failure", "error": f"Instance {instance_name} does not exist"}))
+            return
 
-async def handle_client(reader: asyncio.StreamReader, writer: asyncio.StreamWriter, manager: DynamicManager):
+        if instance_name in self.running:
+            await websocket.send(json.dumps({"status": "failure", "error": f"Instance {instance_name} is running"}))
+            return
+
+        del self.instances[instance_name]
+        await websocket.send(json.dumps({"status": "success", "message": f"Instance {instance_name} destroyed"}))
+        print(f"[Server] Instance {instance_name} destroyed")
+
+    async def _handle_start_instance(self, websocket, data):
+        instance_name = data.get("instance_name")
+        print(f"[Server] Handling start_instance: {instance_name}")
+
+        if instance_name not in self.instances:
+            await websocket.send(json.dumps({"status": "failure", "error": f"Instance {instance_name} does not exist"}))
+            return
+
+        if instance_name in self.running:
+            await websocket.send(json.dumps({"status": "failure", "error": f"Instance {instance_name} is already running"}))
+            return
+
+        instance = self.instances[instance_name]
+        if not hasattr(instance, "start") or not asyncio.iscoroutinefunction(instance.start):
+            await websocket.send(json.dumps({"status": "failure", "error": f"Instance {instance_name} has no async start() method"}))
+            return
+
+        asyncio.create_task(instance.start())
+        self.running.add(instance_name)
+        await websocket.send(json.dumps({"status": "success", "message": f"Instance {instance_name} started"}))
+        print(f"[Server] Instance {instance_name} started")
+
+    async def _handle_stop_instance(self, websocket, data):
+        instance_name = data.get("instance_name")
+        print(f"[Server] Handling stop_instance: {instance_name}")
+
+        if instance_name not in self.instances:
+            await websocket.send(json.dumps({"status": "failure", "error": f"Instance {instance_name} does not exist"}))
+            return
+
+        if instance_name not in self.running:
+            await websocket.send(json.dumps({"status": "failure", "error": f"Instance {instance_name} is not running"}))
+            return
+
+        instance = self.instances[instance_name]
+        if not hasattr(instance, "stop") or not asyncio.iscoroutinefunction(instance.stop):
+            await websocket.send(json.dumps({"status": "failure", "error": f"Instance {instance_name} has no async stop() method"}))
+            return
+
+        await instance.stop()
+        self.running.remove(instance_name)
+        await websocket.send(json.dumps({"status": "success", "message": f"Instance {instance_name} stopped"}))
+        print(f"[Server] Instance {instance_name} stopped")
+
+async def server_loop():
+    if os.path.exists(SOCKET_PATH):
+        os.remove(SOCKET_PATH)
+
+    cm = CollectionManager()
+
+    async def handler(websocket):
+        async for message in websocket:
+            await cm.handle_message(websocket, message)
+
+    print(f"[Server] CollectionManager listening on {SOCKET_PATH}")
+    async with websockets.unix_serve(handler, SOCKET_PATH):
+        await asyncio.Future()  # run forever
+
+def main():
     try:
-        while not reader.at_eof():
-            data = await reader.readline()
-            if not data:
-                break
-            try:
-                msg = json.loads(data.decode())
-                action = msg.get("action")
-                if action == "add_class":
-                    result = manager.add_class(msg["name"], msg["code"])
-                elif action == "remove_class":
-                    result = manager.remove_class(msg["name"])
-                elif action == "instantiate":
-                    result = manager.instantiate(msg["class"], msg["name"], msg.get("args", {}))
-                elif action == "remove_instance":
-                    result = manager.remove_instance(msg["name"])
-                elif action == "dispatch":
-                    result = await manager.dispatch(msg["name"], msg["func"], msg.get("args", {}))
-                else:
-                    result = {"status": "error", "error": f"Unknown action {action}"}
-            except Exception as e:
-                result = {"status": "error", "error": str(e), "traceback": traceback.format_exc()}
-            writer.write((json.dumps(result) + "\n").encode())
-            await writer.drain()
-    finally:
-        writer.close()
-        await writer.wait_closed()
-
-
-async def main(socket_path="/tmp/dyn_manager.sock"):
-    import os
-    try:
-        os.unlink(socket_path)
-    except FileNotFoundError:
-        pass
-
-    manager = DynamicManager()
-    server = await asyncio.start_unix_server(
-        lambda r, w: handle_client(r, w, manager), path=socket_path
-    )
-    print(f"Dynamic manager listening on {socket_path}")
-    async with server:
-        await server.serve_forever()
-
+        asyncio.run(server_loop())
+    except KeyboardInterrupt:
+        print("[Server] CollectionManager shutting down")
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()
