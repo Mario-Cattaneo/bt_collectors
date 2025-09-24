@@ -9,7 +9,7 @@ import time
 
 
 class rpc_collector:
-    def __init__(self, data_dir="data", verbosity="DEBUG"):
+    def __init__(self, data_dir="data", read_sleep = 0.5, verbosity="DEBUG"):
         self.__data_dir = data_dir
         self.__verbosity = verbosity
         self.__infura_wss_url = None
@@ -19,6 +19,7 @@ class rpc_collector:
         self.__running = False
         self.__wss_cli = None
         self.__https_cli = None
+        self.__read_sleep = read_sleep
     
     async def start(self) -> bool:
         # Load environment and set URLs first
@@ -149,7 +150,9 @@ class rpc_collector:
             message = await asyncio.wait_for(self.__wss_cli.recv(), timeout=0.001)
             self.__log(f"rpc_collector received raw message: {message}", "DEBUG")  # log the raw message
         except asyncio.TimeoutError:
-            self.__log(f"rpc_collector emptied received messaged buffer","DEBUG")
+            self.__log(f"rpc_collector emptied received messaged buffer going to sleep for {self.__read_sleep} seconds","DEBUG")
+            await asyncio.sleep(self.__read_sleep)
+
             return True
         msg_json = json.loads(message)
 
