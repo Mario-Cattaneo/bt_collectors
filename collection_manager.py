@@ -8,7 +8,7 @@ import os
 
 SOCKET_PATH = "/tmp/collection_manager.sock"
 
-class CollectionManager:
+class collection_manager:
     def __init__(self):
         self.classes = {}         # class_name -> class object
         self.class_sources = {}   # class_name -> code
@@ -205,13 +205,13 @@ async def server_loop():
     if os.path.exists(SOCKET_PATH):
         os.remove(SOCKET_PATH)
 
-    cm = CollectionManager()
+    cm = collection_manager()
 
     async def handler(websocket):
         async for message in websocket:
             await cm.handle_message(websocket, message)
 
-    print(f"[Server] CollectionManager listening on {SOCKET_PATH}")
+    print(f"[Server] collection_manager listening on {SOCKET_PATH}")
     async with websockets.unix_serve(handler, SOCKET_PATH):
         await asyncio.Future()  # run forever
 
@@ -219,7 +219,7 @@ def main():
     try:
         asyncio.run(server_loop())
     except KeyboardInterrupt:
-        print("[Server] CollectionManager shutting down")
+        print("[Server] collection_manager shutting down")
 
 if __name__ == "__main__":
     main()

@@ -1,6 +1,6 @@
 {
-  "file": "./market_collector.py",
-  "instance_name": "market_collector1",
+  "file": "./rpc_collector.py",
+  "instance_name": "rpc_collector1",
   "args": {
     "data_dir": "data",
     "verbosity": "DEBUG"

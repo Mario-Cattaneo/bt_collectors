@@ -25,7 +25,7 @@ class market_collector:
         self.__finds_before_reads = 2
         self.__curr_find_count = 0
     
-    async def start(self):
+    async def start(self)->bool:
 
         if self.__running:
             self.__log("market_collector already started", "ERROR")
@@ -68,7 +68,7 @@ class market_collector:
         self.__log(f"market_collector exiting running loop due to abort", "DEBUG")
 
 
-    async def stop(self):
+    async def stop(self)->bool:
         await self.__clean_up()
         self.__log("market_collector stopped", "DEBUG")
         return True;
@@ -128,7 +128,7 @@ class market_collector:
             print(f"[{level}] {msg}")
 
     
-    async def __find_markets(self):
+    async def __find_markets(self)->bool:
         url = self.__markets_url.format(offset=self.__market_offset)
         try:
             # Reuse the same session -> TCP + TLS persistent
@@ -141,11 +141,12 @@ class market_collector:
             market_arr = await resp.json()
             await resp.release()  # release the connection back to the pool
 
-            self.__log(f"Fetched {len(market_arr)} markets", "DEBUG")
             # Process markets here
         except aiohttp.ClientError as e:
             self.__log(f"HTTP request failed: {e}", "ERROR")
             return False
+
+        self.__log(f"market_collector fetched {len(market_arr)} markets", "DEBUG")
 
         if not isinstance(market_arr, list):
             self.__log(f"market_collector market response not list but {type(market_arr)}", "ERROR")
@@ -210,7 +211,7 @@ class market_collector:
         self.__log(f"market_collector no new markets at offset {self.__market_offset}", "DEBUG")
         return await self.__read_events()
 
-    def __sql_insert_market(self, market_id, market_obj):
+    def __sql_insert_market(self, market_id, market_obj)->bool:
         try:
             ts = int(time.time())
             cur = self.__markets_db.cursor()
@@ -224,7 +225,7 @@ class market_collector:
             self.__log(f"market_collector failed to insert market {market_id}: {e}", "ERROR")
             return False
 
-    def __sql_insert_event(self, asset_id, event_obj):
+    def __sql_insert_event(self, asset_id, event_obj)->bool:
         try:
             ts = int(time.time())
             conn = self.__events_dbs_map.get(asset_id)
@@ -242,7 +243,7 @@ class market_collector:
             self.__log(f"market_collector failed to insert event for asset_id={asset_id}: {e}", "ERROR")
             return False
 
-    def __register_token(self, market_id, token_id):
+    def __register_token(self, market_id, token_id)->bool:
         directory_name = f"{market_id}_{token_id}"
         events_dir = os.path.join(self.__data_dir, directory_name)
         db_path = os.path.join(events_dir, "events.db")
@@ -276,7 +277,7 @@ class market_collector:
         #self.__log(f"market_collector added events pair: market_id={market_id}, token_id={token_id}, db={db_path}","DEBUG")
         return True
 
-    async def __resubscribe(self):
+    async def __resubscribe(self)->bool:
         try: 
             self.__log(f"market_collector resubcribing with events_cli {type(self.__events_cli)})", "DEBUG")
             new_cli = await websockets.connect(self.__events_url)
@@ -302,7 +303,7 @@ class market_collector:
             self.__log(f"market_collector resubscribe failed: {e}", "ERROR")
             return False
 
-    async def __read_events(self):
+    async def __read_events(self)->bool:
         # handle all buffered received messages
         while True:
             try:
@@ -327,11 +328,7 @@ class market_collector:
         
         return True
 
-
-
-
-
-    def __insert_event(self, event_obj):
+    def __insert_event(self, event_obj)->bool:
         asset_id = event_obj.get("asset_id")
 
         # case book, last trade price, tick size change
