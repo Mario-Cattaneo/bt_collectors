@@ -1,0 +1,2539 @@
+nohup: ignoring input
+🗑 Cleared existing files in token_books
+
+🔄 Subscribing using markets_ws_cli...
+✅ Subscribed to 2760 tokens using markets_ws_cli.
+
+
+📊 Stats for table 'price_change':
+    Mean: 18.10, 2nd Moment (Var): 6843.70, 3rd Moment: 7189134.10
+    Min: 0, Max: 1492
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 1.0, 4.0, 12.0, 26.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 1.07, 2nd Moment (Var): 0.33, 3rd Moment: 2.24
+    Min: 1, Max: 12
+    Octiles (1/8th ... 7/8th): [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 0.04, 2nd Moment (Var): 0.12, 3rd Moment: 0.63
+    Min: 0, Max: 8
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.00, 2nd Moment (Var): 0.01, 3rd Moment: 0.01
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 134115.76 ms, Var: 758283499051.73, 3rd Moment: 5632336556689562624.00
+    Min: 23 ms, Max: 12656864 ms
+    Octiles: [24.0, 24.0, 24.0, 25.0, 27.0, 30.0, 62.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 35.12, 2nd Moment (Var): 19314.81, 3rd Moment: 29499871.21
+    Min: 0, Max: 2447
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 3.0, 8.0, 24.0, 55.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 1.21, 2nd Moment (Var): 2.51, 3rd Moment: 46.02
+    Min: 1, Max: 29
+    Octiles (1/8th ... 7/8th): [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 0.11, 2nd Moment (Var): 0.98, 3rd Moment: 14.61
+    Min: 0, Max: 24
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.01, 2nd Moment (Var): 0.01, 3rd Moment: 0.03
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 72167.17 ms, Var: 412423988852.65, 3rd Moment: 3105957667580699136.00
+    Min: 23 ms, Max: 12656864 ms
+    Octiles: [24.0, 24.0, 24.0, 25.0, 26.0, 28.0, 39.0]
+------------------------------------------------------------
+
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+
+
+📊 Stats for table 'price_change':
+    Mean: 55.93, 2nd Moment (Var): 36076.18, 3rd Moment: 62334856.74
+    Min: 0, Max: 3237
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 2.0, 5.0, 16.0, 38.0, 100.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 1.33, 2nd Moment (Var): 6.52, 3rd Moment: 195.17
+    Min: 0, Max: 44
+    Octiles (1/8th ... 7/8th): [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 0.17, 2nd Moment (Var): 2.43, 3rd Moment: 59.23
+    Min: 0, Max: 39
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.02, 2nd Moment (Var): 0.05, 3rd Moment: 0.09
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 46151.90 ms, Var: 264892440614.20, 3rd Moment: 2006419627934013184.00
+    Min: 23 ms, Max: 12656864 ms
+    Octiles: [24.0, 24.0, 24.0, 25.0, 26.0, 28.0, 35.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 73.03, 2nd Moment (Var): 60076.79, 3rd Moment: 127701672.78
+    Min: 0, Max: 3827
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 3.0, 8.0, 22.0, 55.0, 127.25]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 2.46, 2nd Moment (Var): 10.82, 3rd Moment: 428.13
+    Min: 1, Max: 63
+    Octiles (1/8th ... 7/8th): [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 0.24, 2nd Moment (Var): 3.45, 3rd Moment: 86.57
+    Min: 0, Max: 43
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.02, 2nd Moment (Var): 0.05, 3rd Moment: 0.09
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 76707.35 ms, Var: 459087046312.28, 3rd Moment: 3591934136094686720.00
+    Min: 23 ms, Max: 13579475 ms
+    Octiles: [24.0, 24.0, 25.0, 26.0, 27.0, 29.0, 39.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 88.64, 2nd Moment (Var): 92787.86, 3rd Moment: 260038812.21
+    Min: 0, Max: 4703
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 4.0, 8.0, 26.0, 72.0, 149.25]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 2.55, 2nd Moment (Var): 13.39, 3rd Moment: 550.81
+    Min: 1, Max: 63
+    Octiles (1/8th ... 7/8th): [2.0, 2.0, 2.0, 2.0, 2.0, 2.0, 2.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 0.28, 2nd Moment (Var): 4.22, 3rd Moment: 109.20
+    Min: 0, Max: 44
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.02, 2nd Moment (Var): 0.05, 3rd Moment: 0.09
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 63789.69 ms, Var: 382568918722.64, 3rd Moment: 3001557940931661312.00
+    Min: 23 ms, Max: 13579475 ms
+    Octiles: [24.0, 24.0, 25.0, 26.0, 27.0, 29.0, 38.0]
+------------------------------------------------------------
+
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+
+
+📊 Stats for table 'price_change':
+    Mean: 104.67, 2nd Moment (Var): 128128.09, 3rd Moment: 431947911.29
+    Min: 0, Max: 5671
+    Octiles (1/8th ... 7/8th): [0.0, 1.0, 5.0, 12.0, 31.375, 83.0, 178.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 3.61, 2nd Moment (Var): 16.32, 3rd Moment: 699.39
+    Min: 1, Max: 66
+    Octiles (1/8th ... 7/8th): [3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 4.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 0.33, 2nd Moment (Var): 5.14, 3rd Moment: 140.70
+    Min: 0, Max: 44
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.03, 2nd Moment (Var): 0.05, 3rd Moment: 0.10
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 84420.89 ms, Var: 538172347394.91, 3rd Moment: 4435624684860101120.00
+    Min: 23 ms, Max: 14470976 ms
+    Octiles: [24.0, 25.0, 25.0, 26.0, 27.0, 30.0, 41.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 121.06, 2nd Moment (Var): 175941.06, 3rd Moment: 704041799.03
+    Min: 0, Max: 6266
+    Octiles (1/8th ... 7/8th): [0.0, 1.0, 6.0, 14.0, 36.375, 92.0, 207.125]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 3.66, 2nd Moment (Var): 19.11, 3rd Moment: 887.76
+    Min: 1, Max: 74
+    Octiles (1/8th ... 7/8th): [3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 4.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 0.36, 2nd Moment (Var): 5.97, 3rd Moment: 173.55
+    Min: 0, Max: 46
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.03, 2nd Moment (Var): 0.05, 3rd Moment: 0.11
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 73605.24 ms, Var: 469992778216.91, 3rd Moment: 3882303273615284736.00
+    Min: 23 ms, Max: 14470976 ms
+    Octiles: [24.0, 25.0, 25.0, 26.0, 27.0, 30.0, 40.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 141.61, 2nd Moment (Var): 286525.38, 3rd Moment: 1789130130.58
+    Min: 0, Max: 10894
+    Octiles (1/8th ... 7/8th): [0.0, 1.0, 8.0, 14.0, 41.0, 104.25, 228.75]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 3.74, 2nd Moment (Var): 22.80, 3rd Moment: 1133.01
+    Min: 1, Max: 79
+    Octiles (1/8th ... 7/8th): [3.0, 3.0, 3.0, 3.0, 3.0, 3.0, 4.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 0.40, 2nd Moment (Var): 7.04, 3rd Moment: 219.76
+    Min: 0, Max: 51
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.03, 2nd Moment (Var): 0.05, 3rd Moment: 0.11
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 63405.26 ms, Var: 405483040507.99, 3rd Moment: 3356444325834568192.00
+    Min: 23 ms, Max: 14470976 ms
+    Octiles: [24.0, 25.0, 25.0, 26.0, 27.0, 29.0, 38.0]
+------------------------------------------------------------
+
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+
+
+📊 Stats for table 'price_change':
+    Mean: 158.72, 2nd Moment (Var): 375134.38, 3rd Moment: 2897602792.02
+    Min: 0, Max: 13508
+    Octiles (1/8th ... 7/8th): [0.0, 1.0, 8.0, 15.0, 46.875, 114.0, 260.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 4.76, 2nd Moment (Var): 26.37, 3rd Moment: 1385.70
+    Min: 1, Max: 87
+    Octiles (1/8th ... 7/8th): [4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 5.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 0.43, 2nd Moment (Var): 8.04, 3rd Moment: 261.49
+    Min: 0, Max: 52
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.03, 2nd Moment (Var): 0.06, 3rd Moment: 0.12
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 78799.64 ms, Var: 535022216188.01, 3rd Moment: 4658908187498314752.00
+    Min: 23 ms, Max: 15377525 ms
+    Octiles: [24.0, 25.0, 25.0, 26.0, 27.0, 29.0, 39.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 176.04, 2nd Moment (Var): 493882.79, 3rd Moment: 4759887436.56
+    Min: 0, Max: 16512
+    Octiles (1/8th ... 7/8th): [0.0, 1.0, 8.0, 16.0, 54.875, 128.0, 272.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 4.81, 2nd Moment (Var): 29.49, 3rd Moment: 1602.74
+    Min: 1, Max: 88
+    Octiles (1/8th ... 7/8th): [4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 5.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 0.45, 2nd Moment (Var): 8.93, 3rd Moment: 301.09
+    Min: 0, Max: 55
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.03, 2nd Moment (Var): 0.06, 3rd Moment: 0.12
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 71429.44 ms, Var: 485487319689.85, 3rd Moment: 4233671207472891904.00
+    Min: 23 ms, Max: 15377525 ms
+    Octiles: [24.0, 25.0, 26.0, 26.0, 27.0, 29.0, 38.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 190.83, 2nd Moment (Var): 575500.56, 3rd Moment: 5766978819.72
+    Min: 0, Max: 17391
+    Octiles (1/8th ... 7/8th): [0.0, 1.0, 10.0, 17.0, 60.0, 140.0, 292.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 4.88, 2nd Moment (Var): 33.80, 3rd Moment: 1925.08
+    Min: 1, Max: 92
+    Octiles (1/8th ... 7/8th): [4.0, 4.0, 4.0, 4.0, 4.0, 4.0, 5.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 0.49, 2nd Moment (Var): 10.22, 3rd Moment: 364.88
+    Min: 0, Max: 57
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.03, 2nd Moment (Var): 0.06, 3rd Moment: 0.12
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 66117.77 ms, Var: 449721064854.64, 3rd Moment: 3925851315745485824.00
+    Min: 23 ms, Max: 15377525 ms
+    Octiles: [24.0, 25.0, 26.0, 26.0, 27.0, 29.0, 38.0]
+------------------------------------------------------------
+
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+
+
+📊 Stats for table 'price_change':
+    Mean: 211.12, 2nd Moment (Var): 673440.01, 3rd Moment: 7129769651.22
+    Min: 0, Max: 18548
+    Octiles (1/8th ... 7/8th): [0.0, 3.0, 11.0, 22.0, 69.0, 156.0, 329.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 6.85, 2nd Moment (Var): 39.62, 3rd Moment: 2398.52
+    Min: 1, Max: 99
+    Octiles (1/8th ... 7/8th): [6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 7.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 0.52, 2nd Moment (Var): 11.75, 3rd Moment: 448.36
+    Min: 0, Max: 57
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.04, 2nd Moment (Var): 0.08, 3rd Moment: 0.16
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 95618.82 ms, Var: 705330621920.00, 3rd Moment: 6584994298408770560.00
+    Min: 23 ms, Max: 16269697 ms
+    Octiles: [25.0, 25.0, 26.0, 27.0, 28.0, 30.0, 40.0]
+------------------------------------------------------------
+
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+
+
+📊 Stats for table 'price_change':
+    Mean: 228.97, 2nd Moment (Var): 753205.34, 3rd Moment: 8130291319.22
+    Min: 0, Max: 19072
+    Octiles (1/8th ... 7/8th): [0.0, 3.0, 13.0, 25.5, 74.0, 175.0, 348.875]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 6.89, 2nd Moment (Var): 44.75, 3rd Moment: 2875.19
+    Min: 0, Max: 101
+    Octiles (1/8th ... 7/8th): [6.0, 6.0, 6.0, 6.0, 6.0, 6.0, 7.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 0.55, 2nd Moment (Var): 13.23, 3rd Moment: 538.15
+    Min: 0, Max: 62
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.04, 2nd Moment (Var): 0.08, 3rd Moment: 0.16
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 88372.20 ms, Var: 652498796284.59, 3rd Moment: 6099897016544872448.00
+    Min: 23 ms, Max: 16269697 ms
+    Octiles: [25.0, 25.0, 26.0, 27.0, 28.0, 30.0, 40.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 242.51, 2nd Moment (Var): 842944.79, 3rd Moment: 9488099465.50
+    Min: 0, Max: 19797
+    Octiles (1/8th ... 7/8th): [0.0, 4.0, 14.0, 26.0, 78.0, 186.25, 368.125]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 7.97, 2nd Moment (Var): 52.59, 3rd Moment: 3677.62
+    Min: 1, Max: 114
+    Octiles (1/8th ... 7/8th): [7.0, 7.0, 7.0, 7.0, 7.0, 7.0, 8.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 0.61, 2nd Moment (Var): 15.31, 3rd Moment: 659.33
+    Min: 0, Max: 64
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.05, 2nd Moment (Var): 0.09, 3rd Moment: 0.18
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 98528.47 ms, Var: 744295304942.58, 3rd Moment: 7077075777760541696.00
+    Min: 23 ms, Max: 16653137 ms
+    Octiles: [25.0, 25.0, 26.0, 27.0, 28.0, 30.0, 41.0]
+------------------------------------------------------------
+
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+
+
+📊 Stats for table 'price_change':
+    Mean: 257.21, 2nd Moment (Var): 935140.81, 3rd Moment: 11027166064.04
+    Min: 0, Max: 20742
+    Octiles (1/8th ... 7/8th): [0.0, 4.0, 14.0, 28.0, 86.0, 200.0, 392.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 8.97, 2nd Moment (Var): 60.84, 3rd Moment: 4645.40
+    Min: 1, Max: 119
+    Octiles (1/8th ... 7/8th): [8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 9.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 0.64, 2nd Moment (Var): 17.42, 3rd Moment: 815.91
+    Min: 0, Max: 74
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.05, 2nd Moment (Var): 0.09, 3rd Moment: 0.18
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 107657.01 ms, Var: 833616689825.83, 3rd Moment: 8087837108188700672.00
+    Min: 23 ms, Max: 17176372 ms
+    Octiles: [25.0, 26.0, 26.0, 27.0, 28.0, 30.0, 41.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 276.51, 2nd Moment (Var): 1057872.98, 3rd Moment: 12777845740.34
+    Min: 0, Max: 21356
+    Octiles (1/8th ... 7/8th): [0.0, 4.0, 14.0, 29.0, 90.875, 226.0, 416.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 9.03, 2nd Moment (Var): 67.52, 3rd Moment: 5560.42
+    Min: 1, Max: 128
+    Octiles (1/8th ... 7/8th): [8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 9.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 0.67, 2nd Moment (Var): 19.21, 3rd Moment: 956.94
+    Min: 0, Max: 80
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.05, 2nd Moment (Var): 0.09, 3rd Moment: 0.18
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 100580.71 ms, Var: 779518093233.40, 3rd Moment: 7572530364194679808.00
+    Min: 23 ms, Max: 17176372 ms
+    Octiles: [25.0, 26.0, 26.0, 27.0, 28.0, 31.0, 41.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 293.63, 2nd Moment (Var): 1170225.01, 3rd Moment: 14452279132.69
+    Min: 0, Max: 21995
+    Octiles (1/8th ... 7/8th): [0.0, 4.0, 15.0, 30.0, 98.375, 234.0, 447.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 9.12, 2nd Moment (Var): 79.36, 3rd Moment: 7365.27
+    Min: 1, Max: 145
+    Octiles (1/8th ... 7/8th): [8.0, 8.0, 8.0, 8.0, 8.0, 8.0, 9.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 0.72, 2nd Moment (Var): 22.61, 3rd Moment: 1271.94
+    Min: 0, Max: 90
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.05, 2nd Moment (Var): 0.09, 3rd Moment: 0.18
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 94997.12 ms, Var: 736760409815.19, 3rd Moment: 7164300294937171968.00
+    Min: 23 ms, Max: 17176372 ms
+    Octiles: [25.0, 26.0, 26.0, 27.0, 29.0, 31.0, 40.0]
+------------------------------------------------------------
+
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+
+
+📊 Stats for table 'price_change':
+    Mean: 309.96, 2nd Moment (Var): 1302019.75, 3rd Moment: 16889531078.30
+    Min: 0, Max: 23045
+    Octiles (1/8th ... 7/8th): [0.0, 4.0, 15.0, 32.0, 102.0, 254.0, 471.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 10.16, 2nd Moment (Var): 98.48, 3rd Moment: 10733.98
+    Min: 1, Max: 180
+    Octiles (1/8th ... 7/8th): [9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 10.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 0.77, 2nd Moment (Var): 27.72, 3rd Moment: 1796.35
+    Min: 0, Max: 99
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.05, 2nd Moment (Var): 0.09, 3rd Moment: 0.18
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 103513.80 ms, Var: 825838378937.44, 3rd Moment: 8253321946899186688.00
+    Min: 23 ms, Max: 18068277 ms
+    Octiles: [25.0, 26.0, 26.0, 28.0, 29.0, 31.0, 41.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 327.25, 2nd Moment (Var): 1441646.81, 3rd Moment: 19425300552.29
+    Min: 0, Max: 23925
+    Octiles (1/8th ... 7/8th): [0.0, 4.0, 15.0, 32.0, 107.0, 268.0, 505.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 10.26, 2nd Moment (Var): 112.43, 3rd Moment: 13151.57
+    Min: 1, Max: 190
+    Octiles (1/8th ... 7/8th): [9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 10.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 0.82, 2nd Moment (Var): 31.53, 3rd Moment: 2176.55
+    Min: 0, Max: 101
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.05, 2nd Moment (Var): 0.10, 3rd Moment: 0.18
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 98311.43 ms, Var: 784833656711.04, 3rd Moment: 7850609536865586176.00
+    Min: 23 ms, Max: 18068277 ms
+    Octiles: [25.0, 26.0, 26.0, 27.0, 29.0, 31.0, 40.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 339.65, 2nd Moment (Var): 1563141.82, 3rd Moment: 21731827832.10
+    Min: 0, Max: 24638
+    Octiles (1/8th ... 7/8th): [0.0, 4.0, 15.0, 34.0, 111.0, 286.25, 540.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 10.33, 2nd Moment (Var): 124.41, 3rd Moment: 15123.21
+    Min: 1, Max: 192
+    Octiles (1/8th ... 7/8th): [9.0, 9.0, 9.0, 9.0, 9.0, 9.0, 10.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 0.85, 2nd Moment (Var): 34.70, 3rd Moment: 2479.41
+    Min: 0, Max: 108
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.125]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.05, 2nd Moment (Var): 0.10, 3rd Moment: 0.18
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 94883.84 ms, Var: 757787831027.57, 3rd Moment: 7584579859768028160.00
+    Min: 23 ms, Max: 18068277 ms
+    Octiles: [25.0, 26.0, 26.0, 27.0, 29.0, 31.0, 40.0]
+------------------------------------------------------------
+
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+
+
+📊 Stats for table 'price_change':
+    Mean: 355.49, 2nd Moment (Var): 1688451.77, 3rd Moment: 24102523278.05
+    Min: 0, Max: 25233
+    Octiles (1/8th ... 7/8th): [0.0, 4.0, 15.0, 34.0, 123.0, 294.0, 569.625]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 11.34, 2nd Moment (Var): 137.00, 3rd Moment: 17494.35
+    Min: 1, Max: 198
+    Octiles (1/8th ... 7/8th): [10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 11.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 0.89, 2nd Moment (Var): 37.92, 3rd Moment: 2850.51
+    Min: 0, Max: 120
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.05, 2nd Moment (Var): 0.10, 3rd Moment: 0.19
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 103803.45 ms, Var: 855962532041.51, 3rd Moment: 8850113984128126976.00
+    Min: 23 ms, Max: 18975437 ms
+    Octiles: [25.0, 25.0, 26.0, 27.0, 29.0, 31.0, 40.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 371.41, 2nd Moment (Var): 1833900.97, 3rd Moment: 26994722973.19
+    Min: 0, Max: 26110
+    Octiles (1/8th ... 7/8th): [0.0, 4.0, 16.0, 35.0, 129.0, 306.0, 584.25]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 11.38, 2nd Moment (Var): 144.87, 3rd Moment: 19040.55
+    Min: 1, Max: 201
+    Octiles (1/8th ... 7/8th): [10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 11.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 0.91, 2nd Moment (Var): 40.27, 3rd Moment: 3141.08
+    Min: 0, Max: 123
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.05, 2nd Moment (Var): 0.10, 3rd Moment: 0.19
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 99594.07 ms, Var: 821661491219.93, 3rd Moment: 8501460293318237184.00
+    Min: 23 ms, Max: 18975437 ms
+    Octiles: [25.0, 25.0, 26.0, 27.0, 28.0, 30.0, 39.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 385.84, 2nd Moment (Var): 1989823.43, 3rd Moment: 30425653416.20
+    Min: 0, Max: 27067
+    Octiles (1/8th ... 7/8th): [0.0, 5.0, 16.0, 36.0, 132.0, 316.0, 608.25]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 11.45, 2nd Moment (Var): 156.28, 3rd Moment: 21450.75
+    Min: 1, Max: 207
+    Octiles (1/8th ... 7/8th): [10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 11.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 0.95, 2nd Moment (Var): 43.15, 3rd Moment: 3476.29
+    Min: 0, Max: 125
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.05, 2nd Moment (Var): 0.10, 3rd Moment: 0.19
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 96049.82 ms, Var: 792752837597.09, 3rd Moment: 8207224850442713088.00
+    Min: 23 ms, Max: 18975437 ms
+    Octiles: [25.0, 25.0, 26.0, 27.0, 28.0, 30.0, 39.0]
+------------------------------------------------------------
+
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+
+
+📊 Stats for table 'price_change':
+    Mean: 402.53, 2nd Moment (Var): 2121691.52, 3rd Moment: 33038430684.58
+    Min: 0, Max: 27449
+    Octiles (1/8th ... 7/8th): [0.0, 5.0, 17.0, 37.0, 139.0, 333.0, 640.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 13.36, 2nd Moment (Var): 167.82, 3rd Moment: 23781.86
+    Min: 1, Max: 221
+    Octiles (1/8th ... 7/8th): [12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 13.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 0.97, 2nd Moment (Var): 45.89, 3rd Moment: 3835.14
+    Min: 0, Max: 126
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.05, 2nd Moment (Var): 0.10, 3rd Moment: 0.19
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 116137.53 ms, Var: 1014401989763.16, 3rd Moment: 11121708927111077888.00
+    Min: 23 ms, Max: 19867868 ms
+    Octiles: [25.0, 25.0, 26.0, 27.0, 28.0, 30.0, 40.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 418.67, 2nd Moment (Var): 2303124.03, 3rd Moment: 37297456948.74
+    Min: 0, Max: 28580
+    Octiles (1/8th ... 7/8th): [0.0, 5.0, 17.0, 38.0, 149.0, 348.0, 665.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 13.44, 2nd Moment (Var): 181.98, 3rd Moment: 27051.36
+    Min: 1, Max: 224
+    Octiles (1/8th ... 7/8th): [12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 13.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 1.01, 2nd Moment (Var): 49.85, 3rd Moment: 4365.47
+    Min: 0, Max: 133
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.05, 2nd Moment (Var): 0.10, 3rd Moment: 0.19
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 111890.77 ms, Var: 977774317214.29, 3rd Moment: 10727321762096326656.00
+    Min: 23 ms, Max: 19867868 ms
+    Octiles: [25.0, 25.0, 26.0, 27.0, 28.0, 30.0, 40.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 432.59, 2nd Moment (Var): 2484833.18, 3rd Moment: 41861887106.27
+    Min: 0, Max: 29467
+    Octiles (1/8th ... 7/8th): [0.0, 5.0, 18.0, 40.0, 154.0, 358.0, 704.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 13.50, 2nd Moment (Var): 193.94, 3rd Moment: 29764.82
+    Min: 1, Max: 224
+    Octiles (1/8th ... 7/8th): [12.0, 12.0, 12.0, 12.0, 12.0, 12.0, 13.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 1.04, 2nd Moment (Var): 53.36, 3rd Moment: 4842.24
+    Min: 0, Max: 134
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.05, 2nd Moment (Var): 0.10, 3rd Moment: 0.19
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 108473.31 ms, Var: 948273028102.72, 3rd Moment: 10409271696674818048.00
+    Min: 23 ms, Max: 19867868 ms
+    Octiles: [25.0, 25.0, 26.0, 27.0, 28.0, 30.0, 39.0]
+------------------------------------------------------------
+
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+
+
+📊 Stats for table 'price_change':
+    Mean: 446.85, 2nd Moment (Var): 2641934.32, 3rd Moment: 45595261672.58
+    Min: 0, Max: 30147
+    Octiles (1/8th ... 7/8th): [0.0, 6.0, 18.875, 42.0, 160.25, 374.75, 718.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 14.50, 2nd Moment (Var): 207.21, 3rd Moment: 32566.18
+    Min: 1, Max: 230
+    Octiles (1/8th ... 7/8th): [13.0, 13.0, 13.0, 13.0, 13.0, 13.0, 14.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 1.08, 2nd Moment (Var): 56.52, 3rd Moment: 5233.33
+    Min: 0, Max: 135
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.05, 2nd Moment (Var): 0.10, 3rd Moment: 0.19
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 116979.58 ms, Var: 1052473041546.42, 3rd Moment: 11889643707040258048.00
+    Min: 23 ms, Max: 20775930 ms
+    Octiles: [25.0, 25.0, 26.0, 27.0, 28.0, 30.0, 40.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 460.98, 2nd Moment (Var): 2809843.43, 3rd Moment: 49952445676.52
+    Min: 0, Max: 31055
+    Octiles (1/8th ... 7/8th): [0.0, 6.0, 19.0, 42.0, 166.0, 385.75, 740.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 14.58, 2nd Moment (Var): 223.67, 3rd Moment: 36484.65
+    Min: 1, Max: 239
+    Octiles (1/8th ... 7/8th): [13.0, 13.0, 13.0, 13.0, 13.0, 13.0, 14.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 1.12, 2nd Moment (Var): 61.06, 3rd Moment: 5840.49
+    Min: 0, Max: 137
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.05, 2nd Moment (Var): 0.10, 3rd Moment: 0.19
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 113567.38 ms, Var: 1022152120689.25, 3rd Moment: 11553152711563159552.00
+    Min: 23 ms, Max: 20775930 ms
+    Octiles: [25.0, 25.0, 26.0, 27.0, 28.0, 30.0, 40.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 476.76, 2nd Moment (Var): 3016963.33, 3rd Moment: 55552632533.88
+    Min: 0, Max: 31942
+    Octiles (1/8th ... 7/8th): [0.0, 6.0, 20.0, 44.0, 170.0, 399.5, 749.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 14.69, 2nd Moment (Var): 246.57, 3rd Moment: 42722.44
+    Min: 1, Max: 259
+    Octiles (1/8th ... 7/8th): [13.0, 13.0, 13.0, 13.0, 13.0, 13.0, 14.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 1.17, 2nd Moment (Var): 67.32, 3rd Moment: 6801.82
+    Min: 0, Max: 147
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.05, 2nd Moment (Var): 0.10, 3rd Moment: 0.19
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 109972.36 ms, Var: 990181346914.94, 3rd Moment: 11197959956357515264.00
+    Min: 23 ms, Max: 20775930 ms
+    Octiles: [25.0, 25.0, 26.0, 27.0, 28.0, 30.0, 40.0]
+------------------------------------------------------------
+
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+
+
+📊 Stats for table 'price_change':
+    Mean: 492.25, 2nd Moment (Var): 3185910.11, 3rd Moment: 60137293687.23
+    Min: 0, Max: 32690
+    Octiles (1/8th ... 7/8th): [0.0, 6.0, 20.0, 46.0, 174.0, 414.0, 785.5]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 15.69, 2nd Moment (Var): 269.19, 3rd Moment: 49392.55
+    Min: 1, Max: 281
+    Octiles (1/8th ... 7/8th): [14.0, 14.0, 14.0, 14.0, 14.0, 14.0, 15.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 1.21, 2nd Moment (Var): 72.71, 3rd Moment: 7710.07
+    Min: 0, Max: 154
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.05, 2nd Moment (Var): 0.11, 3rd Moment: 0.20
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 118342.83 ms, Var: 1099986729144.03, 3rd Moment: 12839104843798624256.00
+    Min: 23 ms, Max: 21668120 ms
+    Octiles: [25.0, 25.0, 26.0, 27.0, 28.0, 30.0, 40.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 507.71, 2nd Moment (Var): 3403879.92, 3rd Moment: 66387994163.38
+    Min: 0, Max: 33812
+    Octiles (1/8th ... 7/8th): [0.0, 6.0, 21.0, 46.0, 180.625, 423.0, 809.375]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 15.77, 2nd Moment (Var): 289.44, 3rd Moment: 55263.59
+    Min: 1, Max: 292
+    Octiles (1/8th ... 7/8th): [14.0, 14.0, 14.0, 14.0, 14.0, 14.0, 15.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 1.25, 2nd Moment (Var): 78.23, 3rd Moment: 8633.83
+    Min: 0, Max: 156
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.06, 2nd Moment (Var): 0.11, 3rd Moment: 0.21
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 114912.81 ms, Var: 1068490312407.65, 3rd Moment: 12477824528313278464.00
+    Min: 23 ms, Max: 21668120 ms
+    Octiles: [25.0, 25.0, 26.0, 27.0, 28.0, 30.0, 40.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 523.51, 2nd Moment (Var): 3612638.94, 3rd Moment: 72216577291.01
+    Min: 0, Max: 34491
+    Octiles (1/8th ... 7/8th): [0.0, 6.0, 22.0, 49.0, 187.625, 439.0, 821.75]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 15.85, 2nd Moment (Var): 309.41, 3rd Moment: 61356.99
+    Min: 1, Max: 305
+    Octiles (1/8th ... 7/8th): [14.0, 14.0, 14.0, 14.0, 14.0, 14.0, 15.875]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 1.29, 2nd Moment (Var): 83.48, 3rd Moment: 9526.94
+    Min: 0, Max: 163
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.06, 2nd Moment (Var): 0.11, 3rd Moment: 0.21
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 111609.57 ms, Var: 1038135697890.61, 3rd Moment: 12129283470877353984.00
+    Min: 23 ms, Max: 21668120 ms
+    Octiles: [25.0, 25.0, 26.0, 27.0, 28.0, 30.0, 40.0]
+------------------------------------------------------------
+
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+
+
+📊 Stats for table 'price_change':
+    Mean: 540.25, 2nd Moment (Var): 3829564.29, 3rd Moment: 78374782007.99
+    Min: 0, Max: 35352
+    Octiles (1/8th ... 7/8th): [0.0, 6.0, 23.0, 50.0, 190.0, 455.0, 845.875]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 16.82, 2nd Moment (Var): 325.84, 3rd Moment: 65704.91
+    Min: 1, Max: 309
+    Octiles (1/8th ... 7/8th): [15.0, 15.0, 15.0, 15.0, 15.0, 15.0, 17.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 1.32, 2nd Moment (Var): 87.72, 3rd Moment: 10264.54
+    Min: 0, Max: 167
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.06, 2nd Moment (Var): 0.11, 3rd Moment: 0.21
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 119849.94 ms, Var: 1153363021823.19, 3rd Moment: 13939672512294012928.00
+    Min: 23 ms, Max: 22575485 ms
+    Octiles: [25.0, 25.0, 26.0, 27.0, 28.0, 30.0, 40.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 553.25, 2nd Moment (Var): 4002893.80, 3rd Moment: 83336121586.38
+    Min: 0, Max: 35948
+    Octiles (1/8th ... 7/8th): [0.0, 6.0, 24.0, 52.0, 198.0, 467.25, 865.5]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 16.91, 2nd Moment (Var): 351.22, 3rd Moment: 74098.95
+    Min: 1, Max: 323
+    Octiles (1/8th ... 7/8th): [15.0, 15.0, 15.0, 15.0, 15.0, 15.0, 17.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 1.36, 2nd Moment (Var): 94.49, 3rd Moment: 11531.38
+    Min: 0, Max: 170
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.06, 2nd Moment (Var): 0.11, 3rd Moment: 0.21
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 117156.57 ms, Var: 1127753053278.66, 3rd Moment: 13635408517107968000.00
+    Min: 23 ms, Max: 22575485 ms
+    Octiles: [25.0, 25.0, 26.0, 27.0, 28.0, 30.0, 40.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 566.41, 2nd Moment (Var): 4150629.15, 3rd Moment: 87153449887.24
+    Min: 0, Max: 36017
+    Octiles (1/8th ... 7/8th): [0.0, 6.0, 25.0, 54.0, 214.0, 483.75, 879.5]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 17.00, 2nd Moment (Var): 377.46, 3rd Moment: 82787.82
+    Min: 1, Max: 334
+    Octiles (1/8th ... 7/8th): [15.0, 15.0, 15.0, 15.0, 15.0, 15.0, 17.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 1.41, 2nd Moment (Var): 101.34, 3rd Moment: 12771.92
+    Min: 0, Max: 181
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.06, 2nd Moment (Var): 0.12, 3rd Moment: 0.22
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 114544.97 ms, Var: 1102906245860.21, 3rd Moment: 13339980654835097600.00
+    Min: 23 ms, Max: 22575485 ms
+    Octiles: [25.0, 25.0, 26.0, 27.0, 28.0, 30.0, 39.0]
+------------------------------------------------------------
+
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+
+
+📊 Stats for table 'price_change':
+    Mean: 563.60, 2nd Moment (Var): 4174836.17, 3rd Moment: 88057720404.87
+    Min: 0, Max: 36028
+    Octiles (1/8th ... 7/8th): [0.0, 4.0, 20.0, 52.0, 184.0, 477.0, 875.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 20.30, 2nd Moment (Var): 409.64, 3rd Moment: 91730.20
+    Min: 1, Max: 345
+    Octiles (1/8th ... 7/8th): [19.0, 19.0, 19.0, 19.0, 19.0, 19.0, 20.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 1.41, 2nd Moment (Var): 106.23, 3rd Moment: 14084.01
+    Min: 0, Max: 199
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.06, 2nd Moment (Var): 0.12, 3rd Moment: 0.22
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 158691.77 ms, Var: 1691367463559.68, 3rd Moment: 22496516091009130496.00
+    Min: 22 ms, Max: 23608564 ms
+    Octiles: [24.0, 25.0, 26.0, 27.0, 28.0, 31.0, 42.0]
+------------------------------------------------------------
+
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+
+
+📊 Stats for table 'price_change':
+    Mean: 574.86, 2nd Moment (Var): 4327500.45, 3rd Moment: 92297176659.99
+    Min: 0, Max: 36039
+    Octiles (1/8th ... 7/8th): [0.0, 4.0, 21.0, 54.0, 186.0, 492.0, 898.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 21.28, 2nd Moment (Var): 445.84, 3rd Moment: 105424.55
+    Min: 0, Max: 360
+    Octiles (1/8th ... 7/8th): [20.0, 20.0, 20.0, 20.0, 20.0, 20.0, 21.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 1.45, 2nd Moment (Var): 115.38, 3rd Moment: 16176.28
+    Min: 0, Max: 218
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.06, 2nd Moment (Var): 0.12, 3rd Moment: 0.23
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 166495.39 ms, Var: 1808946024448.66, 3rd Moment: 24462128001983754240.00
+    Min: 22 ms, Max: 23972741 ms
+    Octiles: [25.0, 25.0, 26.0, 27.0, 28.0, 31.0, 42.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 587.47, 2nd Moment (Var): 4471182.43, 3rd Moment: 95938992589.35
+    Min: 0, Max: 36041
+    Octiles (1/8th ... 7/8th): [0.0, 4.0, 22.0, 56.0, 191.0, 502.75, 922.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 22.29, 2nd Moment (Var): 473.96, 3rd Moment: 116467.91
+    Min: 1, Max: 385
+    Octiles (1/8th ... 7/8th): [21.0, 21.0, 21.0, 21.0, 21.0, 21.0, 23.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 1.50, 2nd Moment (Var): 122.61, 3rd Moment: 17865.42
+    Min: 0, Max: 230
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.06, 2nd Moment (Var): 0.12, 3rd Moment: 0.23
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 173715.54 ms, Var: 1920623805964.00, 3rd Moment: 26353280859729854464.00
+    Min: 22 ms, Max: 24051576 ms
+    Octiles: [24.0, 25.0, 26.0, 27.0, 28.0, 31.0, 42.0]
+------------------------------------------------------------
+
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+
+
+📊 Stats for table 'price_change':
+    Mean: 598.97, 2nd Moment (Var): 4609080.73, 3rd Moment: 99457935479.46
+    Min: 0, Max: 36045
+    Octiles (1/8th ... 7/8th): [0.0, 4.0, 22.0, 57.0, 199.0, 516.0, 945.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 23.28, 2nd Moment (Var): 508.45, 3rd Moment: 129224.06
+    Min: 1, Max: 406
+    Octiles (1/8th ... 7/8th): [22.0, 22.0, 22.0, 22.0, 22.0, 22.0, 24.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 1.54, 2nd Moment (Var): 131.47, 3rd Moment: 19869.12
+    Min: 0, Max: 241
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.07, 2nd Moment (Var): 0.13, 3rd Moment: 0.24
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 180498.90 ms, Var: 2031257827013.90, 3rd Moment: 28286782796661366784.00
+    Min: 22 ms, Max: 24375592 ms
+    Octiles: [24.0, 25.0, 26.0, 27.0, 28.0, 31.0, 43.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 610.64, 2nd Moment (Var): 4723480.21, 3rd Moment: 102012683522.57
+    Min: 0, Max: 36051
+    Octiles (1/8th ... 7/8th): [0.0, 4.0, 23.0, 60.0, 205.0, 533.0, 964.875]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 23.35, 2nd Moment (Var): 528.22, 3rd Moment: 136416.32
+    Min: 1, Max: 413
+    Octiles (1/8th ... 7/8th): [22.0, 22.0, 22.0, 22.0, 22.0, 22.0, 24.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 1.58, 2nd Moment (Var): 137.01, 3rd Moment: 21079.79
+    Min: 0, Max: 247
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.07, 2nd Moment (Var): 0.13, 3rd Moment: 0.25
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 177251.55 ms, Var: 1995283321971.67, 3rd Moment: 27797129005647925248.00
+    Min: 22 ms, Max: 24375592 ms
+    Octiles: [24.0, 25.0, 26.0, 27.0, 28.0, 31.0, 42.0]
+------------------------------------------------------------
+
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+
+
+📊 Stats for table 'price_change':
+    Mean: 620.88, 2nd Moment (Var): 4786414.62, 3rd Moment: 102908187364.29
+    Min: 0, Max: 36055
+    Octiles (1/8th ... 7/8th): [0.0, 4.0, 23.0, 60.0, 210.125, 544.0, 977.875]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 24.29, 2nd Moment (Var): 553.14, 3rd Moment: 143686.84
+    Min: 1, Max: 420
+    Octiles (1/8th ... 7/8th): [22.0, 23.0, 23.0, 23.0, 23.0, 23.0, 25.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 1.61, 2nd Moment (Var): 143.11, 3rd Moment: 22316.17
+    Min: 0, Max: 253
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.07, 2nd Moment (Var): 0.14, 3rd Moment: 0.25
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 184255.90 ms, Var: 2115396028417.09, 3rd Moment: 30016777320689045504.00
+    Min: 22 ms, Max: 25267733 ms
+    Octiles: [24.0, 25.0, 26.0, 27.0, 28.0, 31.0, 43.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 632.54, 2nd Moment (Var): 4874107.47, 3rd Moment: 104354473037.77
+    Min: 0, Max: 36059
+    Octiles (1/8th ... 7/8th): [0.0, 4.0, 23.625, 61.0, 216.375, 552.5, 1001.375]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 24.39, 2nd Moment (Var): 585.26, 3rd Moment: 155157.72
+    Min: 1, Max: 426
+    Octiles (1/8th ... 7/8th): [22.0, 23.0, 23.0, 23.0, 23.0, 23.0, 25.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 1.66, 2nd Moment (Var): 151.63, 3rd Moment: 24126.32
+    Min: 0, Max: 259
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.08, 2nd Moment (Var): 0.15, 3rd Moment: 0.28
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 181038.51 ms, Var: 2079034396601.01, 3rd Moment: 29512511968546500608.00
+    Min: 22 ms, Max: 25267733 ms
+    Octiles: [24.0, 25.0, 26.0, 27.0, 28.0, 30.0, 42.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 642.95, 2nd Moment (Var): 4953256.57, 3rd Moment: 105609466187.98
+    Min: 0, Max: 36063
+    Octiles (1/8th ... 7/8th): [0.0, 4.0, 25.0, 63.0, 217.375, 561.25, 1033.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 24.46, 2nd Moment (Var): 612.77, 3rd Moment: 165488.63
+    Min: 1, Max: 427
+    Octiles (1/8th ... 7/8th): [22.0, 23.0, 23.0, 23.0, 23.0, 23.0, 25.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 1.70, 2nd Moment (Var): 159.49, 3rd Moment: 25969.34
+    Min: 0, Max: 260
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.08, 2nd Moment (Var): 0.15, 3rd Moment: 0.28
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 178269.11 ms, Var: 2047718877561.02, 3rd Moment: 29077894045530333184.00
+    Min: 22 ms, Max: 25267733 ms
+    Octiles: [24.0, 25.0, 26.0, 27.0, 28.0, 30.0, 42.0]
+------------------------------------------------------------
+
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+
+
+📊 Stats for table 'price_change':
+    Mean: 651.93, 2nd Moment (Var): 5015259.76, 3rd Moment: 106573350092.38
+    Min: 0, Max: 36067
+    Octiles (1/8th ... 7/8th): [0.0, 4.0, 25.0, 64.0, 222.875, 576.0, 1040.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 26.29, 2nd Moment (Var): 642.71, 3rd Moment: 176250.28
+    Min: 1, Max: 431
+    Octiles (1/8th ... 7/8th): [22.0, 25.0, 25.0, 25.0, 25.0, 25.0, 27.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 1.73, 2nd Moment (Var): 167.37, 3rd Moment: 28231.22
+    Min: 0, Max: 262
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.08, 2nd Moment (Var): 0.16, 3rd Moment: 0.29
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 194845.97 ms, Var: 2320378478741.00, 3rd Moment: 34168459874709614592.00
+    Min: 22 ms, Max: 26176063 ms
+    Octiles: [24.0, 25.0, 26.0, 27.0, 28.0, 31.0, 43.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 664.14, 2nd Moment (Var): 5095356.13, 3rd Moment: 107778407463.21
+    Min: 0, Max: 36071
+    Octiles (1/8th ... 7/8th): [0.0, 4.0, 26.0, 66.0, 237.875, 585.0, 1086.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 26.36, 2nd Moment (Var): 661.15, 3rd Moment: 183854.30
+    Min: 1, Max: 436
+    Octiles (1/8th ... 7/8th): [22.0, 25.0, 25.0, 25.0, 25.0, 25.0, 27.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 1.77, 2nd Moment (Var): 172.50, 3rd Moment: 29567.16
+    Min: 0, Max: 267
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.08, 2nd Moment (Var): 0.16, 3rd Moment: 0.29
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 191483.30 ms, Var: 2280970385347.70, 3rd Moment: 33601563482538946560.00
+    Min: 22 ms, Max: 26176063 ms
+    Octiles: [24.0, 25.0, 26.0, 27.0, 28.0, 31.0, 43.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 674.21, 2nd Moment (Var): 5170462.75, 3rd Moment: 108988010333.41
+    Min: 0, Max: 36076
+    Octiles (1/8th ... 7/8th): [0.0, 6.0, 26.0, 68.0, 241.875, 592.0, 1086.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 26.43, 2nd Moment (Var): 683.93, 3rd Moment: 192981.96
+    Min: 1, Max: 437
+    Octiles (1/8th ... 7/8th): [22.0, 25.0, 25.0, 25.0, 25.0, 25.0, 27.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 1.80, 2nd Moment (Var): 179.39, 3rd Moment: 31406.34
+    Min: 0, Max: 268
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.09, 2nd Moment (Var): 0.16, 3rd Moment: 0.30
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 188791.65 ms, Var: 2249409730143.53, 3rd Moment: 33147216004794298368.00
+    Min: 22 ms, Max: 26176063 ms
+    Octiles: [24.0, 25.0, 26.0, 27.0, 28.0, 31.0, 43.0]
+------------------------------------------------------------
+
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+
+
+📊 Stats for table 'price_change':
+    Mean: 684.84, 2nd Moment (Var): 5249284.78, 3rd Moment: 110193126762.81
+    Min: 0, Max: 36080
+    Octiles (1/8th ... 7/8th): [0.0, 6.0, 26.625, 68.0, 250.0, 607.0, 1102.375]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 28.18, 2nd Moment (Var): 712.19, 3rd Moment: 202844.22
+    Min: 1, Max: 440
+    Octiles (1/8th ... 7/8th): [22.0, 27.0, 27.0, 27.0, 27.0, 27.0, 29.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 1.82, 2nd Moment (Var): 185.44, 3rd Moment: 33231.35
+    Min: 0, Max: 269
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.09, 2nd Moment (Var): 0.16, 3rd Moment: 0.30
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 201760.29 ms, Var: 2490484397651.70, 3rd Moment: 38023927161600532480.00
+    Min: 22 ms, Max: 27069150 ms
+    Octiles: [24.0, 25.0, 26.0, 27.0, 28.0, 31.0, 44.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 699.11, 2nd Moment (Var): 5362082.32, 3rd Moment: 112061251169.73
+    Min: 0, Max: 36084
+    Octiles (1/8th ... 7/8th): [0.0, 6.0, 27.0, 72.0, 255.125, 616.0, 1134.75]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 28.29, 2nd Moment (Var): 757.82, 3rd Moment: 225347.77
+    Min: 1, Max: 442
+    Octiles (1/8th ... 7/8th): [22.0, 27.0, 27.0, 27.0, 27.0, 27.0, 29.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 1.88, 2nd Moment (Var): 200.78, 3rd Moment: 38987.97
+    Min: 0, Max: 322
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.09, 2nd Moment (Var): 0.16, 3rd Moment: 0.30
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 197881.81 ms, Var: 2443369589900.21, 3rd Moment: 37321149214753038336.00
+    Min: 22 ms, Max: 27069150 ms
+    Octiles: [24.0, 25.0, 26.0, 27.0, 28.0, 31.0, 44.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 713.87, 2nd Moment (Var): 5482034.24, 3rd Moment: 114095249104.74
+    Min: 0, Max: 36086
+    Octiles (1/8th ... 7/8th): [0.0, 6.0, 27.625, 72.0, 262.25, 626.5, 1155.375]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 28.36, 2nd Moment (Var): 781.55, 3rd Moment: 237614.82
+    Min: 1, Max: 449
+    Octiles (1/8th ... 7/8th): [22.0, 27.0, 27.0, 27.0, 27.0, 27.0, 29.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 1.91, 2nd Moment (Var): 207.86, 3rd Moment: 41524.57
+    Min: 0, Max: 336
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.09, 2nd Moment (Var): 0.16, 3rd Moment: 0.30
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 194060.46 ms, Var: 2396919432847.77, 3rd Moment: 36627651652408459264.00
+    Min: 22 ms, Max: 27069150 ms
+    Octiles: [24.0, 25.0, 26.0, 27.0, 28.0, 31.0, 43.0]
+------------------------------------------------------------
+
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+
+
+📊 Stats for table 'price_change':
+    Mean: 730.46, 2nd Moment (Var): 5604515.03, 3rd Moment: 116106987091.68
+    Min: 0, Max: 36090
+    Octiles (1/8th ... 7/8th): [0.0, 6.0, 28.25, 72.5, 275.125, 644.0, 1205.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 29.28, 2nd Moment (Var): 803.16, 3rd Moment: 247421.33
+    Min: 1, Max: 457
+    Octiles (1/8th ... 7/8th): [22.0, 28.0, 28.0, 28.0, 28.0, 28.0, 30.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 1.95, 2nd Moment (Var): 213.34, 3rd Moment: 43549.93
+    Min: 0, Max: 343
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.09, 2nd Moment (Var): 0.17, 3rd Moment: 0.30
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 197856.87 ms, Var: 2488341664879.02, 3rd Moment: 38762627318941040640.00
+    Min: 22 ms, Max: 27961898 ms
+    Octiles: [24.0, 25.0, 26.0, 27.0, 28.0, 31.0, 44.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 743.98, 2nd Moment (Var): 5723996.23, 3rd Moment: 118420374743.68
+    Min: 0, Max: 36097
+    Octiles (1/8th ... 7/8th): [0.0, 6.0, 28.25, 76.0, 277.75, 656.0, 1218.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 29.33, 2nd Moment (Var): 820.29, 3rd Moment: 256106.12
+    Min: 1, Max: 468
+    Octiles (1/8th ... 7/8th): [22.0, 28.0, 28.0, 28.0, 28.0, 28.0, 30.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 1.97, 2nd Moment (Var): 218.86, 3rd Moment: 45647.78
+    Min: 0, Max: 353
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.09, 2nd Moment (Var): 0.17, 3rd Moment: 0.31
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 194500.15 ms, Var: 2446771549726.41, 3rd Moment: 38129400168024162304.00
+    Min: 22 ms, Max: 27961898 ms
+    Octiles: [24.0, 25.0, 26.0, 27.0, 28.0, 31.0, 43.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 753.66, 2nd Moment (Var): 5819410.60, 3rd Moment: 120409021403.68
+    Min: 0, Max: 36101
+    Octiles (1/8th ... 7/8th): [0.0, 6.0, 32.0, 77.0, 281.625, 666.0, 1250.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 29.39, 2nd Moment (Var): 849.34, 3rd Moment: 272042.93
+    Min: 1, Max: 488
+    Octiles (1/8th ... 7/8th): [22.0, 28.0, 28.0, 28.0, 28.0, 28.0, 30.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 2.00, 2nd Moment (Var): 227.38, 3rd Moment: 48851.93
+    Min: 0, Max: 367
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.09, 2nd Moment (Var): 0.18, 3rd Moment: 0.32
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 192151.97 ms, Var: 2417678103361.00, 3rd Moment: 37685933247166259200.00
+    Min: 22 ms, Max: 27961898 ms
+    Octiles: [24.0, 25.0, 26.0, 27.0, 28.0, 31.0, 43.0]
+------------------------------------------------------------
+
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+
+
+📊 Stats for table 'price_change':
+    Mean: 764.87, 2nd Moment (Var): 5909601.77, 3rd Moment: 122238997064.33
+    Min: 0, Max: 36107
+    Octiles (1/8th ... 7/8th): [0.0, 6.0, 32.0, 79.0, 292.0, 678.25, 1260.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 30.28, 2nd Moment (Var): 876.98, 3rd Moment: 286356.72
+    Min: 1, Max: 499
+    Octiles (1/8th ... 7/8th): [22.0, 29.0, 29.0, 29.0, 29.0, 29.0, 31.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 2.03, 2nd Moment (Var): 234.44, 3rd Moment: 51683.35
+    Min: 0, Max: 374
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.09, 2nd Moment (Var): 0.18, 3rd Moment: 0.32
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 197018.16 ms, Var: 2525123488805.03, 3rd Moment: 40185011944860876800.00
+    Min: 22 ms, Max: 28870552 ms
+    Octiles: [24.0, 25.0, 26.0, 27.0, 28.0, 31.0, 44.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 775.98, 2nd Moment (Var): 6014617.07, 3rd Moment: 124528043026.02
+    Min: 0, Max: 36111
+    Octiles (1/8th ... 7/8th): [0.0, 6.0, 32.0, 80.5, 299.0, 697.75, 1276.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 30.33, 2nd Moment (Var): 901.09, 3rd Moment: 301703.23
+    Min: 1, Max: 513
+    Octiles (1/8th ... 7/8th): [22.0, 29.0, 29.0, 29.0, 29.0, 30.0, 31.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 2.06, 2nd Moment (Var): 241.74, 3rd Moment: 54879.67
+    Min: 0, Max: 385
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.09, 2nd Moment (Var): 0.18, 3rd Moment: 0.32
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 194382.03 ms, Var: 2491844294312.32, 3rd Moment: 39666855050839293952.00
+    Min: 22 ms, Max: 28870552 ms
+    Octiles: [24.0, 25.0, 26.0, 27.0, 28.0, 31.0, 44.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 786.37, 2nd Moment (Var): 6130836.67, 3rd Moment: 127123860032.14
+    Min: 0, Max: 36119
+    Octiles (1/8th ... 7/8th): [0.0, 6.75, 32.0, 83.0, 300.0, 700.75, 1296.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 30.37, 2nd Moment (Var): 917.94, 3rd Moment: 311572.32
+    Min: 1, Max: 520
+    Octiles (1/8th ... 7/8th): [22.0, 29.0, 29.0, 29.0, 29.0, 30.0, 31.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 2.08, 2nd Moment (Var): 246.26, 3rd Moment: 56566.42
+    Min: 0, Max: 389
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.10, 2nd Moment (Var): 0.19, 3rd Moment: 0.34
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 191973.71 ms, Var: 2461428898648.40, 3rd Moment: 39193016445664641024.00
+    Min: 22 ms, Max: 28870552 ms
+    Octiles: [24.0, 25.0, 26.0, 27.0, 28.0, 31.0, 43.0]
+------------------------------------------------------------
+
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+
+
+📊 Stats for table 'price_change':
+    Mean: 797.83, 2nd Moment (Var): 6238661.36, 3rd Moment: 129630691241.82
+    Min: 0, Max: 36124
+    Octiles (1/8th ... 7/8th): [0.0, 7.0, 34.0, 84.0, 305.0, 718.0, 1315.875]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 31.26, 2nd Moment (Var): 950.13, 3rd Moment: 330460.20
+    Min: 1, Max: 539
+    Octiles (1/8th ... 7/8th): [22.0, 30.0, 30.0, 30.0, 30.0, 31.0, 32.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 2.11, 2nd Moment (Var): 253.63, 3rd Moment: 59674.20
+    Min: 0, Max: 399
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.10, 2nd Moment (Var): 0.19, 3rd Moment: 0.34
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 197099.74 ms, Var: 2576273168466.49, 3rd Moment: 41947275385009078272.00
+    Min: 22 ms, Max: 29778584 ms
+    Octiles: [24.0, 25.0, 26.0, 27.0, 28.0, 31.0, 44.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 807.34, 2nd Moment (Var): 6329004.33, 3rd Moment: 131829247490.11
+    Min: 0, Max: 36128
+    Octiles (1/8th ... 7/8th): [0.0, 7.0, 34.0, 84.5, 308.0, 734.0, 1345.25]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 31.32, 2nd Moment (Var): 979.66, 3rd Moment: 345861.72
+    Min: 1, Max: 548
+    Octiles (1/8th ... 7/8th): [22.0, 30.0, 30.0, 30.0, 30.0, 31.0, 32.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 2.14, 2nd Moment (Var): 262.18, 3rd Moment: 62563.99
+    Min: 0, Max: 406
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.10, 2nd Moment (Var): 0.19, 3rd Moment: 0.34
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 194910.99 ms, Var: 2548086529883.25, 3rd Moment: 41498037477676900352.00
+    Min: 22 ms, Max: 29778584 ms
+    Octiles: [24.0, 25.0, 26.0, 27.0, 28.0, 31.0, 44.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 817.37, 2nd Moment (Var): 6411723.12, 3rd Moment: 133585874175.06
+    Min: 0, Max: 36134
+    Octiles (1/8th ... 7/8th): [0.0, 7.0, 35.0, 85.5, 317.0, 746.0, 1370.125]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 31.40, 2nd Moment (Var): 1001.67, 3rd Moment: 358777.48
+    Min: 1, Max: 557
+    Octiles (1/8th ... 7/8th): [22.0, 30.0, 30.0, 30.0, 30.0, 31.0, 32.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 2.18, 2nd Moment (Var): 268.45, 3rd Moment: 64943.79
+    Min: 0, Max: 409
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.10, 2nd Moment (Var): 0.19, 3rd Moment: 0.34
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 192647.18 ms, Var: 2518923098066.99, 3rd Moment: 41033002607430336512.00
+    Min: 22 ms, Max: 29778584 ms
+    Octiles: [24.0, 25.0, 26.0, 27.0, 28.0, 31.0, 44.0]
+------------------------------------------------------------
+
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+
+
+📊 Stats for table 'price_change':
+    Mean: 824.80, 2nd Moment (Var): 6436485.60, 3rd Moment: 132701440238.13
+    Min: 0, Max: 36138
+    Octiles (1/8th ... 7/8th): [2.0, 9.0, 30.0, 86.0, 309.875, 750.0, 1387.375]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 34.38, 2nd Moment (Var): 1063.50, 3rd Moment: 373024.91
+    Min: 1, Max: 573
+    Octiles (1/8th ... 7/8th): [20.0, 34.0, 34.0, 34.0, 34.0, 34.0, 36.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 2.24, 2nd Moment (Var): 274.43, 3rd Moment: 66570.83
+    Min: 0, Max: 417
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.10, 2nd Moment (Var): 0.19, 3rd Moment: 0.34
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 207934.52 ms, Var: 2838249136406.49, 3rd Moment: 49197277986325905408.00
+    Min: 22 ms, Max: 30673905 ms
+    Octiles: [24.0, 25.0, 26.0, 27.0, 28.0, 31.0, 45.0]
+------------------------------------------------------------
+
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+
+
+📊 Stats for table 'price_change':
+    Mean: 840.21, 2nd Moment (Var): 6665771.11, 3rd Moment: 136766735664.17
+    Min: 0, Max: 36140
+    Octiles (1/8th ... 7/8th): [2.0, 9.0, 30.0, 89.0, 310.25, 766.75, 1407.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 37.03, 2nd Moment (Var): 1167.20, 3rd Moment: 399027.77
+    Min: 1, Max: 584
+    Octiles (1/8th ... 7/8th): [22.0, 37.0, 37.0, 37.0, 37.0, 37.0, 39.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 2.39, 2nd Moment (Var): 301.77, 3rd Moment: 72180.59
+    Min: 0, Max: 421
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.12, 2nd Moment (Var): 0.22, 3rd Moment: 0.38
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 217449.34 ms, Var: 3045732510673.48, 3rd Moment: 54780936975257247744.00
+    Min: 22 ms, Max: 31091218 ms
+    Octiles: [24.0, 25.0, 26.0, 27.0, 28.0, 31.0, 47.0]
+------------------------------------------------------------
+
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+
+
+📊 Stats for table 'price_change':
+    Mean: 800.90, 2nd Moment (Var): 6594335.43, 3rd Moment: 138654057786.21
+    Min: 0, Max: 36158
+    Octiles (1/8th ... 7/8th): [2.0, 7.0, 20.0, 71.5, 224.0, 744.0, 1389.25]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 42.42, 2nd Moment (Var): 1310.45, 3rd Moment: 418597.56
+    Min: 1, Max: 604
+    Octiles (1/8th ... 7/8th): [15.0, 34.0, 46.0, 46.0, 46.0, 46.0, 48.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 2.30, 2nd Moment (Var): 301.27, 3rd Moment: 73514.75
+    Min: 0, Max: 433
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.20, 2nd Moment (Var): 0.37, 3rd Moment: 0.58
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 256626.70 ms, Var: 3800596975468.20, 3rd Moment: 73615335998089142272.00
+    Min: 22 ms, Max: 31310173 ms
+    Octiles: [24.0, 25.0, 26.0, 27.0, 28.0, 31.0, 56.0]
+------------------------------------------------------------
+
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+
+
+📊 Stats for table 'price_change':
+    Mean: 815.86, 2nd Moment (Var): 6949404.49, 3rd Moment: 153224607926.95
+    Min: 0, Max: 36158
+    Octiles (1/8th ... 7/8th): [2.0, 8.0, 24.0, 72.0, 228.375, 756.5, 1412.125]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 43.39, 2nd Moment (Var): 1390.35, 3rd Moment: 454802.60
+    Min: 1, Max: 610
+    Octiles (1/8th ... 7/8th): [15.0, 34.0, 47.0, 47.0, 47.0, 47.0, 49.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 2.38, 2nd Moment (Var): 317.65, 3rd Moment: 78036.22
+    Min: 0, Max: 438
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.21, 2nd Moment (Var): 0.37, 3rd Moment: 0.59
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 256476.49 ms, Var: 3818160891509.43, 3rd Moment: 74449854676296138752.00
+    Min: 22 ms, Max: 31572479 ms
+    Octiles: [24.0, 25.0, 26.0, 27.0, 28.0, 31.0, 56.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 830.56, 2nd Moment (Var): 7345879.56, 3rd Moment: 172379749329.42
+    Min: 0, Max: 42023
+    Octiles (1/8th ... 7/8th): [2.0, 10.0, 26.0, 72.5, 230.375, 769.75, 1431.25]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 43.63, 2nd Moment (Var): 1561.91, 3rd Moment: 573766.13
+    Min: 1, Max: 649
+    Octiles (1/8th ... 7/8th): [15.0, 34.75, 47.0, 47.0, 47.0, 47.0, 49.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 2.50, 2nd Moment (Var): 359.54, 3rd Moment: 92964.92
+    Min: 0, Max: 445
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.21, 2nd Moment (Var): 0.37, 3rd Moment: 0.59
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 252188.57 ms, Var: 3755400566851.16, 3rd Moment: 73253042476330106880.00
+    Min: 22 ms, Max: 31572479 ms
+    Octiles: [24.0, 25.0, 26.0, 27.0, 28.0, 31.0, 55.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 846.78, 2nd Moment (Var): 7884436.77, 3rd Moment: 204770005822.23
+    Min: 0, Max: 50119
+    Octiles (1/8th ... 7/8th): [2.0, 10.0, 29.0, 76.5, 239.375, 785.5, 1456.25]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 43.73, 2nd Moment (Var): 1636.96, 3rd Moment: 640072.37
+    Min: 1, Max: 727
+    Octiles (1/8th ... 7/8th): [15.0, 34.75, 47.0, 47.0, 47.0, 47.0, 49.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 2.55, 2nd Moment (Var): 377.79, 3rd Moment: 101066.39
+    Min: 0, Max: 447
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.22, 2nd Moment (Var): 0.39, 3rd Moment: 0.61
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 247750.52 ms, Var: 3690403901358.47, 3rd Moment: 72012621728598745088.00
+    Min: 22 ms, Max: 31572479 ms
+    Octiles: [24.0, 25.0, 26.0, 27.0, 28.0, 31.0, 54.0]
+------------------------------------------------------------
+
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+
+
+📊 Stats for table 'price_change':
+    Mean: 862.27, 2nd Moment (Var): 8556570.32, 3rd Moment: 253936543183.03
+    Min: 0, Max: 59017
+    Octiles (1/8th ... 7/8th): [2.0, 11.0, 29.0, 78.0, 245.25, 799.0, 1472.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 44.71, 2nd Moment (Var): 1811.99, 3rd Moment: 811749.27
+    Min: 1, Max: 877
+    Octiles (1/8th ... 7/8th): [16.0, 34.0, 48.0, 48.0, 48.0, 48.0, 50.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 2.63, 2nd Moment (Var): 420.64, 3rd Moment: 122913.02
+    Min: 0, Max: 452
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.22, 2nd Moment (Var): 0.39, 3rd Moment: 0.61
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 247799.69 ms, Var: 3709986867910.47, 3rd Moment: 72934862846148059136.00
+    Min: 22 ms, Max: 32466073 ms
+    Octiles: [24.0, 25.0, 26.0, 27.0, 28.0, 31.0, 54.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 881.69, 2nd Moment (Var): 9541272.53, 3rd Moment: 339523428269.18
+    Min: 0, Max: 70118
+    Octiles (1/8th ... 7/8th): [2.0, 11.0, 30.0, 88.0, 247.875, 812.0, 1505.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 44.86, 2nd Moment (Var): 1975.48, 3rd Moment: 1015228.90
+    Min: 1, Max: 1009
+    Octiles (1/8th ... 7/8th): [16.0, 35.0, 48.0, 48.0, 48.0, 48.0, 50.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 2.71, 2nd Moment (Var): 461.26, 3rd Moment: 148071.57
+    Min: 0, Max: 502
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.22, 2nd Moment (Var): 0.39, 3rd Moment: 0.61
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 242765.11 ms, Var: 3635821940475.03, 3rd Moment: 71507431258079821824.00
+    Min: 22 ms, Max: 32466073 ms
+    Octiles: [24.0, 25.0, 26.0, 27.0, 29.0, 31.0, 53.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 897.48, 2nd Moment (Var): 10563807.22, 3rd Moment: 445786566529.17
+    Min: 0, Max: 80316
+    Octiles (1/8th ... 7/8th): [3.0, 11.0, 31.0, 97.5, 253.375, 821.0, 1527.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 44.98, 2nd Moment (Var): 2099.38, 3rd Moment: 1187808.11
+    Min: 1, Max: 1098
+    Octiles (1/8th ... 7/8th): [16.0, 35.0, 48.0, 48.0, 48.0, 48.0, 50.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 2.76, 2nd Moment (Var): 491.43, 3rd Moment: 168696.66
+    Min: 0, Max: 541
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.22, 2nd Moment (Var): 0.39, 3rd Moment: 0.61
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 238820.03 ms, Var: 3577670577618.66, 3rd Moment: 70387324008063172608.00
+    Min: 22 ms, Max: 32466073 ms
+    Octiles: [24.0, 25.0, 26.0, 27.0, 29.0, 32.0, 52.0]
+------------------------------------------------------------
+
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+
+
+📊 Stats for table 'price_change':
+    Mean: 914.07, 2nd Moment (Var): 11739471.86, 3rd Moment: 586325961468.79
+    Min: 0, Max: 90805
+    Octiles (1/8th ... 7/8th): [3.0, 11.0, 31.0, 99.0, 254.0, 834.0, 1550.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 45.93, 2nd Moment (Var): 2293.29, 3rd Moment: 1474478.86
+    Min: 1, Max: 1220
+    Octiles (1/8th ... 7/8th): [17.0, 34.75, 49.0, 49.0, 49.0, 49.0, 51.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 2.84, 2nd Moment (Var): 537.71, 3rd Moment: 203356.49
+    Min: 0, Max: 595
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.22, 2nd Moment (Var): 0.40, 3rd Moment: 0.61
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 239199.99 ms, Var: 3601594844894.08, 3rd Moment: 71450293253212372992.00
+    Min: 22 ms, Max: 33374307 ms
+    Octiles: [24.0, 25.0, 26.0, 27.0, 29.0, 32.0, 52.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 930.67, 2nd Moment (Var): 13088676.83, 3rd Moment: 770215744193.78
+    Min: 0, Max: 101656
+    Octiles (1/8th ... 7/8th): [3.0, 11.0, 31.0, 100.0, 265.0, 844.25, 1568.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 46.10, 2nd Moment (Var): 2573.12, 3rd Moment: 1963572.00
+    Min: 1, Max: 1383
+    Octiles (1/8th ... 7/8th): [17.0, 34.75, 49.0, 49.0, 49.0, 49.25, 51.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 2.92, 2nd Moment (Var): 605.72, 3rd Moment: 262207.73
+    Min: 0, Max: 663
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.22, 2nd Moment (Var): 0.40, 3rd Moment: 0.62
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 235219.97 ms, Var: 3542596048193.55, 3rd Moment: 70303346155984379904.00
+    Min: 22 ms, Max: 33374307 ms
+    Octiles: [24.0, 25.0, 26.0, 27.0, 29.0, 32.0, 51.0]
+------------------------------------------------------------
+
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+
+
+📊 Stats for table 'price_change':
+    Mean: 946.42, 2nd Moment (Var): 14010752.51, 3rd Moment: 909037802761.12
+    Min: 0, Max: 108622
+    Octiles (1/8th ... 7/8th): [4.0, 14.0, 32.0, 100.0, 276.375, 854.25, 1598.875]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 47.12, 2nd Moment (Var): 3014.41, 3rd Moment: 2877589.60
+    Min: 1, Max: 1618
+    Octiles (1/8th ... 7/8th): [18.0, 35.0, 50.0, 50.0, 50.0, 50.0, 52.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 3.05, 2nd Moment (Var): 712.44, 3rd Moment: 374054.61
+    Min: 0, Max: 785
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.22, 2nd Moment (Var): 0.40, 3rd Moment: 0.62
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 235455.92 ms, Var: 3565514511107.70, 3rd Moment: 71378041841149067264.00
+    Min: 22 ms, Max: 34190559 ms
+    Octiles: [24.0, 25.0, 26.0, 27.0, 29.0, 32.0, 52.0]
+------------------------------------------------------------
+
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+
+
+📊 Stats for table 'price_change':
+    Mean: 969.82, 2nd Moment (Var): 14208063.30, 3rd Moment: 910469193464.98
+    Min: 0, Max: 108629
+    Octiles (1/8th ... 7/8th): [4.0, 14.0, 33.0, 101.0, 281.875, 864.0, 1632.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 48.06, 2nd Moment (Var): 3062.61, 3rd Moment: 2901170.36
+    Min: 1, Max: 1623
+    Octiles (1/8th ... 7/8th): [19.0, 36.0, 51.0, 51.0, 51.0, 52.0, 53.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 3.12, 2nd Moment (Var): 722.34, 3rd Moment: 376979.19
+    Min: 0, Max: 789
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.22, 2nd Moment (Var): 0.40, 3rd Moment: 0.62
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 234361.05 ms, Var: 3567936732896.62, 3rd Moment: 72030313629021626368.00
+    Min: 22 ms, Max: 34268667 ms
+    Octiles: [24.0, 25.0, 26.0, 28.0, 29.0, 32.0, 52.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 986.90, 2nd Moment (Var): 14489915.24, 3rd Moment: 916758084981.67
+    Min: 0, Max: 108647
+    Octiles (1/8th ... 7/8th): [4.0, 14.0, 34.0, 104.5, 289.75, 870.0, 1645.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 48.16, 2nd Moment (Var): 3099.38, 3rd Moment: 2919141.05
+    Min: 1, Max: 1624
+    Octiles (1/8th ... 7/8th): [19.0, 36.0, 51.0, 51.0, 51.0, 52.0, 53.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 3.17, 2nd Moment (Var): 731.59, 3rd Moment: 379349.40
+    Min: 0, Max: 790
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.24, 2nd Moment (Var): 0.42, 3rd Moment: 0.64
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 230621.95 ms, Var: 3511865792372.28, 3rd Moment: 70920123216094240768.00
+    Min: 22 ms, Max: 34268667 ms
+    Octiles: [24.0, 25.0, 26.0, 28.0, 29.0, 32.0, 51.0]
+------------------------------------------------------------
+
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+
+
+📊 Stats for table 'price_change':
+    Mean: 1004.38, 2nd Moment (Var): 14899949.33, 3rd Moment: 928560665956.10
+    Min: 0, Max: 108647
+    Octiles (1/8th ... 7/8th): [4.0, 14.0, 35.0, 106.5, 292.0, 879.0, 1667.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 48.21, 2nd Moment (Var): 3137.05, 3rd Moment: 2932701.05
+    Min: 0, Max: 1624
+    Octiles (1/8th ... 7/8th): [18.0, 36.0, 51.0, 51.0, 51.0, 52.0, 53.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 3.23, 2nd Moment (Var): 740.41, 3rd Moment: 381092.18
+    Min: 0, Max: 790
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.26, 2nd Moment (Var): 0.45, 3rd Moment: 0.67
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 226652.21 ms, Var: 3452305497912.88, 3rd Moment: 69740073310873993216.00
+    Min: 22 ms, Max: 34268667 ms
+    Octiles: [24.0, 25.0, 26.0, 28.0, 29.0, 32.0, 51.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 1024.62, 2nd Moment (Var): 15537227.35, 3rd Moment: 955551863181.76
+    Min: 0, Max: 108650
+    Octiles (1/8th ... 7/8th): [4.0, 14.0, 36.0, 109.0, 302.0, 889.0, 1691.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 49.16, 2nd Moment (Var): 3186.86, 3rd Moment: 2958685.60
+    Min: 1, Max: 1626
+    Octiles (1/8th ... 7/8th): [19.0, 37.0, 52.0, 52.0, 52.0, 53.0, 54.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 3.27, 2nd Moment (Var): 752.19, 3rd Moment: 384763.28
+    Min: 0, Max: 791
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.26, 2nd Moment (Var): 0.45, 3rd Moment: 0.67
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 225956.85 ms, Var: 3457342783525.60, 3rd Moment: 70421808100913881088.00
+    Min: 22 ms, Max: 35162573 ms
+    Octiles: [24.0, 25.0, 26.0, 28.0, 29.0, 32.0, 51.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 1042.97, 2nd Moment (Var): 16219042.90, 3rd Moment: 990577147970.10
+    Min: 0, Max: 108650
+    Octiles (1/8th ... 7/8th): [5.0, 15.0, 36.0, 110.5, 317.0, 893.25, 1711.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 49.25, 2nd Moment (Var): 3224.70, 3rd Moment: 2979684.39
+    Min: 1, Max: 1626
+    Octiles (1/8th ... 7/8th): [19.0, 37.0, 52.0, 52.0, 52.0, 53.0, 54.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 3.32, 2nd Moment (Var): 762.39, 3rd Moment: 388131.81
+    Min: 0, Max: 791
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.26, 2nd Moment (Var): 0.45, 3rd Moment: 0.67
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 222296.67 ms, Var: 3402142435256.88, 3rd Moment: 69318045678063943680.00
+    Min: 22 ms, Max: 35162573 ms
+    Octiles: [24.0, 25.0, 27.0, 28.0, 29.0, 32.0, 51.0]
+------------------------------------------------------------
+
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+
+
+📊 Stats for table 'price_change':
+    Mean: 1061.32, 2nd Moment (Var): 17010705.30, 3rd Moment: 1040903800812.69
+    Min: 0, Max: 108650
+    Octiles (1/8th ... 7/8th): [5.0, 15.0, 37.0, 114.5, 327.0, 903.0, 1731.875]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 50.15, 2nd Moment (Var): 3294.71, 3rd Moment: 3019511.26
+    Min: 1, Max: 1627
+    Octiles (1/8th ... 7/8th): [19.0, 38.0, 53.0, 53.0, 53.0, 54.0, 55.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 3.37, 2nd Moment (Var): 779.71, 3rd Moment: 394488.03
+    Min: 0, Max: 791
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.26, 2nd Moment (Var): 0.46, 3rd Moment: 0.67
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 222174.38 ms, Var: 3414807288268.27, 3rd Moment: 70189657909556764672.00
+    Min: 22 ms, Max: 36071355 ms
+    Octiles: [25.0, 25.0, 27.0, 28.0, 30.0, 32.0, 51.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 1078.55, 2nd Moment (Var): 17918202.12, 3rd Moment: 1110889041997.18
+    Min: 0, Max: 108650
+    Octiles (1/8th ... 7/8th): [5.0, 15.0, 38.0, 115.0, 346.0, 921.0, 1749.875]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 50.22, 2nd Moment (Var): 3322.92, 3rd Moment: 3039191.35
+    Min: 1, Max: 1627
+    Octiles (1/8th ... 7/8th): [19.0, 38.0, 53.0, 53.0, 53.0, 54.0, 55.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 3.41, 2nd Moment (Var): 786.88, 3rd Moment: 397188.83
+    Min: 0, Max: 791
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.27, 2nd Moment (Var): 0.46, 3rd Moment: 0.68
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 218904.27 ms, Var: 3365253105922.64, 3rd Moment: 69189238131234570240.00
+    Min: 22 ms, Max: 36071355 ms
+    Octiles: [25.0, 25.0, 27.0, 28.0, 30.0, 32.0, 51.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 1095.07, 2nd Moment (Var): 18812788.63, 3rd Moment: 1188538443628.47
+    Min: 0, Max: 108650
+    Octiles (1/8th ... 7/8th): [5.0, 15.0, 38.0, 116.0, 370.0, 931.0, 1775.625]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 50.27, 2nd Moment (Var): 3347.12, 3rd Moment: 3058017.83
+    Min: 1, Max: 1627
+    Octiles (1/8th ... 7/8th): [19.0, 38.0, 53.0, 53.0, 53.0, 54.0, 55.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 3.43, 2nd Moment (Var): 792.43, 3rd Moment: 399252.24
+    Min: 0, Max: 791
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.27, 2nd Moment (Var): 0.46, 3rd Moment: 0.68
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 215872.10 ms, Var: 3319286210322.55, 3rd Moment: 68260756880692428800.00
+    Min: 22 ms, Max: 36071355 ms
+    Octiles: [25.0, 26.0, 27.0, 28.0, 30.0, 32.0, 50.0]
+------------------------------------------------------------
+
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+
+
+📊 Stats for table 'price_change':
+    Mean: 1107.66, 2nd Moment (Var): 19501186.36, 3rd Moment: 1253309088991.29
+    Min: 0, Max: 108650
+    Octiles (1/8th ... 7/8th): [5.0, 15.0, 38.0, 117.5, 383.0, 936.75, 1799.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 51.12, 2nd Moment (Var): 3381.02, 3rd Moment: 3077676.37
+    Min: 1, Max: 1628
+    Octiles (1/8th ... 7/8th): [19.0, 39.0, 54.0, 54.0, 54.0, 55.0, 56.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 3.46, 2nd Moment (Var): 798.63, 3rd Moment: 401554.58
+    Min: 0, Max: 791
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.27, 2nd Moment (Var): 0.46, 3rd Moment: 0.68
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 217345.69 ms, Var: 3354909719672.59, 3rd Moment: 69627532298839105536.00
+    Min: 22 ms, Max: 36975063 ms
+    Octiles: [25.0, 26.0, 27.0, 28.0, 30.0, 32.0, 50.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 1121.51, 2nd Moment (Var): 20332025.90, 3rd Moment: 1343187480628.86
+    Min: 0, Max: 108652
+    Octiles (1/8th ... 7/8th): [5.0, 15.0, 39.0, 122.5, 395.375, 950.25, 1818.125]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 51.20, 2nd Moment (Var): 3408.13, 3rd Moment: 3096909.20
+    Min: 1, Max: 1628
+    Octiles (1/8th ... 7/8th): [19.0, 39.0, 54.0, 54.0, 54.0, 55.0, 57.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 3.50, 2nd Moment (Var): 805.67, 3rd Moment: 404481.12
+    Min: 0, Max: 791
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.27, 2nd Moment (Var): 0.47, 3rd Moment: 0.68
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 214859.98 ms, Var: 3317069273128.45, 3rd Moment: 68855730442429382656.00
+    Min: 22 ms, Max: 36975063 ms
+    Octiles: [25.0, 26.0, 27.0, 28.0, 30.0, 32.0, 50.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 1133.14, 2nd Moment (Var): 20996083.07, 3rd Moment: 1418841792461.33
+    Min: 0, Max: 108657
+    Octiles (1/8th ... 7/8th): [5.0, 15.0, 39.0, 123.0, 405.375, 957.25, 1853.375]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 51.26, 2nd Moment (Var): 3425.73, 3rd Moment: 3111416.18
+    Min: 1, Max: 1629
+    Octiles (1/8th ... 7/8th): [19.0, 39.0, 54.0, 54.0, 54.0, 55.0, 57.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 3.53, 2nd Moment (Var): 810.37, 3rd Moment: 406595.15
+    Min: 0, Max: 792
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.27, 2nd Moment (Var): 0.47, 3rd Moment: 0.68
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 212821.80 ms, Var: 3286032351187.88, 3rd Moment: 68222461627518722048.00
+    Min: 22 ms, Max: 36975063 ms
+    Octiles: [25.0, 26.0, 27.0, 28.0, 30.0, 32.0, 49.0]
+------------------------------------------------------------
+
+
+
+📊 Stats for table 'price_change':
+    Mean: 1151.31, 2nd Moment (Var): 21172930.24, 3rd Moment: 1430847566864.00
+    Min: 0, Max: 108664
+    Octiles (1/8th ... 7/8th): [5.0, 16.0, 39.625, 126.5, 425.375, 976.25, 1881.5]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 51.46, 2nd Moment (Var): 3456.82, 3rd Moment: 3117428.69
+    Min: 1, Max: 1629
+    Octiles (1/8th ... 7/8th): [19.0, 39.0, 54.0, 54.0, 54.0, 55.0, 57.0]
+------------------------------------------------------------
+📊 Stats for table 'last_trade_price':
+    Mean: 3.63, 2nd Moment (Var): 817.92, 3rd Moment: 407574.91
+    Min: 0, Max: 792
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0]
+------------------------------------------------------------
+📊 Stats for table 'tick_size_change':
+    Mean: 0.27, 2nd Moment (Var): 0.47, 3rd Moment: 0.68
+    Min: 0, Max: 2
+    Octiles (1/8th ... 7/8th): [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.0]
+------------------------------------------------------------
+⏱ Latency stats (all websocket events):
+    Mean: 209655.71 ms, Var: 3237803661488.28, 3rd Moment: 67238000067253043200.00
+    Min: 22 ms, Max: 36975063 ms
+    Octiles: [25.0, 25.0, 27.0, 28.0, 30.0, 32.0, 49.0]
+------------------------------------------------------------
+
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+🔄 New token(s) detected, preparing to subscribe...
+✅ Reserve websocket subscribed.
+
+🛑 Closed old websocket after switching.
+
+
+📊 Stats for table 'price_change':
+    Mean: 1137.62, 2nd Moment (Var): 20785615.16, 3rd Moment: 1395551167749.80
+    Min: 0, Max: 108665
+    Octiles (1/8th ... 7/8th): [4.0, 15.0, 37.0, 111.0, 402.0, 964.0, 1888.0]
+------------------------------------------------------------
+📊 Stats for table 'book':
+    Mean: 53.53, 2nd Moment (Var): 3500.09, 3rd Moment: 3054659.10
+    Min: 1, Max: 1633

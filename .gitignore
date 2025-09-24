@@ -6,3 +6,7 @@ tmp.py
 token_books/
 tokens.txt
 venv/
+data/
+blocks.db
+markets.db
+__pycache__/
