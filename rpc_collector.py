@@ -22,6 +22,10 @@ class rpc_collector:
         self.__read_sleep = read_sleep
     
     async def start(self) -> bool:
+        if self.__running:
+            self.__log("rpc_collector already started", "ERROR")
+            return False
+
         # Load environment and set URLs first
         load_dotenv()
         self.__infura_api_key = os.getenv("INFURA_API_KEY")
@@ -33,10 +37,6 @@ class rpc_collector:
         self.__infura_https_url = f"https://polygon-mainnet.infura.io/v3/{self.__infura_api_key}"
         self.__log(f"rpc_collector urls set up with API_KEY={self.__infura_api_key}", "DEBUG")
 
-        # Check if already running
-        if self.__running:
-            self.__log("rpc_collector already started", "ERROR")
-            return False
 
         # Create data directory and initialize database
         try:
@@ -52,7 +52,8 @@ class rpc_collector:
             cur.execute("""
                 CREATE TABLE blocks (
                     row_index INTEGER PRIMARY KEY AUTOINCREMENT,
-                    insert_time INTEGER,
+                    propose_time INTEGER,
+                    cli_time INTEGER,
                     block_number INTEGER,
                     block TEXT
                 )
@@ -203,7 +204,7 @@ class rpc_collector:
             ts = int(time.time())
             cur = self.__blocks_db.cursor()
             cur.execute(
-                "INSERT INTO blocks (insert_time, block_number, block) VALUES (?, ?, ?)",
+                "INSERT INTO blocks (cli_time, block_number, block) VALUES (?, ?, ?)",
                 (ts, block_number_int, message)
             )
             self.__blocks_db.commit()

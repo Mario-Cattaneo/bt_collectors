@@ -9,53 +9,66 @@ import shutil
 
 
 class market_collector:
-    def __init__(self, data_dir="data", verbosity="DEBUG"):
+    def __init__(self, data_dir="data", verbosity="DEBUG", drop_tables=True):
+        # sql resources
         self.__data_dir = data_dir
+        self.__markets_db = None
+        self.__events_dbs_map = {}
+        self.__drop_tables = drop_tables
+
+        # logging
         self.__verbosity = verbosity.upper()
+
+        # markets endpoint
         self.__markets_url = "https://gamma-api.polymarket.com/markets?limit=500&offset={offset}"
         self.__markets_cli = None
         self.__market_offset = 105000
-        self.__markets_db = None
+
+        # events endpoint
         self.__events_url = "wss://ws-subscriptions-clob.polymarket.com/ws/market"
         self.__events_cli = None
-        self.__events_dbs_map = {}
         self.__running = False
+
+        # resubscription
         self.__resubscription_count = 0
         self.__do_resubscribe = False
+
+        # scheduling
         self.__finds_before_reads = 2
         self.__curr_find_count = 0
     
     async def start(self)->bool:
-
+        # Can't start if already running
         if self.__running:
             self.__log("market_collector already started", "ERROR")
             return False
-        try: 
+        try:
+            # Ensure root data directory exists 
             os.makedirs(self.__data_dir, exist_ok=True)
             markets_db_path = os.path.join(self.__data_dir, "markets.db")
-            if os.path.exists(markets_db_path):
-                os.remove(markets_db_path)
-                self.__log(f"market_collector removed old markets.db", "DEBUG")
 
+            # Store persistent connection
             self.__markets_db = sqlite3.connect(markets_db_path)
             cur = self.__markets_db.cursor()
-            cur.execute("DROP TABLE IF EXISTS markets")
+
+            if self.__drop_tables:
+                cur.execute("DROP TABLE IF EXISTS markets")
             cur.execute("""
-                CREATE TABLE markets (
+                CREATE TABLE IF NOT EXISTS markets  (
                     row_index INTEGER PRIMARY KEY AUTOINCREMENT,
                     insert_time INTEGER,
                     market_id TEXT,
+                    token_id_1 TEXT,
+                    token_id_2 TEXT,
                     market_object TEXT
                 )
             """)
             self.__markets_db.commit()
         except (OSError, sqlite3.Error) as e:
-            self.__log(f"market_collector failed to create markets.db: {e}", "ERROR")
+            self.__log(f"market_collector to start: {e}", "ERROR")
             return False
 
-        self.__log(f"market_collector created markets.db at {markets_db_path}", "DEBUG")
-
-        # at most 3 sockets for pipeling and keepalive forever
+        # At most 3 sockets for pipeling and keepalive forever
         connector = aiohttp.TCPConnector(limit_per_host=3, keepalive_timeout=99999)
         self.__markets_cli = aiohttp.ClientSession(connector=connector)
         
@@ -65,6 +78,7 @@ class market_collector:
         while self.__running:
             if not await self.__find_markets():
                 await self.__clean_up()
+                return False
         self.__log(f"market_collector exiting running loop due to abort", "DEBUG")
 
 
@@ -75,7 +89,6 @@ class market_collector:
 
 
     async def __clean_up(self):
-        """Safely clean up all resources: clients, DBs, sockets."""
         self.__log("market_collector cleanup started", "DEBUG")
 
         # Close aiohttp client
@@ -96,13 +109,13 @@ class market_collector:
                 self.__log(f"Error closing websocket client: {e}", "ERROR")
             self.__events_cli = None
 
-        # Close main markets.db
+        # Close main markets_1.db
         if self.__markets_db is not None:
             try:
                 self.__markets_db.close()
-                self.__log("Closed markets.db connection", "DEBUG")
+                self.__log("Closed markets_1.db connection", "DEBUG")
             except Exception as e:
-                self.__log(f"Error closing markets.db: {e}", "ERROR")
+                self.__log(f"Error closing markets_1.db: {e}", "ERROR")
             self.__markets_db = None
 
         # Close all event DBs
@@ -114,13 +127,9 @@ class market_collector:
                 self.__log(f"Error closing DB for token_id={token_id}: {e}", "ERROR")
         self.__events_dbs_map.clear()
 
-        # Reset flags
         self.__running = False
-        self.__do_resubscribe = False
 
         self.__log("market_collector cleanup finished", "INFO")
-
-
 
     def __log(self, msg, level="INFO"):
         levels = ["DEBUG", "INFO", "WARNING", "ERROR"]
@@ -161,8 +170,6 @@ class market_collector:
             if not isinstance(market_id, str):
                 self.__log(f"market_collector attribute market_id is not str but {type(market_id)}", "ERROR")
                 return False
-
-            self.__sql_insert_market(market_id, market_obj)
             
             #closed is of type bool I want to make sure it exists is of type bool
             closed = market_obj.get("closed")
@@ -183,6 +190,10 @@ class market_collector:
             if not isinstance(token_ids, list):
                 self.__log(f"market_collector token_ids is not list but {type(token_ids)}", "ERROR")
                 return False
+            
+            if len(token_ids) != 2:
+                self.__log(f"market_collector expected 2 token_ids but got {len(token_ids)}", "ERROR")
+                return False
 
             for token_id in token_ids:
                 if not isinstance(token_id, str):
@@ -190,6 +201,9 @@ class market_collector:
                     return False
                 if not self.__register_token(market_id, token_id):
                     return False
+            
+            if not self.__sql_insert_market(market_id,token_ids[0], token_ids[1], market_obj):
+                return False
 
         new_markets = len(market_arr)
         self.__market_offset += new_markets
@@ -211,13 +225,13 @@ class market_collector:
         self.__log(f"market_collector no new markets at offset {self.__market_offset}", "DEBUG")
         return await self.__read_events()
 
-    def __sql_insert_market(self, market_id, market_obj)->bool:
+    def __sql_insert_market(self, market_id, token_id_1, token_id_2, market_obj) -> bool:
         try:
             ts = int(time.time())
             cur = self.__markets_db.cursor()
             cur.execute(
-                "INSERT INTO markets (insert_time, market_id, market_object) VALUES (?, ?, ?)",
-                (ts, market_id, json.dumps(market_obj))
+                "INSERT INTO markets (insert_time, market_id, token_id_1, token_id_2, market_object) VALUES (?, ?, ?, ?, ?)",
+                (ts, market_id, token_id_1, token_id_2, json.dumps(market_obj))
             )
             self.__markets_db.commit()
             return True
@@ -225,18 +239,89 @@ class market_collector:
             self.__log(f"market_collector failed to insert market {market_id}: {e}", "ERROR")
             return False
 
-    def __sql_insert_event(self, asset_id, event_obj)->bool:
+ 
+    def __sql_insert_event(self, asset_id, server_time, market, event_type, event_obj)->bool:
         try:
-            ts = int(time.time())
+            # millisecond unix timestamp
+            cli_time = time.time_ns() // 1_000_000
+            server_time_int = int(server_time)
+            print(f"difference {cli_time-server_time_int}ms, cli_time {cli_time}ms, server_time {server_time_int}ms")
             conn = self.__events_dbs_map.get(asset_id)
+
             if conn is None:
                 self.__log(f"market_collector no DB found for asset_id={asset_id}", "ERROR")
                 return False
             cur = conn.cursor()
-            cur.execute(
-                "INSERT INTO events (resubscription_count, insert_time, asset_id, event_object) VALUES (?, ?, ?, ?)",
-                (self.__resubscription_count, ts, asset_id, json.dumps(event_obj))
-            )
+
+            # encodes side as bool
+            side = event_obj.get("side") == "BUY"
+
+            if event_type == "book":
+                cur.execute(
+                    """
+                    INSERT INTO books (server_time, cli_time, market, bids, asks, hash)
+                    VALUES (?, ?, ?, ?, ?, ?)
+                    """,
+                    (
+                        server_time_int,
+                        cli_time,
+                        market,
+                        json.dumps(event_obj.get("bids", [])),
+                        json.dumps(event_obj.get("asks", [])),
+                        event_obj.get("hash"),
+                    ),
+                )
+            elif event_type == "price_change":
+                cur.execute(
+                    """
+                    INSERT INTO price_changes (server_time, cli_time, market, price, size, side, hash, best_bid, best_ask)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    (
+                        server_time_int,
+                        cli_time,
+                        market,
+                        float(event_obj.get("price")),
+                        float(event_obj.get("size")),
+                        side,
+                        event_obj.get("hash"),
+                        float(event_obj.get("best_bid")),
+                        float(event_obj.get("best_ask")),
+                    ),
+                )
+
+            elif event_type == "last_trade_price":
+                cur.execute(
+                    """
+                    INSERT INTO last_trades (server_time, cli_time, fee_rate_bps, market, price, side, size)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    (
+                        server_time_int,
+                        cli_time,
+                        float(event_obj.get("fee_rate_bps")),
+                        market,
+                        float(event_obj.get("price")),
+                        side,
+                        float(event_obj.get("size")),
+                    ),
+                )
+            elif event_type == "tick_size_change":
+                cur.execute(
+                    """
+                    INSERT INTO tick_changes (server_time, cli_time, old_tick_size, new_tick_size)
+                    VALUES (?, ?, ?, ?)
+                    """,
+                    (
+                        server_time_int,
+                        cli_time,
+                        float(event_obj.get("old_tick_size")),
+                        float(event_obj.get("new_tick_size")),
+                    ),
+                )
+            else:
+                self.__log(f"mark_collector invalid event_type passed to sql insert: {event_type}")
+                return False
             conn.commit()
             return True
         except sqlite3.Error as e:
@@ -257,16 +342,55 @@ class market_collector:
             conn = sqlite3.connect(db_path)
             
             cur = conn.cursor()
-            cur.execute("DROP TABLE IF EXISTS events")
-            cur.execute("""
-                CREATE TABLE events (
+            if self.__drop_tables:
+                cur.executescript("""DROP TABLE IF EXISTS books;
+                            DROP TABLE IF EXISTS price_changes;
+                            DROP TABLE IF EXISTS last_trades;
+                            DROP TABLE IF EXISTS tick_changes;
+                            """)
+            cur.executescript("""
+                CREATE TABLE books (
                     row_index INTEGER PRIMARY KEY AUTOINCREMENT,
-                    resubscription_count INTEGER,
-                    insert_time INTEGER,
-                    asset_id TEXT,
-                    event_object TEXT
-                )
-            """)
+                    server_time INTEGER,
+                    cli_time INTEGER,
+                    market TEXT,
+                    bids TEXT,
+                    asks TEXT,
+                    hash TEXT
+                );
+                CREATE TABLE price_changes (
+                    row_index INTEGER PRIMARY KEY AUTOINCREMENT,
+                    server_time INTEGER,
+                    cli_time INTEGER,
+                    market TEXT,
+                    price REAL,
+                    size REAL,
+                    side BOOL,
+                    hash TEXT,
+                    best_bid TEXT,
+                    best_ask TEXT
+                );
+                CREATE TABLE last_trades (
+                    row_index INTEGER PRIMARY KEY AUTOINCREMENT,
+                    server_time INTEGER,
+                    cli_time INTEGER,
+                    fee_rate_bps REAL,
+                    market TEXT,
+                    price REAL,
+                    side BOOL,
+                    size REAL
+                );
+                CREATE TABLE tick_changes (
+                    row_index INTEGER PRIMARY KEY AUTOINCREMENT,
+                    server_time INTEGER,
+                    cli_time INTEGER,
+                    old_tick_size REAL,
+                    new_tick_size REAL
+                );
+                CREATE INDEX IF NOT EXISTS books_time ON books(server_time);
+                CREATE INDEX IF NOT EXISTS price_changes_time ON price_changes(server_time);
+                CREATE INDEX IF NOT EXISTS last_trades_time ON last_trades(server_time);
+                """)
             conn.commit()
 
         except (OSError, sqlite3.Error) as e:
@@ -325,15 +449,18 @@ class market_collector:
             else:
                 self.__log(f"market_collector wss message received which is neither json array nor json object","DEBUG")
                 return False
-        
+
         return True
 
     def __insert_event(self, event_obj)->bool:
         asset_id = event_obj.get("asset_id")
+        server_timestamp = event_obj.get("timestamp")
+        market = event_obj.get("market")
+        event_type = event_obj.get("event_type")
 
         # case book, last trade price, tick size change
         if isinstance(asset_id, str):
-            if not self.__sql_insert_event(asset_id, event_obj):
+            if not self.__sql_insert_event(asset_id, server_timestamp, market, event_type, event_obj):
                 return False
             return True
 
@@ -347,7 +474,7 @@ class market_collector:
                 self.__log(f"market_collector invalid price changes array","ERROR")
                 return False
             asset_id = price_change.get("asset_id")
-            if not self.__sql_insert_event(asset_id, price_change):
+            if not self.__sql_insert_event(asset_id, server_timestamp, market, event_type, price_change):
                 return False
 
         return True
