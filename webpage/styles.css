@@ -175,8 +175,80 @@ html, body {
   color: #333;
 }
 
+.popup-content {
+  padding: 16px;
+  overflow-y: auto;
+  flex: 1 1 auto;      /* if popup-panel is flex column, this will fill remaining space */
+  max-height: calc(80vh - 120px); /* safety on tall screens */
+}
+
 /* ----------------- Optional: popup animation ----------------- */
 @keyframes popup-fade {
   from { opacity: 0; transform: translateY(-20px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* query tabs*/
+
+.query-selector {
+  display: inline-block;
+  padding: 8px 14px;
+  margin: 4px;
+  background: #666;
+  color: white;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 18px;
+}
+
+.query-selector:hover {
+  background: #888;
+}
+
+.query-tab {
+  margin-top: 20px;
+  padding: 15px;
+  background: #fafafa;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.query-input {
+  width: 90%;
+  padding: 8px;
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+
+.query-apply {
+  display: inline-block;
+  padding: 8px 14px;
+  background: #333;
+  color: white;
+  cursor: pointer;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+.order-opt {
+  display: inline-block;
+  margin-right: 10px;
+  padding: 6px 12px;
+  border: 1px solid #888;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.order-opt.active {
+  background: #444;
+  color: white;
+  font-weight: bold;
+}
+
+.query-docs {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #333;
+  line-height: 1.4em;
 }
