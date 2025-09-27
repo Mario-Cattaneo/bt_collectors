@@ -1,36 +1,39 @@
-import asyncio
-from analytics import analytics
+from http.server import BaseHTTPRequestHandler, HTTPServer
 
-async def main():
-    # Initialize analytics instance
-    data_dir = "data"        # adjust if your DBs are in a different folder
-    market_version = 1
-    rpc_version = 1
-    sleep_time = 5           # seconds between checks
-    verbosity = "DEBUG"
+class MyHandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        if self.path == "/" or self.path == "/index.html":
+            self.send_response(200)
+            self.send_header("Content-Type", "text/html")
+            self.end_headers()
+            with open("webpage/index.html", "rb") as f:
+                self.wfile.write(f.read())
 
-    a = analytics(
-        data_dir=data_dir,
-        verbosity=verbosity,
-        sleep=sleep_time,
-        market_version=market_version,
-        rpc_version=rpc_version
-    )
+        elif self.path == "/styles.css":
+            self.send_response(200)
+            self.send_header("Content-Type", "text/css")
+            self.end_headers()
+            with open("webpage/styles.css", "rb") as f:
+                self.wfile.write(f.read())
 
-    try:
-        # Start analytics
-        print("[INFO] Starting analytics...")
-        await a.start()
-    except asyncio.CancelledError:
-        print("[INFO] Analytics cancelled.")
-    finally:
-        # Stop analytics and clean up resources
-        print("[INFO] Stopping analytics...")
-        await a.stop()
+        elif self.path == "/main.js":
+            self.send_response(200)
+            self.send_header("Content-Type", "application/javascript")
+            self.end_headers()
+            with open("webpage/main.js", "rb") as f:
+                self.wfile.write(f.read())
 
+        elif self.path.startswith("/data"):
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(b'{"id": "abcd", "values": [1,2,3]}')
 
-if __name__ == "__main__":
-    try:
-        asyncio.run(main())
-    except KeyboardInterrupt:
-        print("\n[INFO] Keyboard interrupt received. Exiting.")
+        else:
+            self.send_response(404)
+            self.end_headers()
+            self.wfile.write(b"Not Found")
+
+server = HTTPServer(("0.0.0.0", 8080), MyHandler)
+print("Serving at http://localhost:8080")
+server.serve_forever()

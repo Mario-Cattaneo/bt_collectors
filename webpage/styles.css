@@ -1,0 +1,139 @@
+/* ----------------- Reset ----------------- */
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  background: #f5f5f5;
+}
+
+/* ----------------- Top Bar ----------------- */
+.bar {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  background: #333;
+  color: #fff;
+  font-size: 20px;
+}
+
+#top-bar {
+  flex: 0 0 auto;
+  justify-content: space-between;
+}
+
+#refresh-rate {
+  margin-right: 30px;
+}
+
+#last-refresh {
+  margin: 0 auto;
+  font-size: 20px;
+}
+
+#query-selector {
+  font-size: 32px;     /* bigger triangle */
+  cursor: pointer;
+  margin-right: 20px;  /* spacing from right */
+}
+
+/* ----------------- Rows Container ----------------- */
+#rows-container {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.token-row {
+  flex: 1 1 0;             /* stretch rows equally */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid #ddd;
+  background: #fff;
+  font-size: 18px;
+  padding: 14px;
+}
+
+.token-row:nth-child(odd) {
+  background: #f0f0f0;
+}
+
+/* ----------------- Bottom Bar ----------------- */
+#bottom-bar {
+  flex: 0 0 auto;          /* fixed height */
+  justify-content: space-between;
+  font-size: 20px;
+  background: #333;
+  color: white;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+}
+
+/* Search by index */
+#search-by-index {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+#index-search {
+  padding: 6px 10px;
+  font-size: 18px;
+}
+
+#index-submit {
+  padding: 6px 14px;
+  cursor: pointer;
+  background: #555;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 18px;
+}
+
+/* Page navigation arrows */
+#change-page {
+  display: flex;
+  gap: 25px;           /* space between arrows */
+  align-items: center;
+}
+
+#prev-page,
+#next-page {
+  font-size: 32px;     /* bigger arrows */
+  cursor: pointer;
+  padding: 0 6px;
+}
+
+/* ----------------- Popup ----------------- */
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.popup-panel {
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  min-width: 300px;
+  position: relative;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.popup-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 18px;
+}

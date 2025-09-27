@@ -49,3 +49,26 @@ if __name__ == "__main__":
 
     latencies = measure_latency(url, trials=trials)
     analyze_and_plot(latencies)
+
+
+ """	Markets and tokens container scrollable and resizable downwards
+		Glued to the top of the scrollable content page
+
+		3 vertical sub-panels, negrisk, markets and tokens.
+		These panels list are lists respectively.
+		Each token is associated with a unique market and each 
+		market is either associated with a unique negrisk or non.
+
+		So scrolling affects all panels together.
+		The 3 subpanels size can be changed vertically (only the boarders
+		between the subpanles can be moved)
+
+		Each sub panel list can be filtered, 
+		but only one filter can be active at all times since it affects
+		the the other panels by the relationship above.
+
+		At the top of this panel there is a small bar that shows when
+		it was last updated up to seconds and nexto to it a small symbol
+		for refreshing the entire table
+  """
+  
