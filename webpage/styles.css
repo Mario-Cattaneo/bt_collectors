@@ -109,31 +109,74 @@ html, body {
   padding: 0 6px;
 }
 
-/* ----------------- Popup ----------------- */
+
+
+/* ----------------- Popup Overlay ----------------- */
 .popup-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.6);  /* slightly darker for focus */
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 100;
+  z-index: 1000;
+  padding: 20px;                /* spacing for smaller screens */
 }
 
+/* ----------------- Popup Panel ----------------- */
 .popup-panel {
   background: #fff;
-  border-radius: 8px;
-  padding: 20px;
-  min-width: 300px;
+  border-radius: 12px;
+  width: 80%;                    /* much larger */
+  max-width: 1000px;             /* limit on wide screens */
+  height: 80%;                   /* occupy most of viewport height */
+  max-height: 900px;             /* prevent overflowing tall screens */
   position: relative;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+  animation: popup-fade 0.3s ease-in-out;
 }
 
+/* ----------------- Popup Top Bar ----------------- */
+.popup-top-bar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  background-color: #333;
+  color: #fff;
+  padding: 12px 16px;
+  font-size: 22px;
+  flex-shrink: 0;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+/* ----------------- Close Button ----------------- */
 .popup-close {
-  position: absolute;
-  top: 8px;
-  right: 10px;
   cursor: pointer;
   font-weight: bold;
+  font-size: 26px;              /* bigger for easier click */
+  color: #ff5555;
+  transition: transform 0.2s;
+}
+
+.popup-close:hover {
+  transform: scale(1.2);
+}
+
+/* ----------------- Popup Content ----------------- */
+.popup-content {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1 1 auto;               /* fill the remaining space */
   font-size: 18px;
+  color: #333;
+}
+
+/* ----------------- Optional: popup animation ----------------- */
+@keyframes popup-fade {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
 }

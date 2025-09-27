@@ -122,92 +122,101 @@ let last_refresh = "-";
 
 // DOM tree init
 const body = document.body;
+
+// Generic pop up
 const popup = document.createElement('div');
 const popup_overlay = document.createElement('div');
+const popup_top_bar = document.createElement('div');
 const close_popup = document.createElement('div');
-close_popup.textContent = '✖';
-close_popup.classList.add('popup-close');
-close_popup.addEventListener('click', () => popup_overlay.remove());
-popup.append(close_popup);
-popup_overlay.appendChild(popup);
+function dom_popup_init() {
+	popup.classList.add('popup-panel');
+	popup_overlay.classList.add('popup-overlay');
+	popup_top_bar.classList.add('popup-top-bar');
+	close_popup.textContent = '✖';
+	close_popup.classList.add('popup-close');
+	close_popup.addEventListener('click', () => popup_overlay.remove());
+	popup_top_bar.append(close_popup);
+	popup.append(popup_top_bar);
+	popup_overlay.appendChild(popup);
+}
 
 // Top bar
 const top_bar = document.createElement('div');
-top_bar.id = 'top-bar';
-top_bar.classList.add('bar');
-body.appendChild(top_bar);
-
 const refresh_rate_view = document.createElement('div');
-refresh_rate_view.id = 'refresh-rate';
-refresh_rate_view.textContent = "Refresh rate: " + refresh_rate;
-
 const last_refresh_view = document.createElement('div');
-last_refresh_view.id = 'last-refresh';
-last_refresh_view.textContent = "Last refresh: " + last_refresh;
-
 const query_selector = document.createElement('div');
-query_selector.id = 'query-selector';
-query_selector.textContent = '\u25BE'; // ▼
-query_selector.addEventListener('click', on_click_query_selector);
+function dom_top_bar_init() {
+	top_bar.id = 'top-bar';
+	top_bar.classList.add('bar');
+	body.appendChild(top_bar);
+	refresh_rate_view.id = 'refresh-rate';
+	refresh_rate_view.textContent = "Refresh rate: " + refresh_rate + 's';
+	last_refresh_view.id = 'last-refresh';
+	last_refresh_view.textContent = "Last refresh: " + last_refresh;
 
-top_bar.append(refresh_rate_view, last_refresh_view, query_selector);
+	query_selector.id = 'query-selector';
+	query_selector.textContent = '\u25BE'; // ▼
+	query_selector.addEventListener('click', on_click_query_selector);
 
-// Scrollable rows container
+	top_bar.append(refresh_rate_view, last_refresh_view, query_selector);
+
+}
+
+// Token rows
 const rows_container = document.createElement('div');
-rows_container.id = 'rows-container';
-body.appendChild(rows_container);
+function dom_rows_init() {
+	rows_container.id = 'rows-container';
+	body.appendChild(rows_container);
 
-for (let token_row = 0; token_row < 15; token_row++) {
-  token_rows[token_row] = document.createElement('div');
-  token_rows[token_row].classList.add('token-row');
-  token_rows[token_row].textContent = "Token Row " + (token_row + 1);
-  rows_container.appendChild(token_rows[token_row]);
+	for (let token_row = 0; token_row < 15; token_row++) {
+		token_rows[token_row] = document.createElement('div');
+		token_rows[token_row].classList.add('token-row');
+		token_rows[token_row].textContent = "Token Row " + (token_row + 1);
+		rows_container.appendChild(token_rows[token_row]);
+	}
 }
 
 // Bottom bar
 const bottom_bar = document.createElement('div');
-bottom_bar.id = 'bottom-bar';
-bottom_bar.classList.add('bar');
-body.appendChild(bottom_bar);
-
 const search_by_index = document.createElement('div');
-search_by_index.id = 'search-by-index';
-
 const index_search_bar = document.createElement('input');
-index_search_bar.type = 'text';
-index_search_bar.placeholder = 'index'; // ✅ hint text
-index_search_bar.id = 'index-search';
-
 const index_search_submit = document.createElement('button');
-index_search_submit.id = 'index-submit';
-index_search_submit.textContent = 'Search'; // ✅ button text
-
-search_by_index.append(index_search_bar, index_search_submit);
-
 const index_overview = document.createElement('div');
-index_overview.id = 'index-overview';
-index_overview.textContent = "1 ... 15";
-
 const change_page = document.createElement('div');
-change_page.id = 'change-page';
-
 const prev_page = document.createElement('div');
-prev_page.id = 'prev-page';
-prev_page.textContent = '<';
-
 const next_page = document.createElement('div');
-next_page.id = 'next-page';
-next_page.textContent = '>';
 
-change_page.append(prev_page, next_page);
-
-bottom_bar.append(search_by_index, index_overview, change_page);
+function dom_bottom_bar_init() {
+	bottom_bar.id = 'bottom-bar';
+	bottom_bar.classList.add('bar');
+	body.appendChild(bottom_bar);
+	search_by_index.id = 'search-by-index';
+	index_search_bar.type = 'text';
+	index_search_bar.placeholder = 'index';
+	index_search_bar.id = 'index-search';
+	index_search_submit.id = 'index-submit';
+	index_search_submit.textContent = 'Search';
+	search_by_index.append(index_search_bar, index_search_submit);
+	index_overview.id = 'index-overview';
+	index_overview.textContent = "1 ... 15";
+	change_page.id = 'change-page';
+	prev_page.id = 'prev-page';
+	prev_page.textContent = '<';
+	next_page.id = 'next-page';
+	next_page.textContent = '>';
+	change_page.append(prev_page, next_page);
+	bottom_bar.append(search_by_index, index_overview, change_page);
+}
 
 function on_click_query_selector() {
   document.body.appendChild(popup_overlay);
 }
 
 function dom_init() {
-	popup.classList.add('popup-panel');
-	popup_overlay.classList.add('popup-overlay');
+	dom_popup_init();
+	dom_top_bar_init();
+	dom_rows_init();
+	dom_bottom_bar_init();
 }
+
+dom_init();
