@@ -57,7 +57,7 @@ async def init_action(kind, json_path):
         code = f.read()
     dependencies = parse_imports_from_file(file_path) + spec.get("dependencies", [])
 
-    class_name = os.path.splitext(os.path.basename(file_path))[0]
+    class_name = spec.get("class_name") or os.path.splitext(os.path.basename(file_path))[0]
 
     # 1️⃣ Add class
     add_resp = await send_message({

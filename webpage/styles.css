@@ -252,3 +252,25 @@ html, body {
   color: #333;
   line-height: 1.4em;
 }
+
+.curr-filter-display {
+  margin: 10px 0;
+  padding: 8px 14px;
+  background: #f5f9ff;        /* soft blue background */
+  border: 1px solid #88aaff;  /* light blue border */
+  border-radius: 6px;
+  font-size: 16px;
+  color: #224488;             /* darker blue text */
+  font-weight: 500;
+}
+
+.curr-order-display {
+  margin: 10px 0;
+  padding: 8px 14px;
+  background: #fff8f0;        /* soft orange background */
+  border: 1px solid #ffbb77;  /* light orange border */
+  border-radius: 6px;
+  font-size: 16px;
+  color: #aa5500;             /* darker orange text */
+  font-weight: 500;
+}

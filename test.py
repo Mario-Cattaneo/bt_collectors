@@ -22,12 +22,10 @@ class MyHandler(BaseHTTPRequestHandler):
             self.end_headers()
             with open("webpage/main.js", "rb") as f:
                 self.wfile.write(f.read())
-
-        elif self.path.startswith("/data"):
+        
+        elif self.path.startswith("/refresh"):
             self.send_response(200)
             self.send_header("Content-Type", "application/json")
-            self.end_headers()
-            self.wfile.write(b'{"id": "abcd", "values": [1,2,3]}')
 
         else:
             self.send_response(404)

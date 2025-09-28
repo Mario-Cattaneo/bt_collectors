@@ -79,7 +79,13 @@ class collection_manager:
         try:
             namespace = {}
             exec(code, namespace)
-            cls = next(obj for obj in namespace.values() if isinstance(obj, type))
+            cls = namespace.get(class_name)
+            if cls is None or not isinstance(cls, type):
+                await websocket.send(json.dumps({
+                    "status": "failure",
+                    "error": f"Class {class_name} not found in executed code"
+                }))
+                return
         except Exception as e:
             await websocket.send(json.dumps({
                 "status": "failure",

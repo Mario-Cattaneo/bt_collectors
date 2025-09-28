@@ -9,33 +9,7 @@ import aiohttp
 
 import calendar
 
-"""
-expects:
-    The the markets database to be in the data_dir named markets_{market_version}.db
-    and have a markets table with columns: row_index INTEGER PRIMARY KEY AUTOINCREMENT,
-                    resubscription_count INTEGER,
-                    insert_time INTEGER,
-                    market_id TEXT,
-                    token_id_1 TEXT,
-                    token_id_2 TEXT,
-                    market_object TEXT
 
-    The events database for a token to be in a "data_dir/{market id} {token id}" named events_{market_version}.db
-    and have an events table with columns: row_index INTEGER PRIMARY KEY AUTOINCREMENT,
-                    resubscription_count INTEGER,
-                    insert_time INTEGER,
-                    asset_id TEXT,
-                    event_object TEXT
-
-
-    The blocks database to in data_dir and be named blocks_{version}.db
-    and columns: row_index INTEGER PRIMARY KEY AUTOINCREMENT,
-                    insert_time INTEGER,
-                    block_number INTEGER,
-                    block TEXT
-
-
-"""
 class analytics:
     def __init__(self, data_dir="data", verbosity="DEBUG", sleep = 10, market_version=1, rpc_version=1):
         self.__data_dir = data_dir 
@@ -66,7 +40,7 @@ class analytics:
 
         try:
             # Open markets db
-            markets_path = os.path.join(self.__data_dir, f"markets_{self.__market_version}.db")
+            markets_path = os.path.join(self.__data_dir, f"markets.db")
             if not os.path.exists(markets_path):
                 self.__log(f"analytics missing markets db: {markets_path}", "ERROR")
                 return False
@@ -442,6 +416,9 @@ class analytics:
             return False
 
 
+test = analytics()
+
+asyncio.run(test.start());
             
                 
 
