@@ -8,12 +8,13 @@ import time
 import shutil
 
 class market_collector:
-    def __init__(self, data_dir="data", verbosity="DEBUG", reset=True, batch_size=500, reset_offset=105000, init_offset=105000):
+    def __init__(self, data_dir="data", verbosity="DEBUG", reset=True, batch_size=500, reset_offset=108000, init_offset=108000):
         # sql resources
         self.__data_dir = data_dir
         self.__markets_dir = None
         self.__markets_db = None # overview db
-        self.__markets_dbs = {} # id to db connection map
+        self.__market_ids = []
+        self.__attributes_db = None
         self.__reset = reset
 
         # attribute handling
@@ -79,8 +80,10 @@ class market_collector:
             # create markets db if it doesn't exist
             os.makedirs(self.__markets_dir, exist_ok=True)
             markets_db_path = os.path.join(self.__markets_dir, "markets.db")
+            attributes_db_path = os.path.join(self.__markets_dir, "attributes.db")
 
             # Store persistent connection to markets db
+            self.__attributes_db = sqlite3.connect(attributes_db_path)
             self.__markets_db = sqlite3.connect(markets_db_path)
             cur = self.__markets_db.cursor()
 
@@ -151,14 +154,14 @@ class market_collector:
                 self.__log(f"Error closing markets.db: {e}", "ERROR")
             self.__markets_db = None
 
-        # Close all event DBs
-        for market_id, conn in list(self.__markets_dbs.items()):
+        # Close all atttibutes db
+        if self.__attributes_db is not None:
             try:
-                conn.close()
-                #self.__log(f"Closed DB for market_id={market_id}", "DEBUG")
+                self.__attributes_db.close()
+                self.__log("Closed markets.db connection", "DEBUG")
             except Exception as e:
-                self.__log(f"Error closing market for market_id={market_id}: {e}", "ERROR")
-        self.__markets_dbs.clear()
+                self.__log(f"Error closing markets.db: {e}", "ERROR")
+            self.__attributes_db = None
 
         self.__running = False
 
@@ -169,34 +172,44 @@ class market_collector:
         if levels.index(level) >= levels.index(self.__verbosity):
             print(f"[{level}] {msg}")
 
-    def __attribute_sql_type(self, value) -> str:
+    def __set_attribute(self, name, value) -> bool:
         if isinstance(value, bool):
-            return "BOOL"
+            self.__attributes[name][0] = "BOOL"
+            self.__attributes[name][1] = value
+            return True
         elif isinstance(value, int):
             # Check if the integer fits in SQLite INTEGER (64-bit signed)
             if -(2**63) <= value <= 2**63 - 1:
-                return "INTEGER"
-            else:
-
-                return "TEXT"  # too large, store as string
+                self.__attributes[name][0] = "INTEGER"
+                self.__attributes[name][1] = value
+                return True
+            self.__attributes[name][0] = "TEXT"
+            self.__attributes[name][1] = str(value)
+            return True # too large, store as string
         elif isinstance(value, float):
-            return "REAL"
+            self.__attributes[name][0] = "REAL"
+            self.__attributes[name][1] = value
+            return True
         elif isinstance(value, str):
-            return "TEXT"
+            self.__attributes[name][0] = "TEXT"
+            if value == "":
+                self.__attributes[name][1] = "NULL"
+            else:
+                self.__attributes[name][1] = value.replace("'", "''")
+            return True
         elif value is None:
-            return "TEXT"
+            # keep same type as before
+            self.__attributes[name][1] = "NULL"
         else:
-            return "UNKNOWN"
+            return False
 
     def __handle_attribute(self, name, value) -> bool:
         if name in self.__attributes:
             if len(self.__attributes[name]) != 2:
                 self.__log(f"market collector handle_attribute name {name} registered with incorrect list length {len(self.__attributes[name])}", "ERROR")
                 return False
-            if isinstance(value, int) and not -(2**63) <= value <= 2**63 - 1:
-                self.__log(f"market collector attribute {name} integer too large, storing as TEXT", "DEBUG")
-                value = str(value)
-            self.__attributes[name][1] = value
+            if not self.__set_attribute(name, value):
+                return False
             return True
 
         try:
@@ -217,23 +230,20 @@ class market_collector:
                     return False
             return True
 
-        sql_type = self.__attribute_sql_type(value)
-        if sql_type == "UNKNOWN":
-            self.__log(f"market collector handle_attributes got unknown type value {type(value)} for {name}", "ERROR")
+        self.__attributes[name] = ["TEXT", "NULL"] # default
+        if not self.__set_attribute(name, value):
+            self.__log(f"market_collector failed to set_attribute for {name} and {value} of type {type(value)}", "ERROR")
             return False
-        
-        if isinstance(value, int) and not -(2**63) <= value <= 2**63 - 1:
-            self.__log(f"market collector attribute {name} integer too large, storing as TEXT", "DEBUG")
-            value = str(value)
-
-        self.__attributes[name] = [sql_type, value]
-
-        if not self.__add_new_sql_column(name, sql_type):
-            self.__log(f"market collector handle_attribute failed to add new SQL column for {name} of type {sql_type}", "ERROR")
+        try:
+            cursor = self.__attributes_db.cursor()
+            cursor.executescript(self.__create_alter_stmt(name, self.__attributes[name][0]))
+            self.__attributes_db.commit()
+            self.__log(f"market_collector added column {name} of type {self.__attributes[name][0]}", "DEBUG")
+        except Exception as e:
+            self.__log(f"market_collector add column {name} of type {self.__attributes[name][0]}: {e}", "ERROR")
+            self.__log(f"market_collector add column stmt: {self.__create_alter_stmt(name, self.__attributes[name][0])}", "ERROR")
             return False
-
         return True
-
 
     async def __query_markets(self)->bool:
         url = self.__markets_url.format(offset=self.__market_offset)
@@ -271,68 +281,46 @@ class market_collector:
                 return False
 
         new_markets = len(market_arr)
-        self.__log(f"market_collector {new_markets} markets fetch at offset {self.__market_offset}")
+        self.__log(f"market_collector {new_markets} markets fetched at offset {self.__market_offset}")
         if new_markets < self.__batch_size:
             self.__market_offset = self.__reset_offset
         else:
             self.__market_offset += new_markets
         return True
 
-    def __add_new_sql_column(self, name, type, default="NULL")->bool:
-        for m_id, conn in self.__markets_dbs.items():
-            try:
-                cursor = conn.cursor()
-                cursor.execute(f"ALTER TABLE attributes ADD COLUMN {name} {type} DEFAULT {default};")
-                conn.commit()
-            except Exception as e:
-                self.__log("market collector failed to add column for {m_id}: {e}", "ERROR")
-                return False
-        
-        try:
-            now = datetime.now(timezone.utc)
-            iso_str = now.isoformat(timespec="microseconds").replace("+00:00", "Z")
-            cursor = self.__markets_db.cursor()
-            cursor.execute("""INSERT INTO attributes 
-            (collector_version, insert_time, attribute_name) VALUES
-            (?, ?, ?)""",
-            (self.__version, iso_str, name))
-            self.__markets_db.commit()
-        except Exception as e:
-            self.__log("market collector failed to update attributes table: {e}", "ERROR")
-            return False
-        return True
-
-    def __create_table_stmt(self) -> str:
-        buffer = ["CREATE TABLE IF NOT EXISTS attributes ("]
-        buffer.append("row_index INTEGER PRIMARY KEY AUTOINCREMENT, ")
-        buffer.append("collector_version INTEGER, ")
-        buffer.append("insert_time TEXT")
-
+    def __create_table_stmt(self, market_id) -> str:
+        buffer = [f'CREATE TABLE IF NOT EXISTS "{market_id}" (row_index INTEGER PRIMARY KEY AUTOINCREMENT, collector_version INTEGER, insert_time TEXT']
         for name, attr in self.__attributes.items():
             buffer.append(f', "{name}" {attr[0]}')
-
-        buffer.append(')')
+        buffer.append(")")
         return "".join(buffer)
 
-    def __create_insert_stmt(self, iso_str) -> str:
-        buffer = ["INSERT INTO attributes (collector_version, insert_time"]
-        
-        # Column names
-        for name in self.__attributes.keys():
-            buffer.append(f', "{name}"')
+    def __create_alter_stmt(self, attr_name, attr_sql_type, default="NULL") -> str:
+        buffer = []
+        for market_id in self.__market_ids:
+            buffer.append(f'ALTER TABLE "{market_id}" ADD "{attr_name}" {attr_sql_type};')
+        return " ".join(buffer)
 
-        buffer.append(") VALUES (")
-        buffer.append(f"{self.__version},'{iso_str}'")  # insert_time
+    def __create_insert_stmt(self, market_id) -> str:
+        now = datetime.now(timezone.utc)
+        iso_str = now.isoformat(timespec="microseconds").replace("+00:00", "Z")
 
-        # Column values
-        for name, attr in self.__attributes.items():
-            value = attr[1]
-            if attr[0] in ("INTEGER", "REAL", "BOOL"):
-                buffer.append(f", {value}")
-            else:  # TEXT
-                safe_value = str(value).replace("'", "''")  # escape single quotes
-                buffer.append(f", '{safe_value}'")
+        # Column list
+        columns = ["collector_version", "insert_time"] + list(self.__attributes.keys())
+        columns_escaped = [f'"{col}"' for col in columns]  # Escape column names
+        buffer = [f'INSERT INTO "{market_id}" ({", ".join(columns_escaped)}) VALUES (']
 
+        # Value list
+        values = [str(self.__version), f"'{iso_str}'"]
+        for _, attr in self.__attributes.items():
+            if attr[1] == "NULL":
+                values.append("NULL")
+            elif attr[0] == "TEXT":
+                values.append(f"'{attr[1]}'")
+            else:
+                values.append(str(attr[1]))
+
+        buffer.append(", ".join(values))
         buffer.append(")")
         return "".join(buffer)
 
@@ -342,13 +330,10 @@ class market_collector:
             self.__log("market collector handle_query failed: missing id attribute", "ERROR")
             return False
 
-        if market_id not in self.__markets_dbs:
-            
+        if market_id not in self.__market_ids:
             try:
                 # create db and table
-                markets_db_path = os.path.join(self.__markets_dir, f"{market_id}.db")
-                self.__markets_dbs[market_id] = sqlite3.connect(markets_db_path)
-                cursor = self.__markets_dbs[market_id].cursor()
+                cursor = self.__attributes_db.cursor()
 
                 # --- ADD PINPOINT LOGS HERE ---
                 self.__log(f"market {market_id}: creating table with attributes:", "DEBUG")
@@ -356,8 +341,8 @@ class market_collector:
                     self.__log(f"  {name} ({attr[0]}): {repr(attr[1])}", "DEBUG")
                 # --------------------------------
 
-                cursor.execute(self.__create_table_stmt())
-                self.__markets_dbs[market_id].commit()
+                cursor.execute(self.__create_table_stmt(market_id))
+                self.__attributes_db.commit()
 
                 # insert into main markets.db
                 clobTokenIds1 = self.__attributes["clobTokenIds1"][1]
@@ -365,26 +350,29 @@ class market_collector:
                 negrisk_id = self.__attributes.get("negRiskID", [None, None])[1]
                 now = datetime.now(timezone.utc)
                 iso_str = now.isoformat(timespec="microseconds").replace("+00:00", "Z")
+                
                 cursor = self.__markets_db.cursor()
                 cursor.execute("""INSERT INTO markets 
                     (collector_version, insert_time, id, clobTokenIds1, clobTokenIds2, negRiskMarketID) 
                     VALUES (?, ?, ?, ?, ?, ?)""",
                     (self.__version, iso_str, market_id, clobTokenIds1, clobTokenIds2, negrisk_id))
                 self.__markets_db.commit()
+                self.__log(f"market_collector table creation successful for market {market_id} at offset {self.__market_offset}", "DEBUG")
+                self.__market_ids.append(market_id)
             except Exception as e:
-                self.__log(f"market collector failed new market creation for {market_id}: {e}", "ERROR")
+                self.__log(f"market_collector failed new market creation for {market_id}: {e}", "ERROR")
+                self.__log(f"marktet_collector create_table statement: {self.__create_table_stmt(market_id)}", "ERROR")
                 return False
 
         try:
-            now = datetime.now(timezone.utc)
-            iso_str = now.isoformat(timespec="microseconds").replace("+00:00", "Z")
-            cursor = self.__markets_dbs[market_id].cursor()
-            cursor.execute(self.__create_insert_stmt(iso_str))
-            self.__markets_dbs[market_id].commit()
+            cursor = self.__attributes_db.cursor()
+            cursor.execute(self.__create_insert_stmt(market_id))
+            self.__attributes_db.commit()
+            self.__log(f"market_collector insert successful for market {market_id} at offset {self.__market_offset}", "DEBUG")
             return True
         except Exception as e:
             self.__log(f"market collector failed inserting attributes for market {market_id}: {e}", "ERROR")
-            # Add detailed dump of attribute values to help debug
+            self.__log(f"marktet_collector insert statement: {self.__create_insert_stmt(market_id)}", "ERROR")
             #for attr_name, attr in self.__attributes.items():
-                #self.__log(f"market collector attribute dump: {attr_name}={attr[1]} ({attr[0]})", "DEBUG")
-            return False
+               # self.__log(f"market collector attribute dump: {attr_name}={attr[1]} ({attr[0]})", "DEBUG")
+            #return False
