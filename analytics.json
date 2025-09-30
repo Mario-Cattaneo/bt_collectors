@@ -1,0 +1,22 @@
+{
+  "methods": [
+    {
+      "type": "add_class",
+      "class_name": "analytics",
+      "file": "analytics.py",
+      "dependencies": ["aiohttp"]
+    },
+    {
+      "type": "create_instance",
+      "class_name": "analytics",
+      "instance_name": "analytics1",
+      "args": {}
+    },
+    {
+      "type": "invoke_function",
+      "instance_name": "analytics1",
+      "function_name": "start",
+      "args": {}
+    }
+  ]
+}

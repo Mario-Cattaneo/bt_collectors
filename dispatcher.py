@@ -9,7 +9,7 @@ SOCKET_PATH = "/tmp/collection_manager.sock"
 def send_method(method):
     try:
         client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-        client.settimeout(5)  # prevent hanging forever
+        client.settimeout(2)  # prevent hanging forever
         client.connect(SOCKET_PATH)
 
         client.sendall(json.dumps(method).encode("utf-8"))

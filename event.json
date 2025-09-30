@@ -4,8 +4,7 @@
       "type": "add_class",
       "class_name": "event_collector",
       "file": "event_collector.py",
-      "dependencies": ["websockets"],
-      "wait":2
+      "dependencies": ["websockets"]
     },
     {
       "type": "create_instance",

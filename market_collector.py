@@ -99,7 +99,8 @@ class market_collector:
                     row_index INTEGER PRIMARY KEY AUTOINCREMENT,
                     collector_version INTEGER,
                     insert_time TEXT,
-                    attribute_name TEXT
+                    name TEXT,
+                    type TEXT
                 );
             """)
             self.__markets_db.commit()
@@ -152,7 +153,7 @@ class market_collector:
                 self.__log(f"Error closing markets.db: {e}", "ERROR")
             self.__markets_db = None
 
-        # Close all atttibutes db
+        # Close all attributes db
         if self.__attributes_db is not None:
             try:
                 self.__attributes_db.close()
@@ -228,7 +229,7 @@ class market_collector:
                     return False
             return True
 
-        self.__attributes[name] = ["TEXT", "NULL"] # default
+        self.__attributes[name] = ["", "NULL"] # default
         if not self.__set_attribute(name, value):
             self.__log(f"market_collector failed to set_attribute for {name} and {value} of type {type(value)}", "ERROR")
             return False
@@ -236,6 +237,16 @@ class market_collector:
             cursor = self.__attributes_db.cursor()
             cursor.executescript(self.__create_alter_stmt(name, self.__attributes[name][0]))
             self.__attributes_db.commit()
+
+            cursor = self.__markets_db.cursor()
+            now = datetime.now(timezone.utc)
+            iso_str = now.isoformat(timespec="microseconds").replace("+00:00", "Z")
+            cursor.execute("""
+                INSERT INTO attributes (collector_version, insert_time, name, type) 
+                VALUES (?, ?, ?, ?)
+            """, (self.__version, iso_str, name, self.__attributes[name][0]))
+
+            self.__markets_db.commit()
             self.__log(f"market_collector added column {name} of type {self.__attributes[name][0]}", "DEBUG")
         except Exception as e:
             self.__log(f"market_collector add column {name} of type {self.__attributes[name][0]}: {e}", "ERROR")
