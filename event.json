@@ -1,0 +1,23 @@
+{
+  "methods": [
+    {
+      "type": "add_class",
+      "class_name": "event_collector",
+      "file": "event_collector.py",
+      "dependencies": ["websockets"],
+      "wait":2
+    },
+    {
+      "type": "create_instance",
+      "class_name": "event_collector",
+      "instance_name": "event_collector1",
+      "args": {}
+    },
+    {
+      "type": "invoke_function",
+      "instance_name": "event_collector1",
+      "function_name": "start",
+      "args": {}
+    }
+  ]
+}

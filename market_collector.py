@@ -18,7 +18,6 @@ class market_collector:
         self.__reset = reset
 
         # attribute handling
-        self.__primary_attributes = ["id", "clobTokenIds", "negRiskMarketID"]
         self.__attributes = {}
 
         # logging
@@ -46,8 +45,7 @@ class market_collector:
         reset_offset=None,
         rate_limit=None,
         batch_size=None,
-        version=None
-    ):
+        version=None):
         if verbosity is not None:
             self.__verbosity = verbosity
         if markets_url is not None:
