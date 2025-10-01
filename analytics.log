@@ -1,3 +1,0 @@
-[2025-10-01T09:29:10.279016Z] [INFO] analytics started
-Unclosed client session
-client_session: <aiohttp.client.ClientSession object at 0x7fc7219f1fc0>
