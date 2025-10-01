@@ -1,9 +1,0 @@
-{
-  "file": "./rpc_collector.py",
-  "instance_name": "rpc_collector1",
-  "args": {
-    "data_dir": "data",
-    "verbosity": "DEBUG"
-  },
-  "dependencies": []
-}

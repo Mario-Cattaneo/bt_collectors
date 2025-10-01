@@ -12,3 +12,7 @@ markets.db
 __pycache__/
 out.log
 *.log
+
+.*
+# But still track .gitignore itself
+!.gitignore
