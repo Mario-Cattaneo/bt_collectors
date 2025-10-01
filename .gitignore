@@ -11,3 +11,4 @@ blocks.db
 markets.db
 __pycache__/
 out.log
+*.log

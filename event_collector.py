@@ -32,48 +32,38 @@ class event_collector:
         # version
         self.__version = 1
     
-    async def start(self)->bool:
-        # Can't start if already running
+    async def start(self) -> bool:
         if self.__running:
             self.__log("event_collector already started", "ERROR")
             return False
         try:
-            # Ensure markets is set up
             if not os.path.exists(self.__data_dir):
-                self.__log(f"event_collector {self.__data_dir} not found at start")
+                self.__log(f"event_collector {self.__data_dir} not found at start", "ERROR")
                 return False
-            markets_dir = os.path.join(self.__data_dir, "markets")
-            if not os.path.exists(markets_dir):
-                self.__log(f"event_collector {markets_dir} not found at start")
-                return False
-            markets_db_path  = os.path.join(markets_dir, "markets.db")
-            if not os.path.exists(markets_db_path ):
-                self.__log(f"event_collector {markets_db_path } not found at start")
-                return False
-            self.__markets_db = sqlite3.connect(markets_db_path)
 
-            # set up token sql
+            # Read-only connection to markets.db
+            markets_dir = os.path.join(self.__data_dir, "markets")
+            markets_db_path  = os.path.join(markets_dir, "markets.db")
+            self.__markets_db = sqlite3.connect(f"file:{markets_db_path}?mode=ro", uri=True, check_same_thread=False)
+
+            # Writer connection for events.db with WAL mode
             self.__events_dir = os.path.join(self.__data_dir, "tokens")
             if self.__reset and os.path.exists(self.__events_dir):
                 shutil.rmtree(self.__events_dir)
-            
             os.makedirs(self.__events_dir, exist_ok=True)
-            events_db_path = os.path.join(self.__events_dir, "events.db")
 
-            # Store persistent connection to markets db
-            self.__events_db = sqlite3.connect(events_db_path)
+            events_db_path = os.path.join(self.__events_dir, "events.db")
+            self.__events_db = sqlite3.connect(events_db_path, check_same_thread=False)
+            self.__events_db.execute("PRAGMA journal_mode=WAL;")
+            self.__events_db.execute("PRAGMA synchronous=NORMAL;")
+
         except (OSError, sqlite3.Error) as e:
-            self.__log(f"event_collector to start: {e}", "ERROR")
+            self.__log(f"event_collector failed to start: {e}", "ERROR")
             return False
 
         self.__running = True
         self.__log("event_collector started", "INFO")
 
-        while self.__running:
-            if not await self.__query_markets():
-                self.__log(f"event_collector exiting running loop due to abort", "DEBUG")
-                await self.__clean_up()
-                return False
 
     async def stop(self)->bool:
         await self.__clean_up()
@@ -115,8 +105,9 @@ class event_collector:
 
     def __log(self, msg, level="INFO"):
         levels = ["DEBUG", "INFO", "WARNING", "ERROR"]
-        if levels.index(level) >= levels.index(self.__verbosity):
-            print(f"[{level}] {msg}")
+        if levels.index(level) >= 0:
+            now_iso = datetime.now(timezone.utc).isoformat(timespec="microseconds").replace("+00:00", "Z")
+            print(f"[{now_iso}] [{level}] {msg}")
 
     
     async def __query_markets(self)->bool:
@@ -246,7 +237,7 @@ class event_collector:
             msg_json = [msg_json]
 
         if not msg_json:
-            self.__log("event_collector received empty message list", "WARN")
+            self.__log("event_collector received empty message list", "WARNING")
             return True
 
         if not isinstance(msg_json, list):
