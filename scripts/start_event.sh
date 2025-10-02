@@ -4,7 +4,7 @@ set -e
 echo "Starting event_collector..."
 
 # Run Python inline with a heredoc
-nohup python3 - <<'PYTHON' > ../logs/events.log 2>&1 &
+nohup python3 -u - <<'PYTHON' > ../logs/events.log 2>&1 &
 import sys
 import pathlib
 import asyncio

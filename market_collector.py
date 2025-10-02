@@ -8,7 +8,7 @@ from datetime import datetime, timezone
 import pathlib
 
 class market_collector:
-    def __init__(self, verbosity="DEBUG", reset=True, batch_size=500, offset=80000):
+    def __init__(self, verbosity="DEBUG", reset=True, batch_size=500, offset=0):
         # Database & directorie
         self.__db_conn = None
         self.__reset = reset
