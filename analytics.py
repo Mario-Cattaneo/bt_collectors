@@ -8,12 +8,9 @@ import time
 import shutil
 
 class analytics:
-    def __init__(self, data_dir="data", verbosity="DEBUG", reset=True, batch_size=500):
+    def __init__(self, verbosity="DEBUG", reset=True):
         # sql resources
-        self.__data_dir = data_dir
-        self.__markets_db = None
-        self.__events_db = None
-        self.__analytics_db = None # overview db
+        self.__conn_db = None 
         self.__reset = reset
         self.__token_ids = []
         self.__last_market_row = 0

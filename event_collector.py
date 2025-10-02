@@ -1,251 +1,210 @@
 import asyncio
 import websockets
-import sqlite3
+import asyncpg
 import json
-import os
+import pathlib
 from datetime import datetime, timezone
-import time
-import shutil
 
 class event_collector:
     def __init__(self, data_dir="data", verbosity="DEBUG", reset=True):
-        # sql resources
-        self.__data_dir = data_dir
-        self.__markets_db = None
-        self.__events_dir = None
-        self.__events_db = None
+        # SQL resources
+        self.__db_conn = None
         self.__token_ids = []
         self.__last_market_row = 0
         self.__reset = reset
 
-        # logging
+        # Logging
         self.__verbosity = verbosity.upper()
         self.__resubscription_count = 0
 
-        # events endpoint
+        # Events endpoint
         self.__events_url = "wss://ws-subscriptions-clob.polymarket.com/ws/market"
         self.__events_cli = None
 
-        # liveness
+        # Liveness
         self.__running = False
 
-        # version
+        # Version
         self.__version = 1
-    
+
     async def start(self) -> bool:
         if self.__running:
             self.__log("event_collector already started", "ERROR")
             return False
+
         try:
-            if not os.path.exists(self.__data_dir):
-                self.__log(f"event_collector {self.__data_dir} not found at start", "ERROR")
-                return False
+            socket_dir = str(pathlib.Path("../.pgsocket").resolve())
+            self.__db_conn = await asyncpg.connect(
+                user="client",
+                password="clientpass",
+                database="data",
+                host=socket_dir,
+                port=5432
+            )
 
-            # Read-only connection to markets.db
-            markets_dir = os.path.join(self.__data_dir, "markets")
-            markets_db_path  = os.path.join(markets_dir, "markets.db")
-            self.__markets_db = sqlite3.connect(f"file:{markets_db_path}?mode=ro", uri=True, check_same_thread=False)
+            if self.__reset:
+                await self.__db_conn.execute("""
+                    DROP TABLE IF EXISTS changes;
+                    DROP TABLE IF EXISTS books;
+                    DROP TABLE IF EXISTS tick_changes;
+                """)
 
-            # Writer connection for events.db with WAL mode
-            self.__events_dir = os.path.join(self.__data_dir, "tokens")
-            if self.__reset and os.path.exists(self.__events_dir):
-                shutil.rmtree(self.__events_dir)
-            os.makedirs(self.__events_dir, exist_ok=True)
+            await self.__db_conn.execute("""
+                CREATE TABLE IF NOT EXISTS changes (
+                    row_index SERIAL PRIMARY KEY,
+                    collector_version INTEGER,
+                    insert_time TIMESTAMP(3) WITH TIME ZONE DEFAULT now(),
+                    market VARCHAR(100),
+                    token_id VARCHAR(100),
+                    event_type VARCHAR(17),
+                    fee_rate_bps REAL,
+                    price REAL,
+                    size REAL,
+                    side VARCHAR(5),
+                    best_bid REAL,
+                    best_ask REAL,
+                    server_time BIGINT
+                );
+                CREATE TABLE IF NOT EXISTS books (
+                    row_index SERIAL PRIMARY KEY,
+                    collector_version INTEGER,
+                    insert_time TIMESTAMP(3) WITH TIME ZONE DEFAULT now(),
+                    market VARCHAR(100),
+                    token_id VARCHAR(100),
+                    bids TEXT,
+                    asks TEXT,
+                    server_time BIGINT
+                );
+                CREATE TABLE IF NOT EXISTS tick_changes (
+                    row_index SERIAL PRIMARY KEY,
+                    collector_version INTEGER,
+                    insert_time TIMESTAMP(3) WITH TIME ZONE DEFAULT now(),
+                    market VARCHAR(100),
+                    token_id VARCHAR(100),
+                    old_tick_size REAL,
+                    new_tick_size REAL,
+                    server_time BIGINT
+                );
+            """)
 
-            events_db_path = os.path.join(self.__events_dir, "events.db")
-            self.__events_db = sqlite3.connect(events_db_path, check_same_thread=False)
-            self.__events_db.execute("PRAGMA journal_mode=WAL;")
-            self.__events_db.execute("PRAGMA synchronous=NORMAL;")
-
-        except (OSError, sqlite3.Error) as e:
+        except Exception as e:
             self.__log(f"event_collector failed to start: {e}", "ERROR")
             return False
 
         self.__running = True
         self.__log("event_collector started", "INFO")
+        while self.__running:
+            if not await self.__query_markets():
+                self.__log("event_collector aborted", "DEBUG")
+                await self.__clean_up()
+                return False
 
-
-    async def stop(self)->bool:
+    async def stop(self) -> bool:
         await self.__clean_up()
         self.__log("event_collector stopped", "DEBUG")
-        return True;
+        return True
 
     async def __clean_up(self):
         self.__log("event_collector cleanup started", "DEBUG")
-
-        # Close websocket client
-        if self.__events_cli is not None:
+        if self.__events_cli:
             try:
                 await self.__events_cli.close()
-                self.__log("event_collector losed events websocket client", "DEBUG")
+                self.__log("event_collector closed events websocket client", "DEBUG")
             except Exception as e:
                 self.__log(f"event_collector closing websocket client: {e}", "ERROR")
             self.__events_cli = None
-
-        # Close main markets DB
-        if self.__markets_db is not None:
+        if self.__db_conn:
             try:
-                self.__markets_db.close()
-                self.__log("event_collector losed markets.db connection", "DEBUG")
+                await self.__db_conn.close()
+                self.__log("event_collector closed DB connection", "DEBUG")
             except Exception as e:
-                self.__log(f"event_collector error closing markets.db: {e}", "ERROR")
-            self.__markets_db = None
-
-        # Close events DB
-        if self.__events_db is not None:
-            try:
-                self.__events_db.close()
-                self.__log("event_collector closed events.db connection", "DEBUG")
-            except Exception as e:
-                self.__log(f"event_collector error closing events.db: {e}", "ERROR")
-            self.__events_db = None
-
+                self.__log(f"event_collector error closing DB connection: {e}", "ERROR")
+            self.__db_conn = None
         self.__running = False
         self.__log("event_collector cleanup finished", "INFO")
 
     def __log(self, msg, level="INFO"):
         levels = ["DEBUG", "INFO", "WARNING", "ERROR"]
-        if levels.index(level) >= 0:
+        if levels.index(level) >= 1:
             now_iso = datetime.now(timezone.utc).isoformat(timespec="microseconds").replace("+00:00", "Z")
             print(f"[{now_iso}] [{level}] {msg}")
 
-    
-    async def __query_markets(self)->bool:
-    # check for new markets/tokens
-        cursor = self.__markets_db.cursor()
-        cursor.execute(f"""
-            SELECT clobTokenIds1, clobTokenIds2 FROM markets WHERE row_index > {self.__last_market_row}
-        """)
-        new_token_pairs = cursor.fetchall()
-        new_token_count = len(new_token_pairs)
-
-        self.__last_market_row += new_token_count
-
-        self.__log(f"event_collector found {new_token_pairs} pairs from markets db", "INFO")
-        if new_token_count == 0:
-            return await self.__read_events()
-        
-        for [tok1, tok2] in new_token_pairs:
-            self.__token_ids.append(tok1)
-            self.__token_ids.append(tok2)
-
-        if not self.__create_tables(new_token_pairs):
-            self.__log(f"event_collector failed to create tables", "ERROR")
-            return False
-        if not await self.__resubscribe():
-            self.__log(f"event_collector failed to resubscribe", "ERROR")
-            return False
-        return True
-
-    def __create_tables(self, token_pair_list)->bool:
-        buffer = []
-        for toks in token_pair_list:
-            if len(toks) != 2:
-                self.__log(f"event collector create tables found {len(toks)} token ids for a market")
-            for tok in toks:
-                buffer.append(f"""CREATE TABLE book_{tok} 
-                    (row_index INTEGER PRIMARY KEY AUTOINCREMENT,
-                    insert_time INTEGER,
-                    market TEXT,
-                    bids TEXT,
-                    asks TEXT,
-                    server_time INTEGER);""")
-                buffer.append(f"""CREATE TABLE price_change_{tok} 
-                    (row_index INTEGER PRIMARY KEY AUTOINCREMENT,
-                    insert_time INTEGER,
-                    market TEXT,
-                    price REAL,
-                    size REAL,
-                    side TEXT,
-                    best_bid REAL,
-                    best_ask REAL,
-                    server_time INTEGER);""")
-                buffer.append(f"""CREATE TABLE last_trade_price_{tok} 
-                    (row_index INTEGER PRIMARY KEY AUTOINCREMENT,
-                    insert_time INTEGER,
-                    market TEXT,
-                    fee_rate_bps REAL,
-                    price REAL,
-                    side TEXT,
-                    size REAL,
-                    server_time INTEGER);""")
-                buffer.append(f"""CREATE TABLE tick_size_change_{tok} 
-                    (row_index INTEGER PRIMARY KEY AUTOINCREMENT,
-                    insert_time INTEGER,
-                    market TEXT,
-                    old_tick_size REAL,
-                    new_tick_size REAL,
-                    server_time INTEGER);""")
-        create_table_stmt = "".join(buffer)
+    async def __query_markets(self) -> bool:
         try:
-            cursor = self.__events_db.cursor()
-            cursor.executescript(create_table_stmt)
-            self.__events_db.commit()
-            self.__log(f"event_collector created new tables succesfully", "DEBUG")
+            new_token_pairs = await self.__db_conn.fetch(
+                "SELECT token_id1, token_id2 FROM markets WHERE row_index > $1",
+                self.__last_market_row
+            )
+
+            new_token_count = len(new_token_pairs)
+            self.__last_market_row += new_token_count
+
+            if new_token_count > 0:
+                self.__log(f"event_collector found {new_token_count} new token pairs from markets db now subscribing to {len(self.__token_ids)}", "INFO")
+
+            if new_token_count == 0 and self.__events_cli:
+                return await self.__read_events()
+
+            for tok1, tok2 in new_token_pairs:
+                self.__token_ids.extend([tok1, tok2])
+
+            if not await self.__resubscribe():
+                self.__log("event_collector failed to resubscribe", "ERROR")
+                return False
+
             return True
         except Exception as e:
-            self.__log(f"event_collector failed to create new tables for {create_table_stmt}", "DEBUG")
+            self.__log(f"event_collector failed to query markets: {e}", "ERROR")
             return False
 
-    async def __resubscribe(self)->bool:
-        try: 
-            self.__log(f"market_collector resubcribing with events_cli {type(self.__events_cli)})", "DEBUG")
+    async def __resubscribe(self) -> bool:
+        try:
+            self.__log(f"market_collector resubscribing with events_cli {type(self.__events_cli)})", "DEBUG")
             new_cli = await websockets.connect(self.__events_url)
-            subscription = {
-                "type": "market",
-                "initial_dump": True,
-                "assets_ids": self.__token_ids
-            }
+            subscription = {"type": "market", "initial_dump": True, "assets_ids": self.__token_ids}
             await new_cli.send(json.dumps(subscription))
 
-            #read events one last time before switching to new wss
-            if self.__events_cli is not None:
+            if self.__events_cli:
                 if not await self.__read_events():
                     return False
                 await self.__events_cli.close()
 
             self.__events_cli = new_cli
             self.__resubscription_count += 1
-            self.__log(f"market_collector resubcription {self.__resubscription_count} complete", "INFO")
+            self.__log(f"market_collector resubscription {self.__resubscription_count} complete", "INFO")
             return True
         except Exception as e:
             self.__log(f"market_collector resubscribe failed: {e}", "ERROR")
             return False
 
-    async def __read_events(self)->bool:
-        # handle all buffered received messages
+    async def __read_events(self) -> bool:
         while True:
             try:
                 message = await asyncio.wait_for(self.__events_cli.recv(), timeout=0.001)
-                self.__log(f"event_collector raw message: {message}", "DEBUG")  # log the raw message
+                self.__log(f"event_collector raw message: {message}", "DEBUG")
             except asyncio.TimeoutError:
-                self.__log(f"event_collector emptied received messaged buffer","DEBUG")
+                self.__log("event_collector emptied received message buffer", "DEBUG")
                 break
-            msg_json = json.loads(message)
 
-            if not self.__insert(msg_json):
+            msg_json = json.loads(message)
+            if not await self.__insert(msg_json):
                 self.__log("event_collector failed to insert", "ERROR")
                 return False
-
         return True
 
-    def __insert(self, msg_json) -> bool:
-        insert_timestamp = int(time.time() * 1000)
-
-        # Ensure msg_json is a list
+    async def __insert(self, msg_json) -> bool:
         if isinstance(msg_json, dict):
             msg_json = [msg_json]
 
         if not msg_json:
             self.__log("event_collector received empty message list", "WARNING")
             return True
-
         if not isinstance(msg_json, list):
             self.__log(f"event_collector invalid msg_json: {type(msg_json)}", "ERROR")
             return False
 
+        # Decode JSON objects if stringified
         for i, obj in enumerate(msg_json):
-            # Decode stringified JSON objects
             if isinstance(obj, str):
                 try:
                     msg_json[i] = json.loads(obj)
@@ -256,62 +215,65 @@ class event_collector:
                 self.__log(f"event_collector invalid type after decode: {type(msg_json[i])}", "ERROR")
                 return False
 
-        # Extract type and market from the first object
-        try:
-            event_type = msg_json[0]["event_type"]
-            market = msg_json[0]["market"]
-        except KeyError as e:
-            self.__log(f"event_collector missing key in message: {e}", "ERROR")
-            return False
+        def cast_int(val):
+            try:
+                return int(val) if val is not None else None
+            except:
+                return None
+
+        def cast_float(val):
+            try:
+                return float(val) if val is not None else None
+            except:
+                return None
 
         try:
-            cursor = self.__events_db.cursor()
+            for obj in msg_json:
+                token = obj.get("asset_id")
+                event_type = obj.get("event_type")
+                market = obj.get("market")
+                collector_version = self.__version
+                ts = cast_int(obj.get("timestamp"))
 
-            if event_type == "book":
-                for obj in msg_json:
-                    if "bids" not in obj or "asks" not in obj or "asset_id" not in obj:
-                        self.__log(f"event_collector invalid book object: {obj}", "ERROR")
-                        return False
-                    token = obj["asset_id"]
-                    bids = obj["bids"]
-                    asks = obj["asks"]
-                    cursor.execute(
-                        f"INSERT INTO book_{token} (insert_time, market, bids, asks, server_time) VALUES (?, ?, ?, ?, ?)",
-                        (insert_timestamp, market, json.dumps(bids), json.dumps(asks), obj.get("timestamp", insert_timestamp))
+                if event_type == "book" and token:
+                    await self.__db_conn.execute(
+                        """INSERT INTO books (collector_version, market, token_id, bids, asks, server_time)
+                        VALUES ($1,$2,$3,$4,$5,$6)""",
+                        collector_version, market, token, json.dumps(obj.get("bids")), json.dumps(obj.get("asks")), ts
                     )
 
-            elif event_type == "price_change":
-                for obj in msg_json:
-                    # Check for nested price_changes array
-                    changes = obj.get("price_changes")
-                    if not changes or not isinstance(changes, list):
-                        self.__log(f"event_collector invalid price_change object: {obj}", "ERROR")
-                        return False
-                    for change in changes:
-                        if "asset_id" not in change:
-                            self.__log(f"event_collector missing asset_id in price_change: {change}", "ERROR")
-                            return False
-                        token = change["asset_id"]
-                        cursor.execute(
-                            f"INSERT INTO price_change_{token} (insert_time, market, price, size, side, best_bid, best_ask, server_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-                            (
-                                insert_timestamp,
-                                market,
-                                change["price"],
-                                change["size"],
-                                change["side"],
-                                change.get("best_bid"),
-                                change.get("best_ask"),
-                                obj.get("timestamp", insert_timestamp)
-                            )
+                elif event_type == "price_change" and token:
+                    for change in obj.get("price_changes", []):
+                        token_change = change.get("asset_id")
+                        await self.__db_conn.execute(
+                            """INSERT INTO changes
+                            (collector_version, market, token_id, event_type, price, size, side, best_bid, best_ask, server_time)
+                            VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)""",
+                            collector_version, market, token_change, event_type,
+                            cast_float(change.get("price")), cast_float(change.get("size")), change.get("side"),
+                            cast_float(change.get("best_bid")), cast_float(change.get("best_ask")), ts
                         )
 
-            # Similar checks can be added for last_trade_price and tick_size_change
-            self.__events_db.commit()
+                elif event_type == "last_trade_price" and token:
+                    await self.__db_conn.execute(
+                        """INSERT INTO changes
+                        (collector_version, market, token_id, event_type, fee_rate_bps, price, side, size, server_time)
+                        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)""",
+                        collector_version, market, token, event_type,
+                        cast_float(obj.get("fee_rate_bps")), cast_float(obj.get("price")), obj.get("side"),
+                        cast_float(obj.get("size")), ts
+                    )
+
+                elif event_type == "tick_size_change" and token:
+                    await self.__db_conn.execute(
+                        """INSERT INTO tick_changes
+                        (collector_version, market, token_id, old_tick_size, new_tick_size, server_time)
+                        VALUES ($1,$2,$3,$4,$5,$6)""",
+                        collector_version, market, token, cast_float(obj.get("old_tick_size")),
+                        cast_float(obj.get("new_tick_size")), ts
+                    )
             return True
 
         except Exception as e:
             self.__log(f"event_collector failed to insert {event_type} data: {e}", "ERROR")
             return False
-
-

@@ -16,3 +16,5 @@ out.log
 .*
 # But still track .gitignore itself
 !.gitignore
+
+test.py

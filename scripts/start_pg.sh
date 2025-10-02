@@ -5,8 +5,9 @@ set -e
 # Config
 # -----------------------------
 PG_BIN="/usr/lib/postgresql/15/bin"   # Postgres binaries
-DATA_DIR="$(pwd)/../.pgdata"          # cluster data directory
-SOCKET_DIR="$(pwd)/../.pgsocket"      # unix socket directory
+BASE_DIR="$(pwd)/.."                  # one level up from scripts/
+DATA_DIR="$BASE_DIR/.pgdata"          # cluster data directory
+SOCKET_DIR="$BASE_DIR/.pgsocket"      # unix socket directory
 LOGFILE="$DATA_DIR/logfile"
 DB_NAME="data"
 CLIENT_ROLE="client"
@@ -43,7 +44,7 @@ echo "Starting PostgreSQL server..."
 
 # Wait until server is ready
 echo "Waiting for server to accept connections..."
-until "$PG_BIN/pg_isready" -h "$SOCKET_DIR" > /dev/null 2>&1; do
+until "$PG_BIN/pg_isready" -h "$SOCKET_DIR" -d postgres -U "$(whoami)" > /dev/null 2>&1; do
     sleep 1
 done
 echo "✅ PostgreSQL running via Unix socket at $SOCKET_DIR"
