@@ -8,13 +8,15 @@ import time
 import shutil
 
 class analytics:
-    def __init__(self, verbosity="DEBUG", reset=True):
+    def __init__(self, verbosity="DEBUG", reset=True, token_id_ref, conn_pool):
         # sql resources
-        self.__conn_db = None 
+        self.__conn_pool = conn_pool
         self.__reset = reset
-        self.__token_ids = []
+
+        self.__token_ids = token_id_ref
         self.__last_market_row = 0
         self.__payload = []
+
     
         # logging
         self.__verbosity = verbosity.upper()
@@ -35,23 +37,31 @@ class analytics:
             self.__log("analytics already started", "ERROR")
             return False
         try:
-            if not os.path.exists(self.__data_dir):
-                self.__log(f"analytics datadir doesn't exist", "ERROR")
-                return False
+            
+            if self.__reset:
+                async with self.__db_pool.acquire() as conn:
+                    await conn.execute("""
+                    DROP TABLE IF EXISTS analytics;
+                """)
+            async with self.__db_pool.acquire() as conn:
+                await conn.execute("""
+                    CREATE TABLE IF NOT EXISTS analytics (
+                        row_index SERIAL PRIMARY KEY,
+                        collector_version INTEGER,
+                        insert_time TIMESTAMP(3) WITH TIME ZONE DEFAULT now(),
+                        token_id (100),
+                        local_bids TEXT,
+                        local_asks TEXT,
+                        remote_bids TEXT,
+                        remote_asks TEXT,
+                        remote_time --ms integer unix utc timestamp
+                        last_event_time ^,
+                        ambiguous_end_ms_events,
+                        initial_book_time ^
+                    );
+                """)
 
-            # Read-only connections to markets.db & events.db
-            markets_db_path = os.path.join(self.__data_dir, "markets", "markets.db")
-            events_db_path = os.path.join(self.__data_dir, "tokens", "events.db")
-            self.__markets_db = sqlite3.connect(f"file:{markets_db_path}?mode=ro", uri=True, check_same_thread=False)
-            self.__events_db = sqlite3.connect(f"file:{events_db_path}?mode=ro", uri=True, check_same_thread=False)
-
-            # Writer connection for analytics.db with WAL
-            analytics_db_path = os.path.join(self.__data_dir, "analytics.db")
-            self.__analytics_db = sqlite3.connect(analytics_db_path, check_same_thread=False)
-            self.__analytics_db.execute("PRAGMA journal_mode=WAL;")
-            self.__analytics_db.execute("PRAGMA synchronous=NORMAL;")
-
-        except (OSError, sqlite3.Error) as e:
+        except Exception as e:
             self.__log(f"analytics failed to start: {e}", "ERROR")
             return False
 
@@ -64,7 +74,7 @@ class analytics:
 
     async def stop(self)->bool:
         await self.__clean_up()
-        self.__log("market_collector stopped", "DEBUG")
+        self.__log("analytics stopped", "DEBUG")
         return True;
 
     async def __clean_up(self):
@@ -77,29 +87,13 @@ class analytics:
                 self.__log(f"analytics error closing aiohttp client: {e}", "ERROR")
             self._analytics_cli = None
 
-        if self.__markets_db is not None:
+        if self.__db_conn is not None:
             try:
-                self.__markets_db.close()
-                self.__log("analytics closed markets.db connection", "DEBUG")
+                await self.__db_conn.close()
+                self.__log("analytics closed DB connection", "DEBUG")
             except Exception as e:
-                self.__log(f"analytics error closing markets.db: {e}", "ERROR")
-            self.__markets_db = None
-
-        if self.__events_db is not None:
-            try:
-                self.__events_db.close()
-                self.__log("analytics closed events.db connection", "DEBUG")
-            except Exception as e:
-                self.__log(f"analytics error closing events.db: {e}", "ERROR")
-            self.__events_db = None
-
-        if self.__analytics_db is not None:
-            try:
-                self.__analytics_db.close()
-                self.__log("analytics closed analytics.db connection", "DEBUG")
-            except Exception as e:
-                self.__log(f"analytics error closing analytics.db: {e}", "ERROR")
-            self.__analytics_db = None
+                self.__log(f"analytics error closing DB connection: {e}", "ERROR")
+            self.__db_conn = None
 
         self.__running = False
         self.__log("analytics cleanup finished", "INFO")
@@ -109,6 +103,41 @@ class analytics:
         if levels.index(level) >= levels.index(self.__verbosity):
             now_iso = datetime.now(timezone.utc).isoformat(timespec="microseconds").replace("+00:00", "Z")
             print(f"[{now_iso}] [{level}] {msg}")
+
+    async def __market_loop(self):
+        while self.__running:
+            try:
+                await self.__query_markets()
+            except Exception as e:
+                self.__log(f"market loop error: {e}", "ERROR")
+            await asyncio.sleep(1)
+
+    async def __query_markets(self) -> bool:
+        try:
+            async with self.__db_pool.acquire() as conn:
+                new_token_pairs = await conn.fetch(
+                    "SELECT token_id1, token_id2 FROM markets WHERE row_index > $1",
+                    self.__last_market_row
+                )
+
+            new_token_count = len(new_token_pairs)
+            self.__last_market_row += new_token_count
+
+            for tok1, tok2 in new_token_pairs:
+                self.__token_ids.extend([tok1, tok2])
+
+            if new_token_count > 0:
+                self.__log(f"event_collector found {new_token_count} new token pairs from markets db, now subscribing to {min(len(self.__token_ids), self.__max_subscriptions)}", "INFO")
+                # Trigger resubscribe immediately
+                if self.__events_cli is None or self.__events_cli.closed:
+                    return True
+                await self.__resubscribe()
+            return True
+
+        except Exception as e:
+            self.__log(f"event_collector failed to query markets: {e}", "ERROR")
+            return False
+
 
     async def __query_markets(self)->bool:
         cursor = self.__markets_db.cursor()

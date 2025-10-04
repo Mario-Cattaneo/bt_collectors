@@ -92,12 +92,9 @@ class analytics:
         self.__log("analytics cleanup finished", "INFO")
 
     def __log(self, msg, level="INFO"):
-    """Enhanced logger with ISO timestamp."""
         levels = ["DEBUG", "INFO", "WARNING", "ERROR"]
         if levels.index(level) >= levels.index(self.__verbosity):
-            now_iso = datetime.now(timezone.utc).isoformat(timespec="microseconds").replace("+00:00", "Z")
-            print(f"[{now_iso}] [{level}] {msg}")
-
+            print(f"[{level}] {msg}")
 
     # ---- HTTP handlers ----
 
